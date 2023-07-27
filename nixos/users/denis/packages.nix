@@ -1,18 +1,15 @@
 { config, pkgs, ... }:
-let
-  unstable = import <nixos-unstable> { config = { allowUnfree = true; }; };
-in
 {
 
   user_packages = with pkgs; [
-    #(libsForQt5.callPackage /home/denis/whatsie.nix {})
+    (libsForQt5.callPackage ./whatsie.nix {})
     oh-my-posh
     exa
     alacritty
     nextcloud-client
     neofetch
     discord
-    unstable.nixd
+    nixd
     (vscode-with-extensions.override {
       vscode = vscodium;
       vscodeExtensions = with vscode-extensions; [
