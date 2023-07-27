@@ -87,12 +87,12 @@
     #dbpath = "/home/denis/mongodb";
   #};
 
-  #environment.sessionVariables = {
-  #  NIX_PROFILES = "${pkgs.lib.concatStringsSep " " (pkgs.lib.reverseList config.environment.profiles)}";
-  #  NIXOS_OZONE_WL = "1";
-  #};
+  environment.sessionVariables = {
+    NIX_PROFILES = "${pkgs.lib.concatStringsSep " " (pkgs.lib.reverseList config.environment.profiles)}";
+    NIXOS_OZONE_WL = "1";
+  };
 
-  #fonts.packages = with pkgs; [
-  #  (nerdfonts.override { fonts = [ "DejaVuSansMono" "DroidSansMono" ]; })
-  #];
+  fonts.packages = with pkgs; [
+    (nerdfonts.override { fonts = [ "DejaVuSansMono" "DroidSansMono" ]; })
+  ];
 }
