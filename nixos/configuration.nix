@@ -135,7 +135,7 @@
 
 
   # Fix black screen on a system with an integrated GPU
-  boot.kernelParams = [ "module_blacklist=amdgpu" ];
+  boot.kernelParams = [ "module_blacklist=amdgpu" "pcie_aspm=off" ];
 
   hardware.enableAllFirmware = true;
 
