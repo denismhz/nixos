@@ -1,15 +1,15 @@
-{ config, pkgs, ... }:
+{ config, pkgs, unstable, ... }:
 {
-
   user_packages = with pkgs; [
-    (libsForQt5.callPackage ./whatsie.nix {})
+    (libsForQt5.callPackage ./whatsie.nix { })
     oh-my-posh
     exa
     alacritty
     nextcloud-client
+    mongodb-compass
     neofetch
     discord
-    nixd
+    unstable.nixd
     (vscode-with-extensions.override {
       vscode = vscodium;
       vscodeExtensions = with vscode-extensions; [

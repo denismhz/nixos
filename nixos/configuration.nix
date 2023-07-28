@@ -119,9 +119,6 @@
   # Enable flatpak
   services.flatpak.enable = true;
 
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
-
   virtualisation.libvirtd.enable = true;
 
   # List packages installed in system profile. To search, run:
@@ -130,6 +127,7 @@
     virt-manager
     direnv
     nixpkgs-fmt
+
     #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     #  wget
   ];
@@ -140,6 +138,8 @@
   boot.kernelParams = [ "module_blacklist=amdgpu" ];
 
   hardware.enableAllFirmware = true;
+
+  nixpkgs.config.allowUnfree = true;
 
   # NVIDIA drivers are unfree.
   services.xserver.videoDrivers = [ "nvidia" ];
@@ -183,6 +183,22 @@
   boot.kernel.sysctl = { "vm.swappiness" = 5; };
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
+
+  
+  # if packets are still dropped, they will show up in dmesg
+  networking.firewall.logReversePathDrops = true;
+
+  # wireguard trips rpfilter up (57934 -> wg endpoint port)
+  networking.firewall.extraCommands = ''
+    ip46tables -t mangle -I nixos-fw-rpfilter -p udp -m udp --sport 57934 -j RETURN
+    ip46tables -t mangle -I nixos-fw-rpfilter -p udp -m udp --dport 57934 -j RETURN
+  '';
+  networking.firewall.extraStopCommands = ''
+    ip46tables -t mangle -D nixos-fw-rpfilter -p udp -m udp --sport 57934 -j RETURN || true
+    ip46tables -t mangle -D nixos-fw-rpfilter -p udp -m udp --dport 57934 -j RETURN || true
+  '';
+
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

@@ -10,6 +10,7 @@
 
   boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usbhid" ];
   boot.initrd.kernelModules = [ ];
+  boot.kernelParams = [ "pcie_aspm=off" ];
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
 
@@ -36,6 +37,7 @@
   # networking.interfaces.wlp4s0.useDHCP = lib.mkDefault true;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-  powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
-  hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+  powerManagement.enable = true;
+  powerManagement.cpuFreqGovernor = lib.mkDefault "performance";
+  hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableAllFirmware;
 }
