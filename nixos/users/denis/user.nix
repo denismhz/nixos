@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, unstable, ... }:
 
 {
   # Define a user account. Don't forget to set a password with  ^`^xpasswd ^`^y.
@@ -6,7 +6,7 @@
     isNormalUser = true;
     description = "Denis Manherz";
     extraGroups = [ "networkmanager" "wheel" "video" "render" "libvirtd" ];
-    packages = (import ./packages.nix pkgs).user_packages;
+    packages = (import ./packages.nix { pkgs = pkgs; unstable=unstable; config = config; }).user_packages;
     hashedPassword = "$y$j9T$0opCRT4e3X3P.tqGvEGd91$9cW/JMGTCfcEzkw9m6cemqSoNBrd5O6A3JCO3eitdO9";
   };
 
@@ -82,17 +82,17 @@
   # Enable samba wsdd
   services.samba-wsdd.enable = true;
 
-  #services.mongodb = {
-  #  enable = true;
+  services.mongodb = {
+    enable = true;
     #dbpath = "/home/denis/mongodb";
-  #};
+  };
 
   environment.sessionVariables = {
     NIX_PROFILES = "${pkgs.lib.concatStringsSep " " (pkgs.lib.reverseList config.environment.profiles)}";
     NIXOS_OZONE_WL = "1";
   };
 
-  fonts.packages = with pkgs; [
+  fonts.fonts = with pkgs; [
     (nerdfonts.override { fonts = [ "DejaVuSansMono" "DroidSansMono" ]; })
   ];
 }
