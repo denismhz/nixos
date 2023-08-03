@@ -6,7 +6,7 @@
     isNormalUser = true;
     description = "Denis Manherz";
     extraGroups = [ "networkmanager" "wheel" "video" "render" "libvirtd" ];
-    packages = (import ./packages.nix { pkgs = pkgs; unstable=unstable; config = config; }).user_packages;
+    packages = (import ./packages.nix { pkgs = pkgs; unstable = unstable; config = config; }).user_packages;
     hashedPassword = "$y$j9T$0opCRT4e3X3P.tqGvEGd91$9cW/JMGTCfcEzkw9m6cemqSoNBrd5O6A3JCO3eitdO9";
   };
 
@@ -33,7 +33,7 @@
   hardware.steam-hardware.enable = true;
 
   programs.noisetorch.enable = true;
-  # environment.etc."chromium/native-messaging-hosts/org.kde.plasma.browser_integration.json".source = "${pkgs.plasma-browser-integration}/etc/chromium/native-messaging-hosts/org.kde.plasma.browser_integration.json";
+  # environment.etc."chromium/native-messhttps://git.manherz.de/denismhz/nixos.gitaging-hosts/org.kde.plasma.browser_integration.json".source = "${pkgs.plasma-browser-integration}/etc/chromium/native-messaging-hosts/org.kde.plasma.browser_integration.json";
 
   # Enable automatic login for the user.
   services.xserver.displayManager.autoLogin.enable = true;
@@ -82,10 +82,10 @@
   # Enable samba wsdd
   services.samba-wsdd.enable = true;
 
-  services.mongodb = {
-    enable = true;
-    #dbpath = "/home/denis/mongodb";
-  };
+  #services.mongodb = {
+  #  enable = true;
+  #dbpath = "/home/denis/mongodb";
+  #};
 
   environment.sessionVariables = {
     NIX_PROFILES = "${pkgs.lib.concatStringsSep " " (pkgs.lib.reverseList config.environment.profiles)}";
