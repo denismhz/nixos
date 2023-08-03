@@ -17,9 +17,23 @@
 
   # Bootloader.
   boot.kernelPackages = pkgs.linuxPackages_zen;
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.systemd-boot.editor = false;
+  #boot.loader.systemd-boot.enable = true;
+  #boot.loader.systemd-boot.editor = false;
   boot.loader.efi.canTouchEfiVariables = true;
+
+
+  #need os-prober installed for this to work
+  boot.loader.grub.enable = true;
+  boot.loader.grub.device = "nodev";
+  boot.loader.grub.useOSProber = true;
+  boot.loader.grub.efiSupport = true;
+  boot.loader.grub.configurationLimit = 5;
+  boot.loader.grub.darkmatter-theme = {
+    enable = true;
+    style = "nixos";
+    icon = "color";
+    resolution = "1080p";
+  };
 
   networking.hostName = "nixos-denis"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -54,7 +68,7 @@
     "en_US.UTF-8/UTF-8"
     "en_GB.UTF-8/UTF-8"
     "de_DE.UTF-8/UTF-8"
-    "ja_JP.UTF-8/UTF-8"
+    #"ja_JP.UTF-8/UTF-8"
   ];
 
   # Printing
@@ -178,14 +192,14 @@
   services.smartd.enable = true;
 
   # Auto system update
-  system.autoUpgrade.enable = true;
+  #system.autoUpgrade.enable = true;
 
   boot.kernel.sysctl = { "vm.swappiness" = 5; };
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
 
-  
+
   # if packets are still dropped, they will show up in dmesg
   networking.firewall.logReversePathDrops = true;
 

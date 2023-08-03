@@ -2,12 +2,14 @@
 {
   user_packages = with pkgs; [
     (libsForQt5.callPackage ./whatsie.nix { })
+    bitwarden
+    os-prober
     oh-my-posh
     exa
     alacritty
     nextcloud-client
     mongodb-compass
-    neofetch
+    #neofetch
     discord
     unstable.nixd
     (vscode-with-extensions.override {
@@ -40,7 +42,7 @@
     libsForQt5.akonadi-calendar-tools
     libsForQt5.kio-gdrive
     ark # Archive creation/extraction software
-    colord-kde # Color daemon
+    colord-kde # https://git.manherz.de/denismhz/nixos.gitColor daemon
     dolphin # File manager
     ffmpegthumbs # Dolphin video thumbnails
     gwenview # Image viewer
