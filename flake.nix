@@ -11,7 +11,7 @@
     };
 
     home-manager = {
-      url = github:nix-community/home-manager;
+      url = github:nix-community/home-manager/release-23.05;
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -34,7 +34,7 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.denis = import ./users/denis/home.nix;
+            home-manager.users.denis = import ./nixos/users/denis/home.nix;
 
             # Optionally, use home-manager.extraSpecialArgs to pass
             # arguments to home.nix

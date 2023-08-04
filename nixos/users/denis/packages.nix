@@ -2,17 +2,16 @@
 {
   user_packages = with pkgs; [
     (libsForQt5.callPackage ./whatsie.nix { })
+    ripgrep
     bitwarden
     os-prober
-    oh-my-posh
-    exa
-    alacritty
     nextcloud-client
     mongodb-compass
     #neofetch
+    pfetch
     discord
     unstable.nixd
-    (vscode-with-extensions.override {
+    /*(vscode-with-extensions.override {
       vscode = vscodium;
       vscodeExtensions = with vscode-extensions; [
         jnoortheen.nix-ide
@@ -27,10 +26,10 @@
           publisher = "ms-vscode-remote";
           version = "0.47.2";
           sha256 = "1hp6gjh4xp2m1xlm1jsdzxw9d8frkiidhph6nvl24d0h8z34w49g";
-        }*/
+        }
       ];
-    })
-    tealdeer # tldr in rust
+    })*/
+    #tealdeer # tldr in rust
     akonadi # Storage service for KMail etc.
     libsForQt5.akonadi-mime
     libsForQt5.akonadi-notes
@@ -108,9 +107,9 @@
     libvdpau-va-gl
     pciutils
     smartmontools
-    nix-index
+    #nix-index
     xdg-utils
     libva-utils
-    (librewolf.override { extraNativeMessagingHosts = [ libsForQt5.plasma-browser-integration ]; })
+    #(librewolf.override { extraNativeMessagingHosts = [ libsForQt5.plasma-browser-integration ]; })
   ];
 }

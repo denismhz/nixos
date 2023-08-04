@@ -4,7 +4,7 @@
 
 #<nixos-hardware/lenovo/legion/16ach6h/nvidia>
 
-{ config, pkgs, lib, services, ... }:
+{ config, pkgs, lib, services, unstable, ... }:
 
 {
   imports =
@@ -27,12 +27,12 @@
   boot.loader.grub.device = "nodev";
   boot.loader.grub.useOSProber = true;
   boot.loader.grub.efiSupport = true;
-  boot.loader.grub.configurationLimit = 5;
+  boot.loader.grub.configurationLimit = 15;
   boot.loader.grub.darkmatter-theme = {
     enable = true;
     style = "nixos";
     icon = "color";
-    resolution = "1080p";
+    resolution = "1440p";
   };
 
   networking.hostName = "nixos-denis"; # Define your hostname.
@@ -89,6 +89,8 @@
     enable = true;
     notoPackage = pkgs.noto-fonts-cjk-sans;
   };
+
+  environment.pathsToLink = [ "/share/bash-completion" ];
 
   environment.plasma5.excludePackages = [
     pkgs.libsForQt5.oxygen
