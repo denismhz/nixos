@@ -15,25 +15,7 @@
 
   # services.packagekit.enable = true;
 
-  programs.git.enable = true;
-
-  programs.neovim = {
-    enable = true;
-    defaultEditor = true;
-    viAlias = true;
-    vimAlias = true;
-  };
-
-  programs.steam = {
-    enable = true;
-    # remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
-    # dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
-  };
-  programs.gamemode.enable = true;
-  hardware.steam-hardware.enable = true;
-
   programs.noisetorch.enable = true;
-  # environment.etc."chromium/native-messhttps://git.manherz.de/denismhz/nixos.gitaging-hosts/org.kde.plasma.browser_integration.json".source = "${pkgs.plasma-browser-integration}/etc/chromium/native-messaging-hosts/org.kde.plasma.browser_integration.json";
 
   # Enable automatic login for the user.
   services.xserver.displayManager.autoLogin.enable = true;
@@ -52,8 +34,6 @@
 
   services.xserver.displayManager.sddm = {
     enable = true;
-    #autoLogin.relogin = true;
-    autoNumlock = true;
   };
 
   # Open Firewall Ports for KDE Connect
@@ -87,10 +67,19 @@
   #dbpath = "/home/denis/mongodb";
   #};
 
-  environment.sessionVariables = {
-    NIX_PROFILES = "${pkgs.lib.concatStringsSep " " (pkgs.lib.reverseList config.environment.profiles)}";
-    NIXOS_OZONE_WL = "1";
+
+  programs.steam = {
+    enable = true;
+    # remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
+    # dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
   };
+  programs.gamemode.enable = true;
+  hardware.steam-hardware.enable = true;
+
+  #environment.sessionVariables = {
+  #  NIX_PROFILES = "${pkgs.lib.concatStringsSep " " (pkgs.lib.reverseList config.environment.profiles)}";
+  #  NIXOS_OZONE_WL = "1";
+  #};
 
   fonts.fonts = with pkgs; [
     (nerdfonts.override { fonts = [ "DejaVuSansMono" "DroidSansMono" ]; })
