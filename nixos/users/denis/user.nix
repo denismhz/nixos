@@ -10,30 +10,23 @@
     hashedPassword = "$y$j9T$0opCRT4e3X3P.tqGvEGd91$9cW/JMGTCfcEzkw9m6cemqSoNBrd5O6A3JCO3eitdO9";
   };
 
-  environment.sessionVariables.MOZ_ENABLE_WAYLAND = "1";
-  environment.sessionVariables.MOZ_USE_XINPUT2 = "1";
-
-  # services.packagekit.enable = true;
-
-  programs.noisetorch.enable = true;
-
   # Enable automatic login for the user.
-  services.xserver.displayManager.autoLogin.enable = true;
-  services.xserver.displayManager.autoLogin.user = "denis";
-
-  services.xserver.libinput.enable = true;
-
-  services.xserver.libinput.mouse = {
-    accelProfile = "flat";
-    accelSpeed = null;
+  services.xserver.displayManager = {
+    sddm.enable = true;
+    autoLogin.enable = true;
+    autoLogin.user = "denis";
   };
 
-  services.xserver.libinput.touchpad = {
-    disableWhileTyping = true;
-  };
-
-  services.xserver.displayManager.sddm = {
+  # mouse touchpad input config
+  services.xserver.libinput = {
     enable = true;
+    mouse = {
+      accelProfile = "flat";
+      accelSpeed = null;
+    };
+    touchpad = {
+      disableWhileTyping = true;
+    };
   };
 
   # Open Firewall Ports for KDE Connect
@@ -62,24 +55,10 @@
   # Enable samba wsdd
   services.samba-wsdd.enable = true;
 
-  #services.mongodb = {
-  #  enable = true;
-  #dbpath = "/home/denis/mongodb";
-  #};
-
-
-  programs.steam = {
-    enable = true;
-    # remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
-    # dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
-  };
+  # Steam
+  programs.steam.enable = true;
   programs.gamemode.enable = true;
   hardware.steam-hardware.enable = true;
-
-  #environment.sessionVariables = {
-  #  NIX_PROFILES = "${pkgs.lib.concatStringsSep " " (pkgs.lib.reverseList config.environment.profiles)}";
-  #  NIXOS_OZONE_WL = "1";
-  #};
 
   fonts.fonts = with pkgs; [
     (nerdfonts.override { fonts = [ "DejaVuSansMono" "DroidSansMono" ]; })

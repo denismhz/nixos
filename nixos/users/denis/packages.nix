@@ -1,35 +1,17 @@
 { config, pkgs, unstable, ... }:
 {
   user_packages = with pkgs; [
-    (libsForQt5.callPackage ./whatsie.nix { })
+    (libsForQt5.callPackage ./programs/whatsie.nix { })
     ripgrep
     bitwarden
     os-prober
     nextcloud-client
     mongodb-compass
-    #neofetch
     pfetch
     discord
     unstable.nixd
-    /*(vscode-with-extensions.override {
-      vscode = vscodium;
-      vscodeExtensions = with vscode-extensions; [
-        jnoortheen.nix-ide
-        arrterian.nix-env-selector
-        mkhl.direnv
-        ms-vscode-remote.remote-ssh
-        yzhang.markdown-all-in-one
-        pkief.material-icon-theme
-      ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
-        /*{
-          name = "remote-ssh-edit";
-          publisher = "ms-vscode-remote";
-          version = "0.47.2";
-          sha256 = "1hp6gjh4xp2m1xlm1jsdzxw9d8frkiidhph6nvl24d0h8z34w49g";
-        }
-      ];
-    })*/
-    #tealdeer # tldr in rust
+
+    # KDE Things
     akonadi # Storage service for KMail etc.
     libsForQt5.akonadi-mime
     libsForQt5.akonadi-notes
@@ -61,7 +43,6 @@
     spectacle # Screenshots
     bluedevil # Bluetooth Manager
     libsForQt5.bluez-qt # Bluetooth libs
-    breeze-grub # grub theme
     breeze-gtk # gtk theme
     breeze-qt5 # qt5 theme
     discover # flathub software center
@@ -97,6 +78,8 @@
     libsForQt5.kirigami-addons
     libsForQt5.syntax-highlighting
     libsForQt5.kde-gtk-config
+
+    # Other things
     xdg-desktop-portal-gtk
     xdg-desktop-portal
     nvidia-vaapi-driver
@@ -107,9 +90,7 @@
     libvdpau-va-gl
     pciutils
     smartmontools
-    #nix-index
     xdg-utils
     libva-utils
-    #(librewolf.override { extraNativeMessagingHosts = [ libsForQt5.plasma-browser-integration ]; })
   ];
 }
