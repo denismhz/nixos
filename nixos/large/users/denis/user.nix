@@ -60,6 +60,11 @@
   programs.gamemode.enable = true;
   hardware.steam-hardware.enable = true;
 
+  services.mongodb = {
+    enable = true;
+    dbpath = "/var/lib/mongodb";
+  };
+
   fonts.fonts = with pkgs; [
     (nerdfonts.override { fonts = [ "DejaVuSansMono" "DroidSansMono" ]; })
   ];
