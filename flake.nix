@@ -38,7 +38,26 @@
               inputs.plasma-manager.homeManagerModules.plasma-manager
             ];
           }
-          ./nixos/configuration.nix
+          ./nixos/large/configuration.nix
+        ];
+        specialArgs = { unstable = unstable.legacyPackages.x86_64-linux; };
+      };
+
+      nixosConfigurations.nixos-mini-denis = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            # Optionally, use home-manager.extraSpecialArgs to pass
+            # arguments to home.nix
+            home-manager.users.denis.imports = [
+              ./nixos/users/denis/home-manager/home.nix
+              inputs.plasma-manager.homeManagerModules.plasma-manager
+            ];
+          }
+          ./nixos/mini/configuration.nix
         ];
         specialArgs = { unstable = unstable.legacyPackages.x86_64-linux; };
       };

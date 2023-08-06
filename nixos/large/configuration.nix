@@ -5,7 +5,6 @@
     [
       ./hardware-configuration.nix
       ./users/denis/user.nix
-      ./users/denis/kde/plasma_pkgs.nix
     ];
 
   nix.settings.trusted-users = [ "root" "@wheel" "denis" ];
