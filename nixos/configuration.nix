@@ -5,6 +5,7 @@
     [
       ./hardware-configuration.nix
       ./users/denis/user.nix
+      ./users/denis/kde/plasma_pkgs.nix
     ];
 
   nix.settings.trusted-users = [ "root" "@wheel" "denis" ];
@@ -69,9 +70,9 @@
   environment.pathsToLink = [ "/share/bash-completion" ];
 
   environment.plasma5.excludePackages = [
-    pkgs.libsForQt5.oxygen
-    pkgs.libsForQt5.elisa
-    pkgs.libsForQt5.plasma-sdk
+    #pkgs.libsForQt5.oxygen
+    #pkgs.libsForQt5.elisa
+    #pkgs.libsForQt5.plasma-sdk
   ];
   # Launch KDE in Wayland session
   #services.xserver.displayManager.defaultSession = "plasmawayland";

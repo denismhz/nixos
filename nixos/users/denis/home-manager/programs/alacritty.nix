@@ -3,17 +3,39 @@
   enable = true;
   settings = {
     window = {
-      padding = {
-        x = 5;
-        y = 5;
-      };
+      opacity = 1;
+      dynamic_title = true;
+      dynamic_padding = true;
+      decorations = "full";
+      dimensions = { lines = 0; columns = 0; };
+      padding = { x = 5; y = 5; };
     };
-    font = {
-      size = 18.0;
-      normal = {
-        family = "DejaVuSansM Nerd Font Mono";
-      };
+
+    scrolling = {
+      history = 10000;
+      multiplier = 3;
     };
+
+    mouse = { hide_when_typing = true; };
+
+    key_bindings = [
+      {
+        # clear terminal
+        key = "L";
+        mods = "Control";
+        chars = "\\x0c";
+      }
+    ];
+
+    font = let fontname = "DeJaVuSansM Nerd Font Mono"; in
+      {
+        normal = { family = fontname; style = "Bold"; };
+        bold = { family = fontname; style = "Bold"; };
+        italic = { family = fontname; style = "Light"; };
+        size = 18;
+      };
+    cursor.style = "Block";
+
     colors = {
       primary = {
         background = "0x1a1b26";
@@ -39,6 +61,10 @@
         cyan = "0x7dcfff";
         white = "0xc0caf5";
       };
+      indexed_colors = [
+        { index = 16; color = "0xff9e64"; }
+        { index = 17; color = "0xdb4b4b"; }
+      ];
     };
   };
 }

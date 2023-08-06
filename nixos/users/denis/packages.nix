@@ -1,7 +1,7 @@
 { config, pkgs, unstable, ... }:
 {
   user_packages = with pkgs; [
-    (libsForQt5.callPackage ./programs/whatsie.nix { })
+    (libsForQt5.callPackage ./home-manager/programs/whatsie.nix { })
     ripgrep
     bitwarden
     os-prober
@@ -10,6 +10,7 @@
     pfetch
     discord
     unstable.nixd
+    libreoffice-qt
 
     # KDE Things
     akonadi # Storage service for KMail etc.
