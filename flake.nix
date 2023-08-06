@@ -9,6 +9,10 @@
       url = github:nix-community/home-manager/release-23.05;
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    plasma-manager.url = "github:pjones/plasma-manager";
+    plasma-manager.inputs.nixpkgs.follows = "nixpkgs";
+    plasma-manager.inputs.home-manager.follows = "home-manager";
   };
 
   outputs =
@@ -27,10 +31,12 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.denis = import ./nixos/users/denis/home-manager/home.nix;
-
             # Optionally, use home-manager.extraSpecialArgs to pass
             # arguments to home.nix
+            home-manager.users.denis.imports = [
+              ./nixos/users/denis/home-manager/home.nix
+              inputs.plasma-manager.homeManagerModules.plasma-manager
+            ];
           }
           ./nixos/configuration.nix
         ];
