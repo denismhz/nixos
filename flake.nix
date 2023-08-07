@@ -13,6 +13,8 @@
     plasma-manager.url = "github:pjones/plasma-manager";
     plasma-manager.inputs.nixpkgs.follows = "nixpkgs";
     plasma-manager.inputs.home-manager.follows = "home-manager";
+
+    hyprland.url = "github:hyprwm/Hyprland";
   };
 
   outputs =
@@ -52,8 +54,10 @@
             home-manager.useUserPackages = true;
             # Optionally, use home-manager.extraSpecialArgs to pass
             # arguments to home.nix
+	    #extraModules = [hyprland.homeManagerModules.default];
             home-manager.users.denis.imports = [
-              ./nixos/users/denis/home-manager/home.nix
+	      inputs.hyprland.homeManagerModules.default
+              ./nixos/mini/home.nix
               inputs.plasma-manager.homeManagerModules.plasma-manager
             ];
           }
