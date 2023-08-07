@@ -63,7 +63,7 @@
   };
 
   # Enable automatic login for the user.
-  services.getty.autologinUser = "denis";
+  #services.getty.autologinUser = "denis";
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
@@ -72,10 +72,57 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
      vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+     libsForQt5.qt5.qtquickcontrols2
+     libsForQt5.qt5.qtgraphicaleffects
   #  wget
   ];
 
+  xdg.portal.enable = true;
+  xdg.portal.extraPortals = [
+	pkgs.xdg-desktop-portal-gtk
+	pkgs.xdg-desktop-portal-hyprland
+  ];
+
+  fonts.fonts = with pkgs; [
+	(nerdfonts.override {fonts = ["DejaVuSansMono"];})
+  ];
+
+  sound.enable = true;
+  hardware.pulseaudio.enable = false;
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    # If you want to use JACK applications, uncomment this
+    #jack.enable = true;
+
+    # use the example session manager (no others are packaged yet so this is enabled by default,
+    # no need to redefine it in your config for now)
+    #media-session.enable = true;
+  };
+
   programs.hyprland.enable = true;
+  programs.hyprland.xwayland.hidpi = true;
+  programs.hyprland.xwayland.enable = true;
+
+  programs.dconf.enable = true;
+
+  environment.sessionVariables = {
+	NIXOS_OZONE_WL = "1";
+  };
+
+  services.xserver.enable = true;
+
+  services.xserver.displayManager.sddm.enable = true;
+  services.xserver.displayManager.sddm.theme = "${import ./sddm-theme.nix {inherit pkgs;}}";
+
+  hardware = {
+	opengl.enable = true;
+  };
+
+  programs.git.enable = true;
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

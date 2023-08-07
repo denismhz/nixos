@@ -86,7 +86,7 @@
   };
 
   # Configure console keymap
-  console.keyMap = "de";
+  console.keyMap = "de-latin1-nodeadkeys";
 
   # Enable sound with pipewire.
   sound.enable = true;
