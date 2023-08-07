@@ -34,37 +34,74 @@
         italic = { family = fontname; style = "Light"; };
         size = 18;
       };
-    cursor.style = "Block";
+    cursor.style = "Beam";
 
     colors = {
       primary = {
-        background = "0x1a1b26";
-        foreground = "0xc0caf5";
+        background = "0x282a36";
+        foreground = "0xf8f8f2";
+        bright_foreground = "0xffffff";
+      };
+      cursor = {
+        text = "CellBackground";
+        cursor = "CellForeground";
+      };
+      vi_mode_cursor = {
+        text = "CellBackground";
+        cursor = "CellForeground";
+      };
+      search = {
+        matches = {
+          foreground = "#44475a";
+          background = "#50fa7b";
+        };
+        focused_match = {
+          foreground = "#44475a";
+          background = "#ffb86c";
+        };
+      };
+      footer_bar = {
+        background = "#282a36";
+        foreground = "#f8f8f2";
+      };
+      hints = {
+        start = {
+          foreground = "#282a36";
+          background = "#f1fa8c";
+        };
+        end = {
+          foreground = "#f1fa8c";
+          background = "#282a36";
+        };
+      };
+      line_indicator = {
+        foreground = "None";
+        background = "None";
+      };
+      selection = {
+        text = "CellForeground";
+        background = "#44475a";
       };
       normal = {
-        black = "0x15161e";
-        red = "0xf7768e";
-        green = "0x9ece6a";
-        yellow = "0xe0af68";
-        blue = "0x7aa2f7";
-        magenta = "0xbb9af7";
-        cyan = "0x7dcfff";
-        white = "0xa9b1d6";
+        black = "0x21222c";
+        red = "0xff5555";
+        green = "0x50fa7b";
+        yellow = "0xf1fa8c";
+        blue = "0xbd93f9";
+        magenta = "0xff79c6";
+        cyan = "0x8be9fd";
+        white = "0xf8f8f2";
       };
       bright = {
-        black = "0x414868";
-        red = "0xf7768e";
-        green = "0x9ece6a";
-        yellow = "0xe0af68";
-        blue = "0x7aa2f7";
-        magenta = "0xbb9af7";
-        cyan = "0x7dcfff";
-        white = "0xc0caf5";
+        black = "0x6272a4";
+        red = "0xff6e6e";
+        green = "0x69ff94";
+        yellow = "0xffffa5";
+        blue = "0xd6acff";
+        magenta = "0xff92df";
+        cyan = "0xa4ffff";
+        white = "0xffffff";
       };
-      indexed_colors = [
-        { index = 16; color = "0xff9e64"; }
-        { index = 17; color = "0xdb4b4b"; }
-      ];
     };
   };
 }
