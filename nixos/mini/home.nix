@@ -1,10 +1,20 @@
-{ config, pkgs, ... }:
+{ config, pkgs,lib, ... }:
 let
   default = import ../share/home-manager/default.nix;
   alacrittyConfig = import ../share/home-manager/alacritty.nix;
 in
 {
-  programs.alacritty = alacrittyConfig pkgs;
+  #programs.alacritty = (default pkgs).alacritty;
+  programs = lib.mkMerge [
+    (default pkgs)
+    { 
+      exa.enable = true; 
+      wofi.enable = true;
+      waybar.enable = true;
+      home-manager.enable = true;
+      bash.enable = true;
+    }
+  ];
   home.username = "denis";
   home.homeDirectory = "/home/denis";
 
@@ -14,12 +24,9 @@ in
 
   qt.enable = true;
   qt.platformTheme = "gtk";
-  qt.style.name = "Dracula";
-  qt.style.package = pkgs.dracula-theme;
+  qt.style.name = "Kvantum";
+  #qt.style.package = pkgs.dracula-theme;
 
-  programs.wofi.enable = true;
-
-  programs.waybar.enable = true;
   gtk.enable = true;
   gtk.cursorTheme.package = pkgs.bibata-cursors;
   gtk.cursorTheme.name = "Bibata-Modern-Ice";
@@ -27,7 +34,8 @@ in
   gtk.theme.name = "Dracula";
   gtk.iconTheme.package = pkgs.dracula-icon-theme;
   gtk.iconTheme.name = "Dracula";
-
+  #why is home.sessionVariables not working????
+  ## ==> sessionvariables set in hyprland config
   fonts.fontconfig.enable = true;
 
   wayland.windowManager.hyprland.enable = true;
@@ -56,6 +64,9 @@ in
     	# source = ~/.config/hypr/myColors.conf
 
     	# Some default env vars.
+	env = GTK_THEME,Dracula
+	env = XDG_SESSION_DESKTOP,Hyprland
+	env = GDK_BACKEND,wayland,x11
 
     	animations {
     	    enabled = yes
@@ -109,7 +120,7 @@ in
     	$mainMod = ALT
 
     	# Example binds, see https://wiki.hyprland.org/Configuring/Binds/ for more
-    	bind = $mainMod, ENTER, exec, alacritty
+    	bind = $mainMod, RETURN, exec, alacritty
     	bind = $mainMod, C, killactive, 
     	bind = $mainMod, M, exit, 
     	bind = $mainMod, N, exec, dolphin
@@ -156,5 +167,4 @@ in
     	bindm = $mainMod, mouse:272, movewindow
     	bindm = $mainMod, mouse:273, resizewindow'';
 
-  programs.home-manager.enable = true;
 }
