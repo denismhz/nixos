@@ -1,9 +1,10 @@
 { config, pkgs, ... }:
 let
   default = import ../share/home-manager/default.nix;
+  alacrittyConfig = import ../share/home-manager/alacritty.nix;
 in
 {
-  inherit default;
+  programs.alacritty = alacrittyConfig pkgs;
   home.username = "denis";
   home.homeDirectory = "/home/denis";
 
@@ -28,8 +29,6 @@ in
   gtk.iconTheme.name = "Dracula";
 
   fonts.fontconfig.enable = true;
-
-  #programs.alacritty.enable = true;
 
   wayland.windowManager.hyprland.enable = true;
   wayland.windowManager.hyprland.extraConfig = ''
