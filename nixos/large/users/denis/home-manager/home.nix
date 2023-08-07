@@ -1,5 +1,6 @@
 { config, pkgs, ... }:
 let
+  default = import ../../../../share/home-manager/default.nix;
   alacrittyConfig = import ./programs/alacritty.nix;
   bashConfig = import ./programs/bash.nix;
   exaConfig = import ./programs/exa.nix;
@@ -17,7 +18,14 @@ in
   home.username = "denis";
   home.homeDirectory = "/home/denis";
 
-  programs.alacritty = alacrittyConfig pkgs;
+  #programs.alacritty = alacrittyConfig pkgs;
+  #programs = default;
+  programs = {
+    #alacritty = alacrittyConfig pkgs;
+    
+    
+ 
+  };
   programs.bash = bashConfig pkgs;
   programs.exa = exaConfig pkgs;
   programs.git = gitConfig pkgs;
