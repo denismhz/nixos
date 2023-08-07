@@ -36,7 +36,7 @@
             # Optionally, use home-manager.extraSpecialArgs to pass
             # arguments to home.nix
             home-manager.users.denis.imports = [
-              ./nixos/users/denis/home-manager/home.nix
+              ./nixos/large/users/denis/home-manager/home.nix
               inputs.plasma-manager.homeManagerModules.plasma-manager
             ];
           }
