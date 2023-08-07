@@ -1,6 +1,9 @@
 
 { config, pkgs, ... }:
+	let 
+		default = import ../share/home-manager/default.nix;
 {
+	inherit default;
   home.username = "denis";
   home.homeDirectory = "/home/denis";
 
@@ -26,7 +29,7 @@
 
   fonts.fontconfig.enable = true;
 
-  programs.alacritty.enable = true;
+  #programs.alacritty.enable = true;
 
   wayland.windowManager.hyprland.enable = true;
   wayland.windowManager.hyprland.extraConfig = ''
