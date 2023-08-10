@@ -15,7 +15,10 @@
     sddm.enable = true;
     autoLogin.enable = true;
     autoLogin.user = "denis";
+    #sddm.theme = "Dracula";
   };
+  
+  services.xserver.displayManager.sddm.theme = "${import ../../../share/themes/sddm-theme.nix {inherit pkgs;}}";
 
   # mouse touchpad input config
   services.xserver.libinput = {
@@ -24,8 +27,7 @@
       accelProfile = "flat";
       accelSpeed = null;
     };
-    touchpad = {
-      disableWhileTyping = true;
+    touchpad = { disableWhileTyping = true;
     };
   };
 

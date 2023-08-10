@@ -52,13 +52,9 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            # Optionally, use home-manager.extraSpecialArgs to pass
-            # arguments to home.nix
-	    #extraModules = [hyprland.homeManagerModules.default];
             home-manager.users.denis.imports = [
-	      inputs.hyprland.homeManagerModules.default
+	          inputs.hyprland.homeManagerModules.default
               ./nixos/mini/home.nix
-              inputs.plasma-manager.homeManagerModules.plasma-manager
             ];
           }
           ./nixos/mini/configuration.nix
