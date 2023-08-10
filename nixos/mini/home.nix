@@ -4,16 +4,96 @@ let
   alacrittyConfig = import ../share/home-manager/alacritty.nix;
 in
 {
-  #programs.alacritty = (default pkgs).alacritty;
   programs = lib.mkMerge [
     (default pkgs)
     { 
-      exa.enable = true; 
       wofi.enable = true;
       waybar.enable = true;
-      home-manager.enable = true;
-      bash.enable = true;
+      waybar.style = ''
+* {
+    border: none;
+    border-radius: 0;
+    font-family: Iosevka;
+    font-size: 11pt;
+    min-height: 0;
+}
+window#waybar {
+    opacity: 0.9;
+    background: @background-darker;
+    color: @foreground;
+    border-bottom: 2px solid @background;
+}
+#workspaces button {
+    padding: 0 10px;
+    background: @background;
+    color: @foreground;
+}
+#workspaces button:hover {
+    box-shadow: inherit;
+    text-shadow: inherit;
+    background-image: linear-gradient(0deg, @selection, @background-darker);
+}
+#workspaces button.active {
+    background-image: linear-gradient(0deg, @purple, @selection);
+}
+#taskbar button.active {
+    background-image: linear-gradient(0deg, @selection, @background-darker);
+}
+#clock {
+    padding: 0 4px;
+    background: @background;
+}
+      '';
+      waybar.settings = [
+{
+  layer = "top";
+  position = "top";
+  height = 24;
+  spacing = 4;
+  modules-left = [
+    "wlr/workspaces"
+    "wlr/taskbar"
+  ];
+  modules-center = [
+    "hyprland/window"
+  ];
+  modules-right = [
+    "tray"
+    "hyprland/language"
+    "custom/weather"
+    "clock"
+  ];
+  "wlr/taskbar" = {
+    on-click = "activate";
+    on-click-middle = "close";
+    ignore-list = [
+      "foot"
+    ];
+  };
+  "wlr/workspaces" = {
+    "on-click" = "activate";
+    "on-scroll-up" = "hyprctl dispatch workspace e-1";
+    "on-scroll-down" = "hyprctl dispatch workspace e+1";
+  };
+  "hyprland/window" = {
+    "max-length" = 128;
+  };
+  "clock" = {
+    "format" = "{:%c}";
+    "tooltip-format" = "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>";
+  };
+  "tray" = {
+    "spacing" = 4;
+  };
+  "hyprland/language" = {
+    "format-pl" = "[pl]";
+    "format-en" = "[us]";
+    "on-click" = "hyprctl switchxkblayout at-translated-set-2-keyboard next";
+  };
+}
+      ];
     }
+
   ];
   home.username = "denis";
   home.homeDirectory = "/home/denis";
@@ -24,12 +104,12 @@ in
 
   qt.enable = true;
   qt.platformTheme = "gtk";
-  qt.style.name = "Kvantum";
+  qt.style.name = "Dracula";
   #qt.style.package = pkgs.dracula-theme;
 
   gtk.enable = true;
   gtk.cursorTheme.package = pkgs.bibata-cursors;
-  gtk.cursorTheme.name = "Bibata-Modern-Ice";
+  gtk.cursorTheme.name = "Dracula-cursors";
   gtk.theme.package = pkgs.dracula-theme;
   gtk.theme.name = "Dracula";
   gtk.iconTheme.package = pkgs.dracula-icon-theme;
@@ -66,7 +146,12 @@ in
     	# Some default env vars.
 	env = GTK_THEME,Dracula
 	env = XDG_SESSION_DESKTOP,Hyprland
-	env = GDK_BACKEND,wayland,x11
+        env = GDK_BACKEND,wayland,x11
+        env = QT_AUTO_SCREEN_SCALE_FACTOR,1
+        env = QT_QPA_PLATFORM,wayland;xcb
+        env = QT_WAYLAND_DISABLE_WINDOWDECORATION,1
+        env = QT_QPA_PLATFORMTHEME,qt5ct
+        env = QT_STYLE_OVERRIDE,kvantum
 
     	animations {
     	    enabled = yes
@@ -98,6 +183,34 @@ in
     	    # See https://wiki.hyprland.org/Configuring/Variables/ for more
     	    workspace_swipe = off
     	}
+        # dracula/hyprland
+        general {
+            col.active_border = rgb(44475a) rgb(bd93f9) 90deg
+            col.inactive_border = rgba(44475aaa)
+            col.group_border = rgba(282a36dd)
+            col.group_border_active = rgb(bd93f9) rgb(44475a) 90deg
+            # non-gradient alternative
+            #col.active_border = rgb(bd93f9)
+            #col.inactive_border = rgba(44475aaa)
+            #col.group_border = rgba(282a36dd)
+            #col.group_border_active = rgb(bd93f9)
+            # darker alternative
+            #col.active_border = rgb(44475a) # or rgb(6272a4)
+            #col.inactive_border = rgb(282a36)
+            #col.group_border = rgb(282a36)
+            #col.group_border_active = rgb(44475a) # or rgb(6272a4)
+
+        }
+        decoration {
+            col.shadow = rgba(1E202966)
+            # suggested shadow setting
+            #drop_shadow = yes
+            #shadow_range = 60
+            #shadow_offset = 1 2
+            #shadow_render_power = 3
+            #shadow_scale = 0.97
+        }
+        #windowrulev2 = bordercolor rgb(ff5555),xwayland:1 # check if window is xwayland
 
     	# Example per-device config
     	# See https://wiki.hyprland.org/Configuring/Keywords/#executing for more
@@ -127,13 +240,20 @@ in
     	bind = $mainMod, V, togglefloating, 
     	bind = $mainMod, D, exec, wofi --show drun
     	bind = $mainMod, P, pseudo, # dwindle
-    	bind = $mainMod, J, togglesplit, # dwindle
+        bind = $mainMod, J, togglesplit, # dwindle
+        bind = $mainMod, W, exec, librewolf
+        bind = $mainMod, T, togglegroup
 
     	# Move focus with mainMod + arrow keys
     	bind = $mainMod, left, movefocus, l
     	bind = $mainMod, right, movefocus, r
     	bind = $mainMod, up, movefocus, u
-    	bind = $mainMod, down, movefocus, d
+        bind = $mainMod, down, movefocus, d
+    	bind = $mainMod, H, movefocus, l
+    	bind = $mainMod, L, movefocus, r
+    	bind = $mainMod, K, movefocus, u
+        bind = $mainMod, J, movefocus, d
+        bind = $mainMod, left, changegroupactive, b
 
     	# Switch workspaces with mainMod + [0-9]
     	bind = $mainMod, 1, workspace, 1

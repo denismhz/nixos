@@ -13,6 +13,7 @@
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   networking.hostName = "nixos-mini-denis"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -74,6 +75,8 @@
      vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
      libsForQt5.qt5.qtquickcontrols2
      libsForQt5.qt5.qtgraphicaleffects
+     libsForQt5.qt5ct
+     libsForQt5.qtstyleplugin-kvantum
   #  wget
   ];
 
@@ -117,7 +120,7 @@
 
   services.xserver.displayManager.sddm.enable = true;
   services.xserver.displayManager.sddm.theme = "${import ./sddm-theme.nix {inherit pkgs;}}";
-
+  #services.xserver.displayManager.sddm.theme = "Dracula";
   hardware = {
 	opengl.enable = true;
   };
