@@ -5,8 +5,8 @@ pkgs.stdenv.mkDerivation {
   src = pkgs.fetchFromGitHub {
     owner = "denismhz";
     repo = "sddm-sugar-dark";
-    rev = "9bdcb9cb6238f859baba8f68df9418d8f7197d50";
-    sha256 = "sha256-FT8fualZne6VH48NtWadGi13qgCt+O71aFJCZpSnWfw=";
+    rev = "de4e79553ad7f71a22319354ba6b9bc07df0ca95";
+    sha256 = "sha256-TN8Us2eDZHBm+OtUvFIysLL5J/6Wzbp0rCWe8u2ZyJI=";
   };
   
   installPhase = ''

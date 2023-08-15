@@ -8,6 +8,7 @@
     nextcloud-client
     mongodb-compass
     pfetch
+    telegram-desktop
     discord
     unstable.nixd
     libreoffice-qt
@@ -58,6 +59,8 @@
     libsForQt5.ksystemstats
     kwayland-integration
     kwrited
+    haruna
+    libsForQt5.kdenlive
     libsForQt5.layer-shell-qt
     libsForQt5.kmail-account-wizard
     libsForQt5.kmailtransport
