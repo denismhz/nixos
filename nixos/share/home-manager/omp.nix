@@ -2,5 +2,5 @@
 {
   enable = true;
   enableBashIntegration = true;
-  useTheme = "emodipt-extend";
+  useTheme = "dracula";
 }

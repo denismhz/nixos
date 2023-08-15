@@ -2,7 +2,6 @@
 let
   default = import ../../../../share/home-manager/default.nix;
   plasmaConfig = import ./programs/plasma.nix;
-  tealdeerConfig = import ./programs/tealdeer.nix;
   vscodeConfig = import ./programs/vscode.nix;
 in
 {
@@ -13,7 +12,6 @@ in
     (default pkgs)
     {
       plasma = plasmaConfig pkgs;
-      tealdeer = tealdeerConfig pkgs;
       vscode = vscodeConfig pkgs;
     }
   ];

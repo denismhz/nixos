@@ -9,6 +9,7 @@ let
   neovimConfig = import ./nvim.nix;
   nix-indexConfig = import ./nix-index.nix;
   ompConfig = import ./omp.nix;
+  tealdeerConfig = import ./tealdeer.nix;
 in
 {
   alacritty = alacrittyConfig pkgs;
@@ -21,4 +22,5 @@ in
   nix-index = nix-indexConfig pkgs;
   oh-my-posh = ompConfig pkgs;
   home-manager.enable = true;
+  tealdeer = tealdeerConfig pkgs;
 }

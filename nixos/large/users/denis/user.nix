@@ -9,7 +9,7 @@
     packages = (import ./packages.nix { pkgs = pkgs; unstable = unstable; config = config; }).user_packages;
     hashedPassword = "$y$j9T$0opCRT4e3X3P.tqGvEGd91$9cW/JMGTCfcEzkw9m6cemqSoNBrd5O6A3JCO3eitdO9";
   };
-
+  users.users.guest = { isNormalUser = true; };
   # Enable automatic login for the user.
   services.xserver.displayManager = {
     sddm.enable = true;
@@ -17,7 +17,7 @@
     autoLogin.user = "denis";
     #sddm.theme = "Dracula";
   };
-  
+
   services.xserver.displayManager.sddm.theme = "${import ../../../share/themes/sddm-theme.nix {inherit pkgs;}}";
 
   # mouse touchpad input config
@@ -27,7 +27,8 @@
       accelProfile = "flat";
       accelSpeed = null;
     };
-    touchpad = { disableWhileTyping = true;
+    touchpad = {
+      disableWhileTyping = true;
     };
   };
 
