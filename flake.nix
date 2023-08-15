@@ -53,7 +53,7 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.users.denis.imports = [
-	          inputs.hyprland.homeManagerModules.default
+              inputs.hyprland.homeManagerModules.default
               ./nixos/mini/home.nix
             ];
           }
