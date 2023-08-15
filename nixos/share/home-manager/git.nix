@@ -8,4 +8,7 @@
   ];
   userEmail = "denis@manherz.de";
   userName = "Denis Manherz";
+  extraConfig = {
+    init.defaultBranch = "main";
+  };
 }
