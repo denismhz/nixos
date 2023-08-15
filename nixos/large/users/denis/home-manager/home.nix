@@ -16,7 +16,6 @@ in
     }
   ];
 
-
   xsession.enable = true;
   xsession.numlock.enable = true;
 
