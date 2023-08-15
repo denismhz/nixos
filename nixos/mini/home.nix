@@ -1,99 +1,15 @@
 { config, pkgs,lib, ... }:
 let
   default = import ../share/home-manager/default.nix;
-  alacrittyConfig = import ../share/home-manager/alacritty.nix;
+  waybarConfig = import ./waybar.nix;
 in
 {
   programs = lib.mkMerge [
     (default pkgs)
     { 
       wofi.enable = true;
-      waybar.enable = true;
-      waybar.style = ''
-* {
-    border: none;
-    border-radius: 0;
-    font-family: Iosevka;
-    font-size: 11pt;
-    min-height: 0;
-}
-window#waybar {
-    opacity: 0.9;
-    background: @background-darker;
-    color: @foreground;
-    border-bottom: 2px solid @background;
-}
-#workspaces button {
-    padding: 0 10px;
-    background: @background;
-    color: @foreground;
-}
-#workspaces button:hover {
-    box-shadow: inherit;
-    text-shadow: inherit;
-    background-image: linear-gradient(0deg, @selection, @background-darker);
-}
-#workspaces button.active {
-    background-image: linear-gradient(0deg, @purple, @selection);
-}
-#taskbar button.active {
-    background-image: linear-gradient(0deg, @selection, @background-darker);
-}
-#clock {
-    padding: 0 4px;
-    background: @background;
-}
-      '';
-      waybar.settings = [
-{
-  layer = "top";
-  position = "top";
-  height = 24;
-  spacing = 4;
-  modules-left = [
-    "wlr/workspaces"
-    "wlr/taskbar"
-  ];
-  modules-center = [
-    "hyprland/window"
-  ];
-  modules-right = [
-    "tray"
-    "hyprland/language"
-    "custom/weather"
-    "clock"
-  ];
-  "wlr/taskbar" = {
-    on-click = "activate";
-    on-click-middle = "close";
-    ignore-list = [
-      "foot"
-    ];
-  };
-  "wlr/workspaces" = {
-    "on-click" = "activate";
-    "on-scroll-up" = "hyprctl dispatch workspace e-1";
-    "on-scroll-down" = "hyprctl dispatch workspace e+1";
-  };
-  "hyprland/window" = {
-    "max-length" = 128;
-  };
-  "clock" = {
-    "format" = "{:%c}";
-    "tooltip-format" = "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>";
-  };
-  "tray" = {
-    "spacing" = 4;
-  };
-  "hyprland/language" = {
-    "format-pl" = "[pl]";
-    "format-en" = "[us]";
-    "on-click" = "hyprctl switchxkblayout at-translated-set-2-keyboard next";
-  };
-}
-      ];
+      waybar = waybarConfig pkgs;
     }
-
   ];
   home.username = "denis";
   home.homeDirectory = "/home/denis";
