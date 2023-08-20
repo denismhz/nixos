@@ -3,7 +3,7 @@
   enable = true;
   settings = {
     window = {
-      opacity = 0.95;
+      opacity = 0.80;
       dynamic_title = true;
       dynamic_padding = true;
       decorations = "full";

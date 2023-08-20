@@ -15,7 +15,7 @@ in
       vscode = vscodeConfig pkgs;
     }
   ];
-
+  
   xsession.enable = true;
   xsession.numlock.enable = true;
 

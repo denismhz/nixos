@@ -1,9 +1,14 @@
 { config, pkgs, unstable, ... }:
 {
   user_packages = with pkgs; [
+
+    jellyfin-media-player
+    # i dont want to use whatsie with steam run :/
+    # resolution shit <- but whatsapp-for-linux isnt working with x11
     (libsForQt5.callPackage ./home-manager/programs/whatsie.nix { })
     ripgrep
     bitwarden
+    #need for grub ?
     os-prober
     nextcloud-client
     mongodb-compass
@@ -12,6 +17,10 @@
     discord
     unstable.nixd
     libreoffice-qt
+    rnix-lsp
+    vlc
+    qt6.full
+    # this ones not really working resolution problems whatsapp-for-linux
 
     # KDE Things
     akonadi # Storage service for KMail etc.
@@ -25,9 +34,12 @@
     libsForQt5.akonadi-calendar-tools
     libsForQt5.kio-gdrive
     ark # Archive creation/extraction software
+
+    #what the fuck is this???
     colord-kde # https://git.manherz.de/denismhz/nixos.gitColor daemon
+
     dolphin # File manager
-    ffmpegthumbs # Dolphin video thumbnails
+    #no need for video thumbs -- ffmpegthumbs -- # Dolphin video thumbnails
     gwenview # Image viewer
     kalendar # Calendar
     kaddressbook # Address Book
@@ -45,8 +57,11 @@
     spectacle # Screenshots
     bluedevil # Bluetooth Manager
     libsForQt5.bluez-qt # Bluetooth libs
+
+    #remove breeze themes kinda doubled
     breeze-gtk # gtk theme
     breeze-qt5 # qt5 theme
+    
     discover # flathub software center
     libsForQt5.flatpak-kcm # kde flatpak module
     kde-cli-tools
@@ -59,7 +74,6 @@
     libsForQt5.ksystemstats
     kwayland-integration
     kwrited
-    haruna
     libsForQt5.kdenlive
     libsForQt5.layer-shell-qt
     libsForQt5.kmail-account-wizard
