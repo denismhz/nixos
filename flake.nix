@@ -10,6 +10,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+
     plasma-manager.url = "github:pjones/plasma-manager";
     plasma-manager.inputs.nixpkgs.follows = "nixpkgs";
     plasma-manager.inputs.home-manager.follows = "home-manager";
@@ -23,6 +25,7 @@
     , nixpkgs
     , unstable
     , home-manager
+    , nixos-hardware
     , ...
     }:
     {
@@ -40,6 +43,7 @@
               inputs.plasma-manager.homeManagerModules.plasma-manager
             ];
           }
+          nixos-hardware.nixosModules.lenovo-legion-16ach6h-nvidia
           ./nixos/large/configuration.nix
         ];
         specialArgs = { unstable = unstable.legacyPackages.x86_64-linux; };

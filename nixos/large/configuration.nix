@@ -119,6 +119,7 @@
     direnv
     nixpkgs-fmt
     dracula-theme
+    (pkgs.callPackage ../share/themes/sddm-theme.nix { })
 
     #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     #  wget
@@ -175,8 +176,6 @@
   boot.kernel.sysctl = { "vm.swappiness" = 5; };
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
-
 
   # if packets are still dropped, they will show up in dmesg
   networking.firewall.logReversePathDrops = true;

@@ -15,10 +15,8 @@
     sddm.enable = true;
     autoLogin.enable = true;
     autoLogin.user = "denis";
-    #sddm.theme = "Dracula";
+    sddm.theme = "sddm-sugar-dracula";
   };
-
-  services.xserver.displayManager.sddm.theme = "${import ../../../share/themes/sddm-theme.nix {inherit pkgs;}}";
 
   # mouse touchpad input config
   services.xserver.libinput = {
@@ -48,6 +46,8 @@
   # Firewall Ports for samba
   networking.firewall.allowedTCPPorts = [
     5357 # samba
+    5173 # vite dev
+    4173 # vite preview
     #24727 # ausweisapp2
   ];
   networking.firewall.allowedUDPPorts = [
@@ -69,6 +69,6 @@
   };
 
   fonts.fonts = with pkgs; [
-    (nerdfonts.override { fonts = [ "DejaVuSansMono" "DroidSansMono" ]; })
+    (nerdfonts.override { fonts = [ "DejaVuSansMono" ]; })
   ];
 }
