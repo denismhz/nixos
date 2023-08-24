@@ -18,9 +18,19 @@
     unstable.nixd
     libreoffice-qt
     rnix-lsp
+
+    #Wine
+    lutris
+    wineWowPackages.stableFull
+    wineWowPackages.staging
+    wineWowPackages.fonts
+    wineWowPackages.waylandFull
+    dxvk
+
     vlc
+
+    #qt do i even use this
     qt6.full
-    # this ones not really working resolution problems whatsapp-for-linux
 
     # KDE Things
     akonadi # Storage service for KMail etc.
@@ -59,9 +69,8 @@
     libsForQt5.bluez-qt # Bluetooth libs
 
     #remove breeze themes kinda doubled
-    breeze-gtk # gtk theme
-    breeze-qt5 # qt5 theme
-    
+    #breeze-gtk # gtk theme
+    #breeze-qt5 # qt5 theme
     discover # flathub software center
     libsForQt5.flatpak-kcm # kde flatpak module
     kde-cli-tools
