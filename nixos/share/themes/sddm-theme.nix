@@ -13,6 +13,7 @@ pkgs.stdenv.mkDerivation {
   installPhase = ''
     mkdir -p $out/share/sddm/themes/sddm-sugar-dracula
     cp -aR ./* $out/share/sddm/themes/sddm-sugar-dracula
+    cp -a ./denis.jpg $out/share/sddm/faces
   '';
 }
 

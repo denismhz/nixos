@@ -13,7 +13,7 @@
   # Enable automatic login for the user.
   services.xserver.displayManager = {
     sddm.enable = true;
-    autoLogin.enable = true;
+    autoLogin.enable = false;
     autoLogin.user = "denis";
     sddm.theme = "sddm-sugar-dracula";
   };

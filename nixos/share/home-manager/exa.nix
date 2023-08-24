@@ -7,6 +7,5 @@
   extraOptions = [
     "--group-directories-first"
     "--header"
-    "--reverse"
   ];
 }
