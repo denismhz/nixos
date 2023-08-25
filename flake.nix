@@ -22,11 +22,11 @@
   outputs =
     inputs@
     { self
-      , nixpkgs
-        , unstable
-        , home-manager
-        , nixos-hardware
-        , ...
+    , nixpkgs
+    , unstable
+    , home-manager
+    , nixos-hardware
+    , ...
     }:
   {
     nixosConfigurations.nixos-denis = nixpkgs.lib.nixosSystem {
@@ -62,6 +62,13 @@
       ./nixos/mini/configuration.nix
       ];
       specialArgs = { unstable = unstable.legacyPackages.x86_64-linux; };
+    };
+
+    nixosConfigurations.nixos-rpi-denis = nixpkgs.lib.nixosSystem {
+      system = "aarch64-linux";
+      modules = [
+      ./nixos/rpi/configuration.nix
+      ];
     };
   };
 }
