@@ -12,8 +12,8 @@
     ];
 
 # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader.grub.enable = false;
+  boot.loader.generic-extlinux-compatible.enable = true;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   networking.hostName = "nixos-rpi-denis"; # Define your hostname.
@@ -48,10 +48,10 @@
   };
 
 # Configure keymap in X11
-  services.xserver = {
-    layout = "de";
-    xkbVariant = "nodeadkeys";
-  };
+  #services.xserver = {
+  #  layout = "de";
+  #  xkbVariant = "nodeadkeys";
+  #};
 
 # Configure console keymap
   console.keyMap = "de-latin1-nodeadkeys";
@@ -68,53 +68,31 @@
 #services.getty.autologinUser = "denis";
 
 # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
+  #nixpkgs.config.allowUnfree = true;
 
 # List packages installed in system profile. To search, run:
 # $ nix search wget
   environment.systemPackages = with pkgs; [
-    libsForQt5.qt5.qtquickcontrols2
-    libsForQt5.qt5.qtgraphicaleffects
-    libsForQt5.qt5ct
-    libsForQt5.qtstyleplugin-kvantum
-    (pkgs.callPackage ../share/themes/sddm-theme.nix { })
-    rnix-lsp
+    #libsForQt5.qt5.qtquickcontrols2
+    #libsForQt5.qt5.qtgraphicaleffects
+    #libsForQt5.qt5ct
+    #libsForQt5.qtstyleplugin-kvantum
+    #(pkgs.callPackage ../share/themes/sddm-theme.nix { })
+    #rnix-lsp
+    neovim
   ];
 
-  xdg.portal.enable = true;
-  xdg.portal.extraPortals = [
-    pkgs.xdg-desktop-portal-gtk
-    pkgs.xdg-desktop-portal-hyprland
-  ];
-
-  fonts.fonts = with pkgs; [
-    (nerdfonts.override {fonts = ["DejaVuSansMono"];})
-  ];
-
-  sound.enable = true;
-  hardware.pulseaudio.enable = false;
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-  };
-
-  programs.hyprland.enable = true;
-  programs.hyprland.xwayland.hidpi = true;
-  programs.hyprland.xwayland.enable = true;
-
-  programs.dconf.enable = true;
-
-  environment.sessionVariables = {
-    NIXOS_OZONE_WL = "1";
-  };
+  #sound.enable = true;
+  #hardware.pulseaudio.enable = false;
+  #security.rtkit.enable = true;
+  #services.pipewire = {
+  #  enable = true;
+  #  alsa.enable = true;
+  #  alsa.support32Bit = true;
+  #  pulse.enable = true;
+  #};
 
   services.xserver.enable = true;
-
-  services.xserver.displayManager.sddm.enable = true;
-  services.xserver.displayManager.sddm.theme = "sddm-sugar-dracula";
 
   hardware = {
     opengl.enable = true;
