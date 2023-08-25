@@ -22,48 +22,46 @@
   outputs =
     inputs@
     { self
-    , nixpkgs
-    , unstable
-    , home-manager
-    , nixos-hardware
-    , ...
+      , nixpkgs
+        , unstable
+        , home-manager
+        , nixos-hardware
+        , ...
     }:
-    {
-      nixosConfigurations.nixos-denis = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            # Optionally, use home-manager.extraSpecialArgs to pass
-            # arguments to home.nix
-            home-manager.users.denis.imports = [
-              ./nixos/large/users/denis/home-manager/home.nix
+  {
+    nixosConfigurations.nixos-denis = nixpkgs.lib.nixosSystem {
+      system = "x86_64-linux";
+      modules = [
+        home-manager.nixosModules.home-manager
+        {
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+          home-manager.users.denis.imports = [
+            ./nixos/large/users/denis/home-manager/home.nix
               inputs.plasma-manager.homeManagerModules.plasma-manager
-            ];
-          }
-          nixos-hardware.nixosModules.lenovo-legion-16ach6h-nvidia
-          ./nixos/large/configuration.nix
-        ];
-        specialArgs = { unstable = unstable.legacyPackages.x86_64-linux; };
-      };
-
-      nixosConfigurations.nixos-mini-denis = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.denis.imports = [
-              inputs.hyprland.homeManagerModules.default
-              ./nixos/mini/home.nix
-            ];
-          }
-          ./nixos/mini/configuration.nix
-        ];
-        specialArgs = { unstable = unstable.legacyPackages.x86_64-linux; };
-      };
+          ];
+        }
+      nixos-hardware.nixosModules.lenovo-legion-16ach6h-nvidia
+        ./nixos/large/configuration.nix
+      ];
+      specialArgs = { unstable = unstable.legacyPackages.x86_64-linux; };
     };
+
+    nixosConfigurations.nixos-mini-denis = nixpkgs.lib.nixosSystem {
+      system = "x86_64-linux";
+      modules = [
+        home-manager.nixosModules.home-manager
+        {
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+          home-manager.users.denis.imports = [
+            inputs.hyprland.homeManagerModules.default
+              ./nixos/mini/home.nix
+          ];
+        }
+      ./nixos/mini/configuration.nix
+      ];
+      specialArgs = { unstable = unstable.legacyPackages.x86_64-linux; };
+    };
+  };
 }
