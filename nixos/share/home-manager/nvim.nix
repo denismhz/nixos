@@ -152,10 +152,8 @@
 
 			dracula-nvim
 
+
 			nvim-treesitter.withAllGrammars
 			bufferline-nvim
-
-#vim-nix
-#neo-tree-nvim
 	];
 }

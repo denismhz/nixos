@@ -85,7 +85,6 @@
     dunst
     pamixer
     (pkgs.callPackage ../share/themes/sddm-theme.nix { })
-    (pkgs.callPackage ../share/themes/rofi-theme.nix { })
     rnix-lsp
     wlr-randr
     dolphin
