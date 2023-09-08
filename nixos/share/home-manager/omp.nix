@@ -5,7 +5,7 @@
   settings = builtins.fromJSON ''
     {
       "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
-      "console_title_template": "{{.UserName}}@{{.HostName}} {{.Shell}}", 
+      "console_title_template": "{{.UserName}}@{{.HostName}} {{.Shell}} in {{.PWD}}", 
       "blocks": [
         {
           "alignment": "left",
