@@ -18,6 +18,11 @@
     unstable.nixd
     libreoffice-qt
     rnix-lsp
+    foliate
+    
+    # Time Tracking
+    #activitywatch
+    haskellPackages.arbtt
 
     #Wine
     lutris

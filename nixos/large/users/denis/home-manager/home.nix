@@ -13,6 +13,7 @@ in
     {
       plasma = plasmaConfig pkgs;
       vscode = vscodeConfig pkgs;
+      firefox.enable = true;
     }
   ];
   

@@ -39,13 +39,18 @@
           home-manager.users.denis.imports = [
             ./nixos/large/users/denis/home-manager/home.nix
               inputs.plasma-manager.homeManagerModules.plasma-manager
-          ];
-        }
-      nixos-hardware.nixosModules.lenovo-legion-16ach6h-nvidia
-        ./nixos/large/configuration.nix
-      ];
-      specialArgs = { unstable = unstable.legacyPackages.x86_64-linux; };
-    };
+            ];
+          }
+          nixos-hardware.nixosModules.lenovo-legion-16ach6h-nvidia
+          ./nixos/large/configuration.nix
+        ];
+        specialArgs = {
+          unstable = import unstable {
+            system = "x86_64-linux";
+            config.allowUnfree = true;
+          };
+        };
+      };
 
     nixosConfigurations.nixos-mini-denis = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";

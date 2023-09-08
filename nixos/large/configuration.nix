@@ -11,6 +11,8 @@
 
   # Kernel
   boot.kernelPackages = pkgs.linuxPackages_zen;
+  services.arbtt.enable = true;
+  services.arbtt.logFile = "/home/denis/.arbtt/capture.log";
 
   # Bootloader
   boot.loader.systemd-boot.enable = true;
@@ -68,9 +70,9 @@
   environment.pathsToLink = [ "/share/bash-completion" ];
 
   environment.plasma5.excludePackages = [
-    #pkgs.libsForQt5.oxygen
-    #pkgs.libsForQt5.elisa
-    #pkgs.libsForQt5.plasma-sdk
+    pkgs.libsForQt5.oxygen
+    pkgs.libsForQt5.elisa
+    pkgs.libsForQt5.plasma-sdk
   ];
   # Launch KDE in Wayland session
   #services.xserver.displayManager.defaultSession = "plasmawayland";
@@ -89,7 +91,10 @@
 
   # Enable sound with pipewire.
   sound.enable = true;
-  hardware.pulseaudio.enable = false;
+  #hardware.pulseaudio = {
+  #  enable = true;
+  #  package = pkgs.pulseaudioFull;
+  #};
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;

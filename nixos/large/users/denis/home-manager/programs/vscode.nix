@@ -11,7 +11,6 @@
     pkief.material-icon-theme
     asvetliakov.vscode-neovim
     dracula-theme.theme-dracula
-    wakatime.vscode-wakatime
     tomoki1207.pdf
     ms-azuretools.vscode-docker
   ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
