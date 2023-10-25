@@ -2,6 +2,9 @@
 {
   user_packages = with pkgs; [
 
+    gcc
+    gdb
+
     jellyfin-media-player
     # i dont want to use whatsie with steam run :/
     # resolution shit <- but whatsapp-for-linux isnt working with x11
@@ -19,6 +22,11 @@
     libreoffice-qt
     rnix-lsp
     foliate
+    logseq
+
+    #package focalboard
+
+    unstable.r2modman
     
     # Time Tracking
     #activitywatch
@@ -61,9 +69,9 @@
     kate # Text editor
     kcalc # Calculator
     kdialog # Dialogs from bash
-    keditbookmarks # Bookmark edit in Konsole/Dolphin
-    kitinerary # Library for itinerary data
-    kmail # Mail client
+    #keditbookmarks # Bookmark edit in Konsole/Dolphin
+    #kitinerary # Library for itinerary data
+    #kmail # Mail client
     kolourpaint # Paint
     kompare # File diffs
     korganizer # Organizer
