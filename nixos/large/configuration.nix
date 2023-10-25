@@ -48,6 +48,8 @@
     "de_DE.UTF-8/UTF-8"
   ];
 
+  programs.noisetorch.enable = true;
+
   # Printing
   services.printing.enable = true;
   services.avahi.enable = true;
@@ -124,7 +126,7 @@
     direnv
     nixpkgs-fmt
     dracula-theme
-    (pkgs.callPackage ../share/themes/sddm-theme.nix { })
+    (pkgs.callPackage ../share/themes/sddm-chilli.nix { })
 
     #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     #  wget

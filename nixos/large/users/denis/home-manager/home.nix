@@ -14,6 +14,8 @@ in
       plasma = plasmaConfig pkgs;
       vscode = vscodeConfig pkgs;
       firefox.enable = true;
+      eww.enable = true;
+      eww.configDir = config.lib.file.mkOutOfStoreSymlink ./eww-config;
     }
   ];
   
