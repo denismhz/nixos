@@ -93,6 +93,7 @@
     networkmanagerapplet
     pavucontrol
     htop
+    wl-clipboard
   ];
 
   xdg.portal.enable = true; xdg.portal.extraPortals = [
