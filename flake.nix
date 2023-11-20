@@ -4,6 +4,7 @@
   inputs = {
     nixpkgs.url = github:NixOS/nixpkgs/nixos-23.05;
     unstable.url = github:NixOS/nixpkgs/nixos-unstable;
+    aithings.url = github:denismhz/flake;
 
     home-manager = {
       url = github:nix-community/home-manager/release-23.05;
@@ -32,16 +33,18 @@
     nixosConfigurations.nixos-denis = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [
+        inputs.aithings.nixosModules.invokeai-nvidia
+        ./nixos/large/ai.nix
         home-manager.nixosModules.home-manager
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
           home-manager.users.denis.imports = [
-            ./nixos/large/users/denis/home-manager/home.nix
+              ./nixos/large/users/denis/home-manager/home.nix
               inputs.plasma-manager.homeManagerModules.plasma-manager
             ];
           }
-          nixos-hardware.nixosModules.lenovo-legion-16ach6h-nvidia
+          nixos-hardware.nixosModules.lenovo-legion-16ach6h-hybrid
           ./nixos/large/configuration.nix
         ];
         specialArgs = {

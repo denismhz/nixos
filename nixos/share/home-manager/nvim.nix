@@ -8,6 +8,8 @@
 
 	extraConfig = ''
 		set autoindent expandtab tabstop=2 shiftwidth=2
+		set smartindent
+		set clipboard+=unnamedplus
     filetype plugin indent on
     syntax enable
     set title

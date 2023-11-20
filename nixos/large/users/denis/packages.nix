@@ -5,6 +5,8 @@
     gcc
     gdb
 
+    wl-clipboard
+
     jellyfin-media-player
     # i dont want to use whatsie with steam run :/
     # resolution shit <- but whatsapp-for-linux isnt working with x11
@@ -84,7 +86,7 @@
     #remove breeze themes kinda doubled
     #breeze-gtk # gtk theme
     #breeze-qt5 # qt5 theme
-    discover # flathub software center
+    #discover # flathub software center
     libsForQt5.flatpak-kcm # kde flatpak module
     kde-cli-tools
     libsForQt5.kdecoration

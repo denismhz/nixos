@@ -12,10 +12,11 @@
   users.users.guest = { isNormalUser = true; };
   # Enable automatic login for the user.
   services.xserver.displayManager = {
+    #setupCommands = "xrandr --output DP-0 --off --output DP-1 --off --output DP-2 --off --output DP-3 --off --output HDMI-0 --mode 1920x1080 --primary --pos 0x0 --scale 1.333333x1.333333 --rate 60.0 --rotate normal --output DP-4 --mode 2560x1600 --pos 2560x0 --rotate normal --rate 165.0";
     sddm.enable = true;
     autoLogin.enable = false;
     autoLogin.user = "denis";
-    sddm.theme = "sddm-sugar-dracula";
+    sddm.theme = "sddm-chili";
   };
 
   # mouse touchpad input config
@@ -63,10 +64,10 @@
   programs.gamemode.enable = true;
   hardware.steam-hardware.enable = true;
 
-  services.mongodb = {
-    enable = true;
-    dbpath = "/var/lib/mongodb";
-  };
+  #services.mongodb = {
+  #  enable = true;
+  #  dbpath = "/var/lib/mongodb";
+  #};
 
   fonts.fonts = with pkgs; [
     (nerdfonts.override { fonts = [ "DejaVuSansMono" ]; })

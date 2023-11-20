@@ -1,5 +1,4 @@
 { config, pkgs, lib, services, unstable, ... }:
-
 {
   imports =
     [
@@ -7,12 +6,15 @@
       ./users/denis/user.nix
     ];
 
+
   nix.settings.trusted-users = [ "root" "@wheel" "denis" ];
 
   # Kernel
   boot.kernelPackages = pkgs.linuxPackages_zen;
   services.arbtt.enable = true;
   services.arbtt.logFile = "/home/denis/.arbtt/capture.log";
+
+  environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
   # Bootloader
   boot.loader.systemd-boot.enable = true;
@@ -77,7 +79,7 @@
     pkgs.libsForQt5.plasma-sdk
   ];
   # Launch KDE in Wayland session
-  #services.xserver.displayManager.defaultSession = "plasmawayland";
+  services.xserver.displayManager.defaultSession = "plasmawayland";
 
   # Apply GTK themes to Wayland applications
   programs.dconf.enable = true;
@@ -135,7 +137,7 @@
 
 
   # Fix black screen on a system with an integrated GPU
-  boot.kernelParams = [ "module_blacklist=amdgpu" "pcie_aspm=off" ];
+  boot.kernelParams = [ "pcie_aspm=off" ];
 
   hardware.enableAllFirmware = true;
 
@@ -157,6 +159,7 @@
     ];
   };
 
+
   xdg = {
     portal = {
       enable = true;
@@ -169,12 +172,10 @@
 
   hardware.bluetooth.enable = true;
 
-  # nvidia-drm.modeset=1 is required for some wayland compositors, e.g. sway
   hardware.nvidia.modesetting.enable = true;
 
-  # Fix graphical corruption on suspend/resume
   hardware.nvidia.powerManagement.enable = true;
-
+  hardware.nvidia.prime.offload.enable = false;
   services.smartd.enable = true;
 
   # Auto system update
@@ -195,7 +196,7 @@
     networking.firewall.extraStopCommands = ''
     ip46tables -t mangle -D nixos-fw-rpfilter -p udp -m udp --sport 57934 -j RETURN || true
     ip46tables -t mangle -D nixos-fw-rpfilter -p udp -m udp --dport 57934 -j RETURN || true
-  ''; */
+    ''; */
 
   system.stateVersion = "23.05";
 }
