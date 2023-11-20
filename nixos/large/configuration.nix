@@ -174,7 +174,7 @@
 
   hardware.nvidia.modesetting.enable = true;
 
-  hardware.nvidia.powerManagement.enable = true;
+  hardware.nvidia.powerManagement.enable = false;
   hardware.nvidia.prime.offload.enable = false;
   services.smartd.enable = true;
 
