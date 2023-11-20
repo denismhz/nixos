@@ -3,7 +3,7 @@
   enable = true;
   settings = {
     window = {
-      opacity = 0.80;
+      opacity = 0.95;
       dynamic_title = true;
       dynamic_padding = true;
       decorations = "full";
@@ -32,7 +32,7 @@
         normal = { family = fontname; style = "Bold"; };
         bold = { family = fontname; style = "Bold"; };
         italic = { family = fontname; style = "Light"; };
-        size = 18;
+        size = 14;
       };
     cursor.style = "Beam";
 
