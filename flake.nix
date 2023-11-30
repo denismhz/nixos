@@ -1,6 +1,5 @@
 {
   description = "KDE Default Configuration";
-
   inputs = {
     nixpkgs.url = github:NixOS/nixpkgs/nixos-23.05;
     unstable.url = github:NixOS/nixpkgs/nixos-unstable;

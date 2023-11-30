@@ -6,7 +6,7 @@ let
   gitConfig = import ./git.nix;
   librewolfConfig = import ./librewolf.nix;
   manConfig = import ./man.nix;
-  neovimConfig = import ./nvim.nix;
+  neovimConfig = import ./nvim;
   nix-indexConfig = import ./nix-index.nix;
   ompConfig = import ./omp.nix;
   tealdeerConfig = import ./tealdeer.nix;
