@@ -9,10 +9,11 @@
     ms-vscode-remote.remote-ssh
     yzhang.markdown-all-in-one
     pkief.material-icon-theme
-    asvetliakov.vscode-neovim
     dracula-theme.theme-dracula
     tomoki1207.pdf
     ms-azuretools.vscode-docker
+    sumneko.lua
+    vscodevim.vim
   ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
     {
       name = "qml-format";

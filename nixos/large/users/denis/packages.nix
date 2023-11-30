@@ -5,6 +5,9 @@
     gcc
     gdb
 
+    #language server
+    unstable.nixd
+
     wl-clipboard
 
     jellyfin-media-player
@@ -20,7 +23,6 @@
     pfetch
     telegram-desktop
     discord
-    unstable.nixd
     libreoffice-qt
     rnix-lsp
     foliate
