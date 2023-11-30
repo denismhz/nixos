@@ -49,6 +49,7 @@
     5357 # samba
     5173 # vite dev
     4173 # vite preview
+    9999 # a1111
     #24727 # ausweisapp2
   ];
   networking.firewall.allowedUDPPorts = [
