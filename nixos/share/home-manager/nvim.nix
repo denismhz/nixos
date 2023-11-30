@@ -14,13 +14,6 @@
     		'';
 
   extraLuaConfig = ''
-    		if executable('rnix-lsp')
-        au User lsp_setup call lsp#register_server({
-            \ 'name': 'rnix-lsp',
-            \ 'cmd': {server_info->[&shell, &shellcmdflag, 'rnix-lsp']},
-            \ 'whitelist': ['nix'],
-            \ })
-    endif
     		local cmp = require'cmp'
 
     		cmp.setup({
