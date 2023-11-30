@@ -27,6 +27,7 @@
       " set clipboard+=unnamedplus
       set relativenumber number
       set title
+      nnoremap <C-n> :Neotree<CR>
     '';
 
   extraLuaConfig =
