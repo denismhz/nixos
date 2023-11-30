@@ -1,24 +1,63 @@
 {
   "nodes": {
-    "aithings": {
-      "inputs": {
-        "flake-parts": "flake-parts",
-        "hercules-ci-effects": "hercules-ci-effects",
-        "invokeai-src": "invokeai-src",
-        "nixpkgs": "nixpkgs_2",
-        "textgen-src": "textgen-src"
-      },
+    "a1111-src": {
+      "flake": false,
       "locked": {
-        "lastModified": 1698023400,
-        "narHash": "sha256-2wrm9Y9gsI/OaZEsTqc2wflkfxlrvCRocJHpqkOm/Cc=",
-        "owner": "nixified-ai",
-        "repo": "flake",
-        "rev": "7b9730e0a75bcd6375b0780aef75e406ea20a9a4",
+        "lastModified": 1699030214,
+        "narHash": "sha256-UQ2cJ92JdSHOe0g5IkaCXPO0MYyWpLAcp6f8p+T6bxs=",
+        "owner": "automatic1111",
+        "repo": "stable-diffusion-webui",
+        "rev": "4afaaf8a020c1df457bcf7250cb1c7f609699fa7",
         "type": "github"
       },
       "original": {
-        "owner": "nixified-ai",
+        "owner": "automatic1111",
+        "repo": "stable-diffusion-webui",
+        "type": "github"
+      }
+    },
+    "aithings": {
+      "inputs": {
+        "a1111-src": "a1111-src",
+        "bark-gui-src": "bark-gui-src",
+        "flake-parts": "flake-parts",
+        "hercules-ci-effects": "hercules-ci-effects",
+        "invokeai-src": "invokeai-src",
+        "kohya_ss-src": "kohya_ss-src",
+        "nixpkgs": "nixpkgs_2",
+        "nixpkgs-stable": "nixpkgs-stable",
+        "sd-src": "sd-src",
+        "sgm-src": "sgm-src",
+        "textgen-src": "textgen-src"
+      },
+      "locked": {
+        "lastModified": 1701344288,
+        "narHash": "sha256-yLXAzf/5iabvZSfKZnyQy8EtGG+aIpXZ8wtjLPxtWS8=",
+        "owner": "denismhz",
         "repo": "flake",
+        "rev": "f878b1291a3026b0f57b1b3061974061d09d49c4",
+        "type": "github"
+      },
+      "original": {
+        "owner": "denismhz",
+        "ref": "sd_webui",
+        "repo": "flake",
+        "type": "github"
+      }
+    },
+    "bark-gui-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1690135468,
+        "narHash": "sha256-J/Mhv2lQ/IFKJ/MGm5p9HOoSJQ+fXXlUwLy5YRYi9tY=",
+        "owner": "C0untFloyd",
+        "repo": "bark-gui",
+        "rev": "7c85e68d230d282cf0a9ba4ac7f0ef611329f60d",
+        "type": "github"
+      },
+      "original": {
+        "owner": "C0untFloyd",
+        "repo": "bark-gui",
         "type": "github"
       }
     },
@@ -226,6 +265,22 @@
         "type": "github"
       }
     },
+    "kohya_ss-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1699706768,
+        "narHash": "sha256-/9YWOUbqErxrG5igF7CgUTGzxjSkOPhMA79wekGPfaQ=",
+        "owner": "bmaltais",
+        "repo": "kohya_ss",
+        "rev": "9eb5da23002c6e00f084a19d62da6fc82074c773",
+        "type": "github"
+      },
+      "original": {
+        "owner": "bmaltais",
+        "repo": "kohya_ss",
+        "type": "github"
+      }
+    },
     "nixos-hardware": {
       "locked": {
         "lastModified": 1699044561,
@@ -272,6 +327,22 @@
         "dir": "lib",
         "owner": "NixOS",
         "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs-stable": {
+      "locked": {
+        "lastModified": 1700403855,
+        "narHash": "sha256-Q0Uzjik9kUTN9pd/kp52XJi5kletBhy29ctBlAG+III=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "0c5678df521e1407884205fe3ce3cf1d7df297db",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-23.05",
         "repo": "nixpkgs",
         "type": "github"
       }
@@ -356,6 +427,38 @@
         "nixpkgs": "nixpkgs_4",
         "plasma-manager": "plasma-manager",
         "unstable": "unstable"
+      }
+    },
+    "sd-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1679711060,
+        "narHash": "sha256-yEtrz/JTq53JDI4NZI26KsD8LAgiViwiNaB2i1CBs/I=",
+        "owner": "Stability-AI",
+        "repo": "stablediffusion",
+        "rev": "cf1d67a6fd5ea1aa600c4df58e5b47da45f6bdbf",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Stability-AI",
+        "repo": "stablediffusion",
+        "type": "github"
+      }
+    },
+    "sgm-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1692287310,
+        "narHash": "sha256-Gvpjfv5hFEeQl67OeTXVhiB4zvgV5UZ5B/ar4rBW0d0=",
+        "owner": "Stability-AI",
+        "repo": "generative-models",
+        "rev": "477d8b9a7730d9b2e92b326a770c0420d00308c9",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Stability-AI",
+        "repo": "generative-models",
+        "type": "github"
       }
     },
     "systems": {
