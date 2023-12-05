@@ -6,15 +6,20 @@
       ./users/denis/user.nix
     ];
 
+  nixpkgs.config.allowUnfree = true;
 
   nix.settings.trusted-users = [ "root" "@wheel" "denis" ];
+  nix.settings.auto-optimise-store = true;
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
+  # Auto system update
+  system.autoUpgrade.enable = true;
 
   # Kernel
   boot.kernelPackages = pkgs.linuxPackages_zen;
-  services.arbtt.enable = true;
-  services.arbtt.logFile = "/home/denis/.arbtt/capture.log";
-
-  environment.sessionVariables.NIXOS_OZONE_WL = "1";
+  boot.kernel.sysctl = { "vm.swappiness" = 5; };
+  # Fix black screen on a system with an integrated GPU
+  boot.kernelParams = [ "pcie_aspm=off" ];
 
   # Bootloader
   boot.loader.systemd-boot.enable = true;
@@ -23,8 +28,71 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   # Networking
-  networking.hostName = "nixos-denis";
+  networking.hostName = "epimetheus";
   networking.networkmanager.enable = true;
+
+  ##Services
+  #arbtt
+  services.arbtt.enable = true;
+  services.arbtt.logFile = "/home/denis/.arbtt/capture.log";
+
+  # Printing
+  services.printing.enable = true;
+  services.avahi.enable = true;
+  services.avahi.nssmdns = true;
+  # for a WiFi printer
+  services.avahi.openFirewall = true;
+
+  services.smartd.enable = true;
+
+  # NVIDIA drivers are unfree.
+  services.xserver.videoDrivers = [ "nvidia" ];
+
+  # Firmware
+  services.fwupd.enable = true;
+
+  # Enable the X11 windowing system.
+  services.xserver.enable = true;
+
+  # Enable the KDE Plasma Desktop Environment.
+  services.xserver.desktopManager.plasma5 = {
+    enable = true;
+    notoPackage = pkgs.noto-fonts-cjk-sans;
+  };
+
+  # Configure keymap in X11
+  services.xserver = {
+    layout = "de";
+    xkbVariant = "nodeadkeys";
+  };
+
+  # Launch KDE in Wayland session
+  services.xserver.displayManager.defaultSession = "plasmawayland";
+
+  # Enable flatpak
+  services.flatpak.enable = true;
+
+  #ENG vars
+  environment.sessionVariables.NIXOS_OZONE_WL = "1";
+
+  environment.pathsToLink = [ "/share/bash-completion" ];
+
+  #what does this one do ?
+  environment.plasma5.excludePackages = [
+    pkgs.libsForQt5.oxygen
+    pkgs.libsForQt5.elisa
+    pkgs.libsForQt5.plasma-sdk
+  ];
+
+  environment.systemPackages = with pkgs; [
+    virt-manager
+    direnv
+    nixpkgs-fmt
+    dracula-theme
+    (pkgs.callPackage ../share/themes/sddm-chilli.nix { })
+    wget
+    vim 
+  ];
 
   # Set your time zone.
   time.timeZone = "Europe/Berlin";
@@ -50,101 +118,43 @@
     "de_DE.UTF-8/UTF-8"
   ];
 
-  programs.noisetorch.enable = true;
-
-  # Printing
-  services.printing.enable = true;
-  services.avahi.enable = true;
-  services.avahi.nssmdns = true;
-  # for a WiFi printer
-  services.avahi.openFirewall = true;
-
-  # Firmware
-  services.fwupd.enable = true;
-
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
-
-  # Enable the KDE Plasma Desktop Environment.
-  services.xserver.desktopManager.plasma5 = {
-    enable = true;
-    notoPackage = pkgs.noto-fonts-cjk-sans;
-  };
-
-  environment.pathsToLink = [ "/share/bash-completion" ];
-
-  environment.plasma5.excludePackages = [
-    pkgs.libsForQt5.oxygen
-    pkgs.libsForQt5.elisa
-    pkgs.libsForQt5.plasma-sdk
-  ];
-  # Launch KDE in Wayland session
-  services.xserver.displayManager.defaultSession = "plasmawayland";
-
-  # Apply GTK themes to Wayland applications
   programs.dconf.enable = true;
-
-  # Configure keymap in X11
-  services.xserver = {
-    layout = "de";
-    xkbVariant = "nodeadkeys";
-  };
+  programs.noisetorch.enable = true;
 
   # Configure console keymap
   console.keyMap = "de-latin1-nodeadkeys";
 
   # Enable sound with pipewire.
   sound.enable = true;
-  #hardware.pulseaudio = {
-  #  enable = true;
-  #  package = pkgs.pulseaudioFull;
-  #};
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
-    # If you want to use JACK applications, uncomment this
-    #jack.enable = true;
-
-    # use the example session manager (no others are packaged yet so this is enabled by default,
-    # no need to redefine it in your config for now)
-    #media-session.enable = true;
   };
-
-  # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
-
-  # Enable flatpak
-  services.flatpak.enable = true;
 
   virtualisation.libvirtd.enable = true;
 
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-  environment.systemPackages = with pkgs; [
-    virt-manager
-    direnv
-    nixpkgs-fmt
-    dracula-theme
-    (pkgs.callPackage ../share/themes/sddm-chilli.nix { })
+  xdg = {
+    portal = {
+      enable = true;
+      extraPortals = with pkgs; [
+        xdg-desktop-portal-gtk
+        xdg-desktop-portal-kde
+      ];
+    };
+  };
 
-    #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-    #  wget
-  ];
-
-
-
-  # Fix black screen on a system with an integrated GPU
-  boot.kernelParams = [ "pcie_aspm=off" ];
-
+  #additional hardware things
   hardware.enableAllFirmware = true;
 
-  nixpkgs.config.allowUnfree = true;
+  hardware.bluetooth.enable = true;
 
-  # NVIDIA drivers are unfree.
-  services.xserver.videoDrivers = [ "nvidia" ];
+  hardware.nvidia.modesetting.enable = true;
+  hardware.nvidia.powerManagement.enable = false;
+  hardware.nvidia.prime.offload.enable = false;
+
   hardware.opengl = {
     enable = true;
     driSupport32Bit = true;
@@ -159,44 +169,8 @@
     ];
   };
 
-
-  xdg = {
-    portal = {
-      enable = true;
-      extraPortals = with pkgs; [
-        xdg-desktop-portal-gtk
-        xdg-desktop-portal-kde
-      ];
-    };
-  };
-
-  hardware.bluetooth.enable = true;
-
-  hardware.nvidia.modesetting.enable = true;
-
-  hardware.nvidia.powerManagement.enable = false;
-  hardware.nvidia.prime.offload.enable = false;
-  services.smartd.enable = true;
-
-  # Auto system update
-  #system.autoUpgrade.enable = true;
-
-  boot.kernel.sysctl = { "vm.swappiness" = 5; };
-
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
   # if packets are still dropped, they will show up in dmesg
   networking.firewall.logReversePathDrops = true;
-
-  /*   # wireguard trips rpfilter up (57934 -> wg endpoint port)
-    networking.firewall.extraCommands = ''
-    ip46tables -t mangle -I nixos-fw-rpfilter -p udp -m udp --sport 57934 -j RETURN
-    ip46tables -t mangle -I nixos-fw-rpfilter -p udp -m udp --dport 57934 -j RETURN
-    '';
-    networking.firewall.extraStopCommands = ''
-    ip46tables -t mangle -D nixos-fw-rpfilter -p udp -m udp --sport 57934 -j RETURN || true
-    ip46tables -t mangle -D nixos-fw-rpfilter -p udp -m udp --dport 57934 -j RETURN || true
-    ''; */
 
   system.stateVersion = "23.05";
 }

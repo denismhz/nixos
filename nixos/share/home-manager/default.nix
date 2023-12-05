@@ -2,7 +2,7 @@
 let
   alacrittyConfig = import ./alacritty.nix;
   bashConfig = import ./bash.nix;
-  exaConfig = import ./exa.nix;
+  ezaConfig = import ./eza.nix;
   gitConfig = import ./git.nix;
   librewolfConfig = import ./librewolf.nix;
   manConfig = import ./man.nix;
@@ -14,7 +14,8 @@ in
 {
   alacritty = alacrittyConfig pkgs;
   bash = bashConfig pkgs;
-  exa = exaConfig pkgs;
+  #exa was replaced by eza
+  eza = ezaConfig pkgs;
   git = gitConfig pkgs;
   librewolf = librewolfConfig pkgs;
   man = manConfig pkgs;
