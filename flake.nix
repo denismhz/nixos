@@ -1,12 +1,12 @@
 {
   description = "KDE Default Configuration";
   inputs = {
-    nixpkgs.url = github:NixOS/nixpkgs/nixos-23.05;
+    nixpkgs.url = github:NixOS/nixpkgs/nixos-23.11;
     unstable.url = github:NixOS/nixpkgs/nixos-unstable;
     aithings.url = github:denismhz/flake/sd_webui;
 
     home-manager = {
-      url = github:nix-community/home-manager/release-23.05;
+      url = github:nix-community/home-manager/release-23.11;
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -29,7 +29,7 @@
     ...
   }:
   {
-    nixosConfigurations.nixos-denis = nixpkgs.lib.nixosSystem {
+    nixosConfigurations.epimetheus = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [
         inputs.aithings.nixosModules.invokeai-nvidia
@@ -44,7 +44,8 @@
             inputs.plasma-manager.homeManagerModules.plasma-manager
           ];
         }
-        nixos-hardware.nixosModules.lenovo-legion-16ach6h-hybrid
+        #nixos-hardware.nixosModules.lenovo-legion-16ach6h-hybrid
+        #cannot create directory 'root/lib/firmware/edid': Permission denied
         ./nixos/large/configuration.nix
       ];
       specialArgs = {

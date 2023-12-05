@@ -1,5 +1,7 @@
-{ config, pkgs, ... }:
-
+{ config, pkgs, lib, ... }:
+let
+  lua = builtins.concatStringsSep "\n" (builtins.map builtins.readFile (lib.filesystem.listFilesRecursive ./lua));
+in
 {
   enable = true;
   defaultEditor = true;
@@ -13,15 +15,10 @@
         "rootPatterns" = [ ".nixd.json" ];
         "filetypes" = [ "nix" ];
       };
-      "clangd" = {
-        "command" = "clangd";
-        "rootPatterns" = [ "compile_flags.txt" "compile_commands.json" ];
-        "filetypes" = [ "c" "cc" "cpp" "c++" "objc" "objcpp" ];
-      };
     };
   };
 
-  extraConfig = 
+  extraConfig =
     ''
       set expandtab tabstop=2 shiftwidth=2
       " set clipboard+=unnamedplus
@@ -32,21 +29,17 @@
 
   extraLuaConfig =
     ''
-      ${builtins.readFile ./theme.lua}
-      ${builtins.readFile ./treesitter.lua}
-      ${builtins.readFile ./web-devicons.lua}
-      ${builtins.readFile ./coc.lua}
-      ${builtins.readFile ./neotree.lua}
+      ${lua}
     '';
 
   plugins = with pkgs.vimPlugins; [
-    #telescope-nvim #not working but why 
+    telescope-nvim #not working but why 
     neo-tree-nvim
     nvim-web-devicons
     nvim-lspconfig
     {
       plugin = dracula-nvim;
-      #config = builtins.readFile ./theme.lua;
+      #config = builtins.readFile ./lua/theme.lua;
     }
     nvim-treesitter.withAllGrammars
     bufferline-nvim

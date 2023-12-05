@@ -7,5 +7,6 @@
   extraOptions = [
     "--group-directories-first"
     "--header"
+    "--git"
   ];
 }

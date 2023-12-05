@@ -1,4 +1,4 @@
-{ config, pkgs, unstable, ... }:
+{ lib, config, pkgs, unstable, ... }:
 
 {
   # Define a user account. Don't forget to set a password with  ^`^xpasswd ^`^y.
@@ -6,13 +6,26 @@
     isNormalUser = true;
     description = "Denis Manherz";
     extraGroups = [ "networkmanager" "wheel" "video" "render" "libvirtd" ];
-    packages = (import ./packages.nix { pkgs = pkgs; unstable = unstable; config = config; }).user_packages;
+    packages = (import ./packages.nix { inherit unstable pkgs config; }).user_packages;
     hashedPassword = "$y$j9T$0opCRT4e3X3P.tqGvEGd91$9cW/JMGTCfcEzkw9m6cemqSoNBrd5O6A3JCO3eitdO9";
   };
   users.users.guest = { isNormalUser = true; };
+
+  services.invokeai.enable = false;
+  services.invokeai.user = "denis";
+  services.invokeai.group = "users";
+  services.invokeai.settings = {
+    root = "/home/denis/.invokeai";
+  };
+  services.a1111.enable = true;
+  services.a1111.user = "denis";
+  services.a1111.group = "users";
+  services.a1111.settings.ckpt-dir = "/home/denis/.invokeai/autoimport/main";
+  services.a1111.extraArgs = ["--no-download-sd-model" "--medvram" "--no-half-vae" ];
+  systemd.services.a1111.serviceConfig.Restart = lib.mkForce "always";
+
   # Enable automatic login for the user.
   services.xserver.displayManager = {
-    #setupCommands = "xrandr --output DP-0 --off --output DP-1 --off --output DP-2 --off --output DP-3 --off --output HDMI-0 --mode 1920x1080 --primary --pos 0x0 --scale 1.333333x1.333333 --rate 60.0 --rotate normal --output DP-4 --mode 2560x1600 --pos 2560x0 --rotate normal --rate 165.0";
     sddm.enable = true;
     autoLogin.enable = false;
     autoLogin.user = "denis";
@@ -20,16 +33,16 @@
   };
 
   # mouse touchpad input config
-  services.xserver.libinput = {
-    enable = true;
-    mouse = {
-      accelProfile = "flat";
-      accelSpeed = null;
-    };
-    touchpad = {
-      disableWhileTyping = true;
-    };
-  };
+  #services.xserver.libinput = {
+  #  enable = true;
+  #  mouse = {
+  #    accelProfile = "flat";
+  #    accelSpeed = null;
+  #  };
+  #  touchpad = {
+  #    disableWhileTyping = true;
+  #  };
+  #};
 
   # Open Firewall Ports for KDE Connect
   networking.firewall.allowedTCPPortRanges = [
@@ -49,12 +62,10 @@
     5357 # samba
     5173 # vite dev
     4173 # vite preview
-    9999 # a1111
-    #24727 # ausweisapp2
+    7860 # a1111
   ];
   networking.firewall.allowedUDPPorts = [
     3702 # samba
-    #24727 # ausweisapp2
   ];
 
   # Enable samba wsdd
@@ -65,12 +76,7 @@
   programs.gamemode.enable = true;
   hardware.steam-hardware.enable = true;
 
-  #services.mongodb = {
-  #  enable = true;
-  #  dbpath = "/var/lib/mongodb";
-  #};
-
-  fonts.fonts = with pkgs; [
+  fonts.packages = with pkgs; [
     (nerdfonts.override { fonts = [ "DejaVuSansMono" ]; })
   ];
 }

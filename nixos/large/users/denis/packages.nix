@@ -18,7 +18,8 @@
     bitwarden
     #need for grub ?
     os-prober
-    nextcloud-client
+
+    #nextcloud-client
     mongodb-compass
     pfetch
     telegram-desktop
@@ -50,16 +51,16 @@
     qt6.full
 
     # KDE Things
-    akonadi # Storage service for KMail etc.
-    libsForQt5.akonadi-mime
-    libsForQt5.akonadi-notes
-    libsForQt5.akonadiconsole
-    libsForQt5.akonadi-search
-    libsForQt5.akonadi-contacts
-    libsForQt5.akonadi-calendar
-    libsForQt5.akonadi-import-wizard
-    libsForQt5.akonadi-calendar-tools
-    libsForQt5.kio-gdrive
+    #akonadi # Storage service for KMail etc.
+    #libsForQt5.akonadi-mime
+    #libsForQt5.akonadi-notes
+    #libsForQt5.akonadiconsole
+    #libsForQt5.akonadi-search
+    #libsForQt5.akonadi-contacts
+    #libsForQt5.akonadi-calendar
+    #libsForQt5.akonadi-import-wizard
+    #libsForQt5.akonadi-calendar-tools
+    #libsForQt5.kio-gdrive
     ark # Archive creation/extraction software
 
     #what the fuck is this???
@@ -124,8 +125,9 @@
     libsForQt5.kde-gtk-config
 
     # Other things
-    xdg-desktop-portal-gtk
-    xdg-desktop-portal
+    #why need these they already in configuration.nix
+    #xdg-desktop-portal-gtk
+    #xdg-desktop-portal
     nvidia-vaapi-driver
     vaapiVdpau
     vdpauinfo
