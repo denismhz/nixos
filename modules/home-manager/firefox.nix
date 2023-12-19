@@ -1,0 +1,6 @@
+{...}:
+{
+  firefox = {
+    enable = true;
+  };
+}

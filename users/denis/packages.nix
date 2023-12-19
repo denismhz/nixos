@@ -13,19 +13,18 @@
     jellyfin-media-player
     # i dont want to use whatsie with steam run :/
     # resolution shit <- but whatsapp-for-linux isnt working with x11
-    (libsForQt5.callPackage ./home-manager/programs/whatsie.nix { })
-    ripgrep
+    (libsForQt5.callPackage ./home/programs/whatsie.nix { })
     bitwarden
     #need for grub ?
     os-prober
 
-    #nextcloud-client
-    mongodb-compass
+    nextcloud-client
+    #mongodb-compass
     pfetch
     telegram-desktop
     discord
     libreoffice-qt
-    rnix-lsp
+    #rnix-lsp
     foliate
     logseq
 
@@ -62,6 +61,7 @@
     #libsForQt5.akonadi-calendar-tools
     #libsForQt5.kio-gdrive
     ark # Archive creation/extraction software
+    rnix-lsp
 
     #what the fuck is this???
     colord-kde # https://git.manherz.de/denismhz/nixos.gitColor daemon
