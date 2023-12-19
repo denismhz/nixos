@@ -1,52 +1,24 @@
 { config, pkgs,lib, ... }:
 let
-default = import ../share/home-manager/default.nix;
 waybarConfig = import ./waybar.nix;
 hyprlandConfig = import ./hyprland.nix;
 in
 {
   wayland.windowManager.hyprland = hyprlandConfig pkgs;  
   programs = lib.mkMerge [
-    (default pkgs)
+    (import ../../../modules/home-manager/alacritty.nix { inherit config pkgs; })
+    (import ../../../modules/home-manager/bash.nix { inherit config pkgs; })
+    (import ../../../modules/home-manager/eza.nix { inherit config pkgs; })
+    (import ../../../modules/home-manager/git.nix { inherit config pkgs; })
+    (import ../../../modules/home-manager/librewolf.nix { inherit config pkgs; })
+    (import ../../../modules/home-manager/man.nix { inherit config pkgs; })
+    (import ../../../modules/home-manager/nix-index.nix { inherit config pkgs; })
+    (import ../../../modules/home-manager/oh-my-posh.nix { inherit config pkgs; })
+    (import ../../../modules/home-manager/tealdeer.nix { inherit config pkgs; })
+    (import ../../../modules/home-manager/wofi.nix { inherit config pkgs lib; })
+    (import ../../../modules/home-manager/bash.nix { inherit config pkgs; })
+    (import ../../../modules/home-manager/neovim { inherit config pkgs lib; })
     { 
-      wofi.enable = true;
-      wofi.style = ''
-      * {
-          all: unset;
-          font-family: "JetBrainsMono";
-          font-size: 16px;
-      }
-
-      #window {
-          background-color: #292a37;
-          border-radius: 12px;
-      }
-
-      #outer-box {
-          background-color: #292a37;
-          border: 4px solid #44465c;
-          border-radius: 12px;
-      }
-
-      #input{
-          margin: 1rem;
-          padding: 0.5rem;
-          border-radius: 10px;
-          background-color: #303241;
-      }
-
-      #entry {
-          margin: 0.25rem 0.75rem 0.25rem 0.75rem;
-          padding: 0.25rem 0.75rem 0.25rem 0.75rem;
-          color: #9699b7;
-          border-radius: 3px;
-      }
-
-      #entry:selected {
-          background-color: #303241;
-          color: #d9e0ee;
-      }
-      '';
       rofi.enable = true;
       rofi.theme = "rofi-dracula";
       waybar = waybarConfig pkgs;

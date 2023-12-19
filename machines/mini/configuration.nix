@@ -84,8 +84,8 @@
     libsForQt5.polkit-kde-agent
     dunst
     pamixer
-    (pkgs.callPackage ../share/themes/sddm-theme.nix { })
-    (pkgs.callPackage ../share/themes/rofi-theme.nix { })
+    (pkgs.callPackage ../../modules/themes/sddm-theme.nix { })
+    (pkgs.callPackage ../../modules/themes/rofi-theme.nix { })
     rnix-lsp
     wlr-randr
     dolphin
