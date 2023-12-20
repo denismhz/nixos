@@ -17,6 +17,11 @@
     plasma-manager.inputs.home-manager.follows = "home-manager";
 
     hyprland.url = "github:hyprwm/Hyprland";
+
+    firefox-addons = {
+      url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -42,6 +47,7 @@
             ./users/denis/home/home.nix
             inputs.plasma-manager.homeManagerModules.plasma-manager
           ];
+          home-manager.extraSpecialArgs =  { inherit inputs; };
         }
         #nixos-hardware.nixosModules.lenovo-legion-16ach6h-hybrid
         #cannot create directory 'root/lib/firmware/edid': Permission denied
@@ -53,6 +59,7 @@
           config.allowUnfree = true;
         };
       };
+
     };
 
     nixosConfigurations.nixos-mini-denis = nixpkgs.lib.nixosSystem {
