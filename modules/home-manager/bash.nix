@@ -53,35 +53,6 @@
           echo "No valid argument! (enable, disable, status)"
         fi
       }
-
-      toggleopacity()
-      {
-        ## If alacritty.yml does not exist, raise an alert
-        [[ ! -f ~/.config/alacritty/alacritty.yml ]] && \
-          echo "alacritty.yml does not exist" && exit 0
-
-        ## Fetch background_opacity from alacritty.yml
-        opacity=$(awk '$1 == "opacity:" {print $2; exit}' \
-          ~/.config/alacritty/alacritty.yml)
-      
-        echo $opacity
-
-        ## Assign toggle opacity value
-          case $opacity in
-          1)
-            toggle_opacity=0.9
-            ;;
-          *)
-            toggle_opacity=1
-            ;;
-          esac
-
-        ## Replace opacity value in alacritty.yml
-        sed -i -- "s/opacity: $opacity/opacity: $toggle_opacity/" \
-          ~/.config/alacritty/alacritty.yml
-
-        echo "I am here"
-      }
     '';
 
     enableCompletion = true;
@@ -103,8 +74,6 @@
       "cp" = "cp -i";
       "mv" = "mv -i";
       "rm" = "rm -i";
-      # git aliases
-      "dotfiles" = "git --git-dir=$HOME/repos/dotfiles --work-tree=$HOME";
     };
   };
 }

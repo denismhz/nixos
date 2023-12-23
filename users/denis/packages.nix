@@ -1,67 +1,56 @@
-{ config, pkgs, unstable, ... }:
+{ config, pkgs, ... }:
 {
   user_packages = with pkgs; [
+
+    #Command line tools
+    dig /*or*/ q #like dig but more
+    mtr
+    ranger
+    icdiff /*or*/ #delta in modules/home-manager/git.nix
+    fd # A simple, fast and user-friendly alternative to find
+    progress
+    nmon
+    fx # json viewer
+    gping /*or*/ liboping /*or*/
+    ioping # ping your harddrive
+    ncdu # Disk usage analyzer with an ncurses interface /*or duf */ 
+    duf
+    hyperfine #Command-line benchmarking tool
+    procs #A modern replacement for ps written in Rust
+    thefuck #Magnificent app which corrects your previous console command
+    up #Ultimate Plumber is a tool for writing Linux pipes with instant live preview
+    bottom #A cross-platform graphical process/system monitor with a customizable interface
+    #bat #in home.nix
+    pfetch
 
     gcc
     gdb
 
+    docker-compose
+
     #language server
-    unstable.nixd
+    nil
+    nixd
+    rnix-lsp
 
     wl-clipboard
 
     jellyfin-media-player
-    # i dont want to use whatsie with steam run :/
-    # resolution shit <- but whatsapp-for-linux isnt working with x11
-    (libsForQt5.callPackage ./home/programs/whatsie.nix { })
-    bitwarden
-    #need for grub ?
-    os-prober
 
     nextcloud-client
-    #mongodb-compass
-    pfetch
     telegram-desktop
     discord
     libreoffice-qt
-    #rnix-lsp
     foliate
-    logseq
-
-    #package focalboard
-
-    unstable.r2modman
-    
-    # Time Tracking
-    #activitywatch
-    haskellPackages.arbtt
+    r2modman
 
     #Wine
     lutris
-    wineWowPackages.stableFull
     wineWowPackages.staging
-    wineWowPackages.fonts
-    wineWowPackages.waylandFull
-    dxvk
-
     vlc
 
-    #qt do i even use this
-    qt6.full
-
     # KDE Things
-    #akonadi # Storage service for KMail etc.
-    #libsForQt5.akonadi-mime
-    #libsForQt5.akonadi-notes
-    #libsForQt5.akonadiconsole
-    #libsForQt5.akonadi-search
-    #libsForQt5.akonadi-contacts
-    #libsForQt5.akonadi-calendar
-    #libsForQt5.akonadi-import-wizard
-    #libsForQt5.akonadi-calendar-tools
-    #libsForQt5.kio-gdrive
     ark # Archive creation/extraction software
-    rnix-lsp
 
     #what the fuck is this???
     colord-kde # https://git.manherz.de/denismhz/nixos.gitColor daemon
@@ -74,9 +63,6 @@
     kate # Text editor
     kcalc # Calculator
     kdialog # Dialogs from bash
-    #keditbookmarks # Bookmark edit in Konsole/Dolphin
-    #kitinerary # Library for itinerary data
-    #kmail # Mail client
     kolourpaint # Paint
     kompare # File diffs
     korganizer # Organizer
@@ -86,10 +72,6 @@
     bluedevil # Bluetooth Manager
     libsForQt5.bluez-qt # Bluetooth libs
 
-    #remove breeze themes kinda doubled
-    #breeze-gtk # gtk theme
-    #breeze-qt5 # qt5 theme
-    #discover # flathub software center
     libsForQt5.flatpak-kcm # kde flatpak module
     kde-cli-tools
     libsForQt5.kdecoration
@@ -125,9 +107,6 @@
     libsForQt5.kde-gtk-config
 
     # Other things
-    #why need these they already in configuration.nix
-    #xdg-desktop-portal-gtk
-    #xdg-desktop-portal
     nvidia-vaapi-driver
     vaapiVdpau
     vdpauinfo
