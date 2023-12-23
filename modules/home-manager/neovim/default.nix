@@ -11,9 +11,8 @@ in
     coc.enable = true;
     coc.settings = {
       "languageserver" = {
-        "nixd" = {
-          "command" = "nixd";
-          "rootPatterns" = [ ".nixd.json" ];
+        "nix" = {
+          "command" = "rnix-lsp";
           "filetypes" = [ "nix" ];
         };
       };
@@ -26,6 +25,12 @@ in
         set relativenumber number
         set title
         nnoremap <C-n> :Neotree<CR>
+        augroup set-commentstring-ag
+        autocmd!
+        autocmd BufEnter *.nix,*.h :lua vim.api.nvim_buf_set_option(0, "commentstring", "# %s")
+        " when you've changed the name of a file opened in a buffer, the file type may have changed
+        autocmd BufFilePost *.nix,*.h :lua vim.api.nvim_buf_set_option(0, "commentstring", "# %s")
+        augroup END
       '';
 
     extraLuaConfig =
@@ -34,16 +39,18 @@ in
       '';
 
     plugins = with pkgs.vimPlugins; [
-      telescope-nvim #not working but why 
+      telescope-nvim
       neo-tree-nvim
       nvim-web-devicons
       nvim-lspconfig
-      {
-        plugin = dracula-nvim;
-        #config = builtins.readFile ./lua/theme.lua;
-      }
+      dracula-nvim
       nvim-treesitter.withAllGrammars
       bufferline-nvim
+      indent-blankline-nvim
+      lualine-nvim
+      nvim-comment
+      vim-sleuth
+      #coc-clangd # https://www.reddit.com/r/NixOS/comments/p01y4h/c_with_neovim_on_nixos/
     ];
   };
 }

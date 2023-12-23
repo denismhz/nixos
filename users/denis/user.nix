@@ -1,4 +1,4 @@
-{ lib, config, pkgs, unstable, ... }:
+{ lib, config, pkgs, ... }:
 
 {
   # Define a user account. Don't forget to set a password with  ^`^xpasswd ^`^y.
@@ -6,7 +6,7 @@
     isNormalUser = true;
     description = "Denis Manherz";
     extraGroups = [ "networkmanager" "wheel" "video" "render" "libvirtd" ];
-    packages = (import ./packages.nix { inherit unstable pkgs config; }).user_packages;
+    #packages = (import ./packages.nix { inherit unstable pkgs config; }).user_packages;
     hashedPassword = "$y$j9T$0opCRT4e3X3P.tqGvEGd91$9cW/JMGTCfcEzkw9m6cemqSoNBrd5O6A3JCO3eitdO9";
   };
 
@@ -57,6 +57,9 @@
   # Steam
   programs.steam.enable = true;
   programs.gamemode.enable = true;
+
+  virtualisation.docker.enable = true;
+  users.extraGroups.docker.members = ["denis"];
   hardware.steam-hardware.enable = true;
 
   fonts.packages = with pkgs; [

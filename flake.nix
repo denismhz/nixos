@@ -51,7 +51,7 @@
         }
         #nixos-hardware.nixosModules.lenovo-legion-16ach6h-hybrid
         #cannot create directory 'root/lib/firmware/edid': Permission denied
-        ./machines/large/configuration.nix
+        ./machines/epimetheus/configuration.nix
       ];
       specialArgs = {
         unstable = import unstable {
@@ -71,10 +71,10 @@
           home-manager.useUserPackages = true;
           home-manager.users.denis.imports = [
             inputs.hyprland.homeManagerModules.default
-            ./machines/mini/home.nix
+            ./users/denis/home/home.nix
           ];
         }
-        ./machines/mini/configuration.nix
+        ./machines/iapetus/configuration.nix
       ];
       specialArgs = { unstable = unstable.legacyPackages.x86_64-linux; };
     };
