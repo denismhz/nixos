@@ -1,4 +1,6 @@
 { config, pkgs, lib, inputs, ... }:
+let
+in
 {
   home.username = "denis";
   home.homeDirectory = "/home/denis";
@@ -15,16 +17,16 @@
     (import ../../../modules/home-manager/tealdeer.nix { inherit config pkgs; })
     (import ../../../modules/home-manager/bash.nix { inherit config pkgs; })
     (import ../../../modules/home-manager/neovim { inherit config pkgs lib; })
+    (import ../../../modules/home-manager/fzf.nix { inherit config pkgs; })
     {
       ripgrep.enable = true;
-      rbw.enable = true;
       tmux.enable = true;
+      bat.enable = true;
+      htop.enable = true;
     }
   ];
-/*   services.nextcloud-client = {
-    enable = true;
-    startInBackground = true;
-  }; */
+
+  home.packages = (import ../packages.nix { inherit pkgs config; }).user_packages;
 
   home.stateVersion = "23.05";
 }

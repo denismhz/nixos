@@ -12,5 +12,6 @@
     extraConfig = {
       init.defaultBranch = "main";
     };
+    delta.enable = true;
   };
 }

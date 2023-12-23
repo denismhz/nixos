@@ -10,6 +10,7 @@
         decorations = "full";
         dimensions = { lines = 0; columns = 0; };
         padding = { x = 5; y = 5; };
+        blur = true;
       };
 
       scrolling = {
