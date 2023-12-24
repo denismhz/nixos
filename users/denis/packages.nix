@@ -1,60 +1,11 @@
 { config, pkgs, ... }:
 {
-  user_packages = with pkgs; [
-
-    #Command line tools
-    dig /*or*/ q #like dig but more
-    mtr
-    ranger
-    icdiff /*or*/ #delta in modules/home-manager/git.nix
-    fd # A simple, fast and user-friendly alternative to find
-    progress
-    nmon
-    fx # json viewer
-    gping /*or*/ liboping /*or*/
-    ioping # ping your harddrive
-    ncdu # Disk usage analyzer with an ncurses interface /*or duf */ 
-    duf
-    hyperfine #Command-line benchmarking tool
-    procs #A modern replacement for ps written in Rust
-    thefuck #Magnificent app which corrects your previous console command
-    up #Ultimate Plumber is a tool for writing Linux pipes with instant live preview
-    bottom #A cross-platform graphical process/system monitor with a customizable interface
-    #bat #in home.nix
-    pfetch
-
-    gcc
-    gdb
-
-    docker-compose
-
-    #language server
-    nil
-    nixd
-    rnix-lsp
-
-    wl-clipboard
-
-    jellyfin-media-player
-
-    nextcloud-client
-    telegram-desktop
-    discord
-    libreoffice-qt
-    foliate
-    r2modman
-
-    #Wine
-    lutris
-    wineWowPackages.staging
-    vlc
-
+  kde_packages = with pkgs; [
     # KDE Things
     ark # Archive creation/extraction software
 
     #what the fuck is this???
     colord-kde # https://git.manherz.de/denismhz/nixos.gitColor daemon
-
     dolphin # File manager
     #no need for video thumbs -- ffmpegthumbs -- # Dolphin video thumbnails
     gwenview # Image viewer
@@ -105,6 +56,59 @@
     libsForQt5.kirigami-addons
     libsForQt5.syntax-highlighting
     libsForQt5.kde-gtk-config
+  ];
+
+  commandline_tools = with pkgs; [
+    #Command line tools
+    dig /*or*/
+    q #like dig but more
+    mtr
+    ranger
+    icdiff /*or*/ #delta in modules/home-manager/git.nix
+    fd # A simple, fast and user-friendly alternative to find
+    progress
+    nmon
+    fx # json viewer
+    gping /*or*/
+    liboping /*or*/
+    ioping # ping your harddrive
+    ncdu # Disk usage analyzer with an ncurses interface /*or duf */ 
+    duf
+    hyperfine #Command-line benchmarking tool
+    procs #A modern replacement for ps written in Rust
+    thefuck #Magnificent app which corrects your previous console command
+    up #Ultimate Plumber is a tool for writing Linux pipes with instant live preview
+    bottom #A cross-platform graphical process/system monitor with a customizable interface
+    #bat #in home.nix
+    pfetch
+  ];
+
+  user_packages = with pkgs; [
+
+    gcc
+    gdb
+
+    docker-compose
+
+    #language server
+    nil
+    nixd
+    rnix-lsp
+
+    wl-clipboard
+
+    jellyfin-media-player
+    nextcloud-client
+    telegram-desktop
+    discord
+    libreoffice-qt
+    foliate
+    r2modman
+
+    #Wine
+    lutris
+    wineWowPackages.staging
+    vlc
 
     # Other things
     nvidia-vaapi-driver
