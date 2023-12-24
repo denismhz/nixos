@@ -12,10 +12,6 @@
 
     nixos-hardware.url = "github:nixos/nixos-hardware/master";
 
-    plasma-manager.url = "github:pjones/plasma-manager";
-    plasma-manager.inputs.nixpkgs.follows = "nixpkgs";
-    plasma-manager.inputs.home-manager.follows = "home-manager";
-
     hyprland.url = "github:hyprwm/Hyprland";
 
     firefox-addons = {
@@ -40,15 +36,18 @@
         inputs.aithings.nixosModules.invokeai-nvidia
         inputs.aithings.nixosModules.a1111-nvidia
         home-manager.nixosModules.home-manager
+        ({config,...}:
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
           home-manager.users.denis.imports = [
-            ./users/denis/home/home.nix
-            inputs.plasma-manager.homeManagerModules.plasma-manager
+            ./users/denis/home.nix
           ];
-          home-manager.extraSpecialArgs =  { inherit inputs; };
-        }
+          home-manager.extraSpecialArgs =  {
+          inherit inputs; 
+          inherit (config.networking) hostName; 
+          };
+        })
         #nixos-hardware.nixosModules.lenovo-legion-16ach6h-hybrid
         #cannot create directory 'root/lib/firmware/edid': Permission denied
         ./machines/epimetheus/configuration.nix
@@ -71,7 +70,7 @@
           home-manager.useUserPackages = true;
           home-manager.users.denis.imports = [
             inputs.hyprland.homeManagerModules.default
-            ./users/denis/home/home.nix
+            ./users/denis/home.nix
           ];
         }
         ./machines/iapetus/configuration.nix
