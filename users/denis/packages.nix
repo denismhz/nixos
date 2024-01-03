@@ -84,7 +84,6 @@
   ];
 
   user_packages = with pkgs; [
-
     gcc
     gdb
 

@@ -7,32 +7,34 @@
 {
 
   imports =
-    [ # Include the results of the hardware scan.
-    ./hardware-configuration.nix
+    [
+      # Include the results of the hardware scan.
+      ./hardware-configuration.nix
+      ../../users/hypruser/user.nix
     ];
 
-# Bootloader.
+  # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-  networking.hostName = "nixos-mini-denis"; # Define your hostname.
-# networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+  networking.hostName = "iapetus"; # Define your hostname.
+  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
-# Configure network proxy if necessary
-# networking.proxy.default = "http://user:password@proxy:port/";
-# networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
+  # Configure network proxy if necessary
+  # networking.proxy.default = "http://user:password@proxy:port/";
+  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
-# Enable networking
+  # Enable networking
   networking.networkmanager.enable = true;
   networking.networkmanager.dns = "systemd-resolved";
 
   services.resolved.enable = true;
 
-# Set your time zone.
+  # Set your time zone.
   time.timeZone = "Europe/Berlin";
 
-# Select internationalisation properties.
+  # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
 
   i18n.extraLocaleSettings = {
@@ -47,62 +49,38 @@
     LC_TIME = "de_DE.UTF-8";
   };
 
-# Configure keymap in X11
+  # Configure keymap in X11
   services.xserver = {
     layout = "de";
     xkbVariant = "nodeadkeys";
   };
 
-# Configure console keymap
+  # Configure console keymap
   console.keyMap = "de-latin1-nodeadkeys";
 
-# Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.denis = {
-    isNormalUser = true;
-    description = "Denis Manherz";
-    extraGroups = [ "networkmanager" "wheel" ];
-    hashedPassword = "$6$2.lAEwED/nK9Rv4k$TWascUEIdPxPev531xTv13Dwf2/TjJAKxgkCVf9IhDbEHcAHKtASHanmdPH13NjkeAloPAneoN7fNERcfDX3Y0";
-    packages = with pkgs; [];
-  };
+  # Enable automatic login for the user.
+  #services.getty.autologinUser = "denis";
 
-# Enable automatic login for the user.
-#services.getty.autologinUser = "denis";
-
-# Allow unfree packages
+  # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-# List packages installed in system profile. To search, run:
-# $ nix search wget
+  # List packages installed in system profile. To search, run:
+  # $ nix search wget
   environment.systemPackages = with pkgs; [
-    libsForQt5.qt5.qtquickcontrols2
-    libsForQt5.qt5.qtgraphicaleffects
-    libsForQt5.qt5ct
-    libsForQt5.qtstyleplugin-kvantum
-    qt6.qtwayland
-    brightnessctl
-    dracula-theme
-    libsForQt5.polkit-kde-agent
-    dunst
-    pamixer
     (pkgs.callPackage ../../modules/themes/sddm-theme.nix { })
     (pkgs.callPackage ../../modules/themes/rofi-theme.nix { })
-    rnix-lsp
-    wlr-randr
-    dolphin
-    hyprpaper
-    networkmanagerapplet
-    pavucontrol
-    htop
-    wl-clipboard
+    vim
+    wget
   ];
 
-  xdg.portal.enable = true; xdg.portal.extraPortals = [
+  xdg.portal.enable = true;
+  xdg.portal.extraPortals = [
     pkgs.xdg-desktop-portal-gtk
     pkgs.xdg-desktop-portal-hyprland
   ];
 
   fonts.fonts = with pkgs; [
-    (nerdfonts.override {fonts = ["DejaVuSansMono"];})
+    (nerdfonts.override { fonts = [ "DejaVuSansMono" ]; })
     font-awesome
   ];
 
@@ -119,16 +97,6 @@
     pulse.enable = true;
   };
 
-  programs.hyprland.enable = true;
-  programs.hyprland.xwayland.hidpi = true;
-  programs.hyprland.xwayland.enable = true;
-
-  programs.dconf.enable = true;
-
-  environment.sessionVariables = {
-    NIXOS_OZONE_WL = "1";
-  };
-
   services.xserver.enable = true;
 
   services.xserver.displayManager.sddm.enable = true;
@@ -140,31 +108,31 @@
 
   programs.git.enable = true;
 
-# Some programs need SUID wrappers, can be configured further or are
-# started in user sessions.
-# programs.mtr.enable = true;
-# programs.gnupg.agent = {
-#   enable = true;
-#   enableSSHSupport = true;
-# };
+  # Some programs need SUID wrappers, can be configured further or are
+  # started in user sessions.
+  # programs.mtr.enable = true;
+  # programs.gnupg.agent = {
+  #   enable = true;
+  #   enableSSHSupport = true;
+  # };
 
-# List services that you want to enable:
+  # List services that you want to enable:
 
-# Enable the OpenSSH daemon.
-# services.openssh.enable = true;
+  # Enable the OpenSSH daemon.
+  # services.openssh.enable = true;
 
-# Open ports in the firewall.
-# networking.firewall.allowedTCPPorts = [ ... ];
-# networking.firewall.allowedUDPPorts = [ ... ];
-# Or disable the firewall altogether.
-# networking.firewall.enable = false;
+  # Open ports in the firewall.
+  # networking.firewall.allowedTCPPorts = [ ... ];
+  # networking.firewall.allowedUDPPorts = [ ... ];
+  # Or disable the firewall altogether.
+  # networking.firewall.enable = false;
 
-# This value determines the NixOS release from which the default
-# settings for stateful data, like file locations and database versions
-# on your system were taken. It‘s perfectly fine and recommended to leave
-# this value at the release version of the first install of this system.
-# Before changing this value read the documentation for this option
-# (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
+  # This value determines the NixOS release from which the default
+  # settings for stateful data, like file locations and database versions
+  # on your system were taken. It‘s perfectly fine and recommended to leave
+  # this value at the release version of the first install of this system.
+  # Before changing this value read the documentation for this option
+  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "23.05"; # Did you read the comment?
 
 }
