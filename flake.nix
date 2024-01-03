@@ -39,8 +39,8 @@
     nixosConfigurations.epimetheus = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [
-        inputs.nixos-hardware.nixosModules.lenovo-legion-16ach6h-hybrid
           ./machines/epimetheus/configuration.nix
+        inputs.nixos-hardware.nixosModules.lenovo-legion-16ach6h-hybrid
           inputs.aithings.nixosModules.invokeai-nvidia
           inputs.aithings.nixosModules.a1111-nvidia
           home-manager.nixosModules.home-manager
@@ -48,7 +48,7 @@
            {
            home-manager.useGlobalPkgs = true;
            home-manager.useUserPackages = true;
-           home-manager.users = nixpkgs.lib.mkMerge [_users._denis _users._hypruser];
+           home-manager.users = nixpkgs.lib.mkMerge [ _users._denis _users._hypruser ];
            home-manager.extraSpecialArgs = {
            inherit inputs;
            inherit (config.networking) hostName;
@@ -57,24 +57,22 @@
       ];
     };
 
-# ASUS Zenbook
-    nixosConfigurations.iapetus = nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
-      modules = [
-        home-manager.nixosModules.home-manager
-          ({ config, ... }:
-           {
-           home-manager.useGlobalPkgs = true;
-           home-manager.useUserPackages = true;
-           home-manager.users = nixpkgs.lib.mkMerge [_users._hypruser];
-           home-manager.extraSpecialArgs = {
-           inherit inputs;
-           inherit (config.networking) hostName;
-           };
-           })
-      ./machines/iapetus/configuration.nix
-      ];
-    };
+      # ASUS Zenbook
+      nixosConfigurations.nixos-mini-denis = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.denis.imports = [
+              inputs.hyprland.homeManagerModules.default
+              ./users/denis/home.nix
+            ];
+          }
+          ./machines/iapetus/configuration.nix
+        ];
+      };
 
 # Rpi 3B+
     nixosConfigurations.nixos-rpi-denis = nixpkgs.lib.nixosSystem {

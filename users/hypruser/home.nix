@@ -22,6 +22,8 @@ in
     {
       rofi.enable = true;
       rofi.theme = "rofi-dracula";
+      ripgrep.enable = true;
+      htop.enable = true;
       waybar = waybarConfig pkgs;
     }
   ];

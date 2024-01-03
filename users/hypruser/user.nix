@@ -18,7 +18,6 @@
       hyprpaper
       networkmanagerapplet
       pavucontrol
-      htop
       wl-clipboard
     ];
     hashedPassword = "$y$j9T$0opCRT4e3X3P.tqGvEGd91$9cW/JMGTCfcEzkw9m6cemqSoNBrd5O6A3JCO3eitdO9";
