@@ -58,6 +58,11 @@
   # Configure console keymap
   console.keyMap = "de-latin1-nodeadkeys";
 
+  services.xserver.displayManager = {
+    sddm.enable = true;
+    sddm.theme = "sddm-sugar-dracula";
+  };
+
   # Enable automatic login for the user.
   #services.getty.autologinUser = "denis";
 
@@ -79,7 +84,7 @@
     pkgs.xdg-desktop-portal-hyprland
   ];
 
-  fonts.fonts = with pkgs; [
+  fonts.packages = with pkgs; [
     (nerdfonts.override { fonts = [ "DejaVuSansMono" ]; })
     font-awesome
   ];
@@ -98,9 +103,6 @@
   };
 
   services.xserver.enable = true;
-
-  services.xserver.displayManager.sddm.enable = true;
-  services.xserver.displayManager.sddm.theme = "sddm-sugar-dracula";
 
   hardware = {
     opengl.enable = true;

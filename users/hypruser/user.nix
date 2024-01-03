@@ -28,14 +28,10 @@
     ];
     hashedPassword = "$y$j9T$0opCRT4e3X3P.tqGvEGd91$9cW/JMGTCfcEzkw9m6cemqSoNBrd5O6A3JCO3eitdO9";
   };
-
+nixpkgs.config.permittedInsecurePackages = [
+                "electron-25.9.0"
+              ];
   # Enable automatic login for the user.
-  services.xserver.displayManager = {
-    sddm.enable = true;
-    autoLogin.enable = false;
-    autoLogin.user = "denis";
-    sddm.theme = "sddm-chili";
-  };
 
   programs.hyprland.enable = true;
   programs.hyprland.xwayland.enable = true;
