@@ -1,4 +1,4 @@
-{ config, packages, ... }:
+{ config, pkgs, ... }:
 {
   wofi.enable = true;
   wofi.style = ''

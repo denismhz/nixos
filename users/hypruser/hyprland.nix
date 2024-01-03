@@ -1,7 +1,7 @@
 {pkgs,...}:
 {
   enable = true;
-  nvidiaPatches = true;
+  enableNvidiaPatches = true;
   plugins = [];
   extraConfig = builtins.readFile ./hyprland.conf;
 }

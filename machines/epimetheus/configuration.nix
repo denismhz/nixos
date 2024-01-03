@@ -3,6 +3,7 @@
     [
       ./hardware-configuration.nix
       ../../users/denis/user.nix
+      ../../users/hypruser/user.nix
     ];
 
   nixpkgs.config.allowUnfree = true;
@@ -84,6 +85,7 @@
   ];
 
   environment.systemPackages = with pkgs; [
+    lenovo-legion
     virt-manager
     direnv
     nixpkgs-fmt
@@ -168,6 +170,10 @@
       vulkan-tools
     ];
   };
+
+  boot.extraModulePackages = with config.boot.kernelPackages; [
+    lenovo-legion-module
+  ];
 
   # if packets are still dropped, they will show up in dmesg
   networking.firewall.logReversePathDrops = true;

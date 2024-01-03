@@ -321,18 +321,14 @@
     },
     "nixos-hardware": {
       "locked": {
-        "lastModified": 1701656485,
-        "narHash": "sha256-xDFormrGCKKGqngHa2Bz1GTeKlFMMjLnHhTDRdMJ1hs=",
-        "owner": "nixos",
-        "repo": "nixos-hardware",
-        "rev": "fa194fc484fd7270ab324bb985593f71102e84d1",
-        "type": "github"
+        "lastModified": 1704281955,
+        "narHash": "sha256-F/oUPPAXjPIJO/nKcL7Vw+lW4d48Nd1cLRWKvR8nWC4=",
+        "type": "tarball",
+        "url": "https://git.manherz.de/tobias/nixos-hardware-fork/archive/master.tar.gz"
       },
       "original": {
-        "owner": "nixos",
-        "ref": "master",
-        "repo": "nixos-hardware",
-        "type": "github"
+        "type": "tarball",
+        "url": "https://git.manherz.de/tobias/nixos-hardware-fork/archive/master.tar.gz"
       }
     },
     "nixpkgs": {
@@ -433,29 +429,6 @@
         "type": "github"
       }
     },
-    "plasma-manager": {
-      "inputs": {
-        "home-manager": [
-          "home-manager"
-        ],
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1700267030,
-        "narHash": "sha256-1ke+7xrkCVOI13RJ1w6EjCGcJywkN3bbTKbLWAt4jaE=",
-        "owner": "pjones",
-        "repo": "plasma-manager",
-        "rev": "019a8fd22a26c8d59f63aa9cc8a9c1729d6ffbda",
-        "type": "github"
-      },
-      "original": {
-        "owner": "pjones",
-        "repo": "plasma-manager",
-        "type": "github"
-      }
-    },
     "root": {
       "inputs": {
         "aithings": "aithings",
@@ -464,7 +437,6 @@
         "hyprland": "hyprland",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_4",
-        "plasma-manager": "plasma-manager",
         "unstable": "unstable"
       }
     },
