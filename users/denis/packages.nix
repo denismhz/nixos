@@ -80,14 +80,13 @@
     up #Ultimate Plumber is a tool for writing Linux pipes with instant live preview
     bottom #A cross-platform graphical process/system monitor with a customizable interface
     #bat #in home.nix
-    pfetch
+    nitch
   ];
 
   user_packages = with pkgs; [
-    gcc
-    gdb
+    mongodb-compass
 
-    docker-compose
+    neovim
 
     #language server
     nil
@@ -107,7 +106,6 @@
     #Wine
     lutris
     wineWowPackages.staging
-    vlc
 
     # Other things
     nvidia-vaapi-driver

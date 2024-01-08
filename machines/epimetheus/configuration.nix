@@ -20,6 +20,9 @@
   boot.kernel.sysctl = { "vm.swappiness" = 5; };
   # Fix black screen on a system with an integrated GPU
   boot.kernelParams = [ "pcie_aspm=off" ];
+  boot.extraModulePackages = with config.boot.kernelPackages; [
+    lenovo-legion-module
+  ];
 
   # Bootloader
   boot.loader.systemd-boot.enable = true;
@@ -66,13 +69,21 @@
     xkbVariant = "nodeadkeys";
   };
 
+  # Enable automatic login for the user.
+  services.xserver.displayManager = {
+    sddm.enable = true;
+    autoLogin.enable = false;
+    autoLogin.user = "denis";
+    sddm.theme = "sddm-chili";
+  };
+
   # Launch KDE in Wayland session
   services.xserver.displayManager.defaultSession = "plasmawayland";
 
   # Enable flatpak
   services.flatpak.enable = true;
 
-  #ENG vars
+  #ENV vars
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
   environment.pathsToLink = [ "/share/bash-completion" ];
@@ -84,10 +95,16 @@
     pkgs.libsForQt5.plasma-sdk
   ];
 
+  # NixOS configuration for Star Citizen requirements
+  zramSwap.enable = true;
+  boot.kernel.sysctl = {
+    "vm.max_map_count" = 16777216;
+    "fs.file-max" = 524288;
+  };
+
   environment.systemPackages = with pkgs; [
     lenovo-legion
     virt-manager
-    direnv
     nixpkgs-fmt
     dracula-theme
     (pkgs.callPackage ../../modules/themes/sddm-chilli.nix { })
@@ -170,10 +187,6 @@
       vulkan-tools
     ];
   };
-
-  boot.extraModulePackages = with config.boot.kernelPackages; [
-    lenovo-legion-module
-  ];
 
   # if packets are still dropped, they will show up in dmesg
   networking.firewall.logReversePathDrops = true;

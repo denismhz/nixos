@@ -5,6 +5,9 @@ let
   my_packages = import ../denis/packages.nix { inherit pkgs config; };
 in
 {
+  home.username = "hypruser";
+  home.homeDirectory = "/home/hypruser";
+
   wayland.windowManager.hyprland = hyprlandConfig pkgs;
   programs = lib.mkMerge [
     (import ../../modules/home-manager/alacritty.nix { inherit config pkgs; })
@@ -18,13 +21,14 @@ in
     (import ../../modules/home-manager/tealdeer.nix { inherit config pkgs; })
     (import ../../modules/home-manager/wofi.nix { inherit config pkgs lib; })
     (import ../../modules/home-manager/bash.nix { inherit config pkgs; })
-    (import ../../modules/home-manager/neovim { inherit config pkgs lib; })
+    # (import ../../modules/home-manager/neovim { inherit config pkgs lib; })
     {
       rofi.enable = true;
       rofi.theme = "rofi-dracula";
       ripgrep.enable = true;
       htop.enable = true;
       waybar = waybarConfig pkgs;
+      mpv.enable = true;
     }
   ];
 
@@ -56,10 +60,6 @@ in
       };
     };
   };
-  home.username = "hypruser";
-  home.homeDirectory = "/home/hypruser";
-
-  home.stateVersion = "23.05";
 
   xdg.enable = true;
 
@@ -83,4 +83,6 @@ in
     my_packages.user_packages
     my_packages.commandline_tools
   ];
+
+  home.stateVersion = "23.05";
 }
