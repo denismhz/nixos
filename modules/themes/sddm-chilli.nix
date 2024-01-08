@@ -11,7 +11,7 @@ pkgs.stdenv.mkDerivation rec {
     sha256 = "sha256-fWRf96CPRQ2FRkSDtD+N/baZv+HZPO48CfU5Subt854=";
   };
 
-  src2 = ./background.png;
+  src2 = ./background2.png;
   
   installPhase = ''
     a=$(echo ${src2} | sed 's/\//\\\//g')
@@ -19,6 +19,8 @@ pkgs.stdenv.mkDerivation rec {
     sed -i "s/Background=components\/artwork\/background\.jpg/Background=$a/" theme.conf
     sed -i 's/1366/2560/' theme.conf
     sed -i 's/768/1600/' theme.conf
+    substituteInPlace theme.conf --replace recursiveBlurLoops=4 recursiveBlurLoops=2
+    substituteInPlace theme.conf --replace recursiveBlurRadius=15 recursiveBlurRadius=8
     mkdir -p $out/share/sddm/themes/sddm-chili
     cp -aR ./* $out/share/sddm/themes/sddm-chili
   '';

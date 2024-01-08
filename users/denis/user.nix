@@ -19,14 +19,6 @@
   };
   systemd.services.a1111.serviceConfig.Restart = lib.mkForce "always";
 
-  # Enable automatic login for the user.
-  services.xserver.displayManager = {
-    sddm.enable = true;
-    autoLogin.enable = false;
-    autoLogin.user = "denis";
-    sddm.theme = "sddm-chili";
-  };
-
   # Open Firewall Ports for KDE Connect
   networking.firewall.allowedTCPPortRanges = [
     {
@@ -58,11 +50,16 @@
   programs.steam.enable = true;
   programs.gamemode.enable = true;
 
-  virtualisation.docker.enable = true;
-  users.extraGroups.docker.members = ["denis"];
+  #virtualisation.docker.enable = true;
+  #users.extraGroups.docker.members = ["denis"];
   hardware.steam-hardware.enable = true;
 
+  services.mongodb.enable = true;
+  services.mongodb.dbpath = "/var/lib/mongodb";
+
   fonts.packages = with pkgs; [
-    (nerdfonts.override { fonts = [ "DejaVuSansMono" ]; })
+    (nerdfonts.override { fonts = [ "DejaVuSansMono" "JetBrainsMono"]; })
+    font-awesome
+    comic-mono
   ];
 }

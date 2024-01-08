@@ -53,6 +53,8 @@
           echo "No valid argument! (enable, disable, status)"
         fi
       }
+
+      eval "$(direnv hook bash)"
     '';
 
     enableCompletion = true;
