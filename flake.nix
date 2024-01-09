@@ -28,12 +28,13 @@
 
     configModule = {
       config.vim.theme.name = "dracula-nvim";
+      config.vim.useSystemClipboard = false;
     };
 
     baseNeovim = neovim-flake.packages.${system}.maximal;
     neovimExtended = baseNeovim.extendConfiguration {modules = [configModule];};
 
-    nvim-overlay = {
+    nvim-overlay = final: prev: {
       neovim = neovimExtended;
     };
 
@@ -70,7 +71,7 @@
               };
             };
           })
-          ({nixpkgs.overlays = [nvim-overlay];})
+          {nixpkgs.overlays = [nvim-overlay];}
         ];
       };
 
