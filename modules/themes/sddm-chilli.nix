@@ -11,7 +11,7 @@ pkgs.stdenv.mkDerivation rec {
     sha256 = "sha256-fWRf96CPRQ2FRkSDtD+N/baZv+HZPO48CfU5Subt854=";
   };
 
-  src2 = ./background2.png;
+  src2 = ./background.png;
   
   installPhase = ''
     a=$(echo ${src2} | sed 's/\//\\\//g')
