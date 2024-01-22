@@ -3,6 +3,6 @@
 result
 result-*
 .git/
-denis.jpg
-background.jpg
+*.jpg
+*.png
 

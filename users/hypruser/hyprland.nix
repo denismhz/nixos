@@ -1,5 +1,4 @@
-{pkgs,...}:
-{
+_: {
   enable = true;
   #enableNvidiaPatches = true;
   plugins = [];

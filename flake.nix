@@ -27,14 +27,19 @@
     system = "x86_64-linux";
 
     configModule = {
-      config.vim.theme.name = "dracula-nvim";
-      config.vim.useSystemClipboard = false;
+      config = {
+        vim = {
+          theme.name = "dracula-nvim";
+          useSystemClipboard = false;
+          languages.sql.lsp.enable = false;
+        };
+      };
     };
 
     baseNeovim = neovim-flake.packages.${system}.maximal;
     neovimExtended = baseNeovim.extendConfiguration {modules = [configModule];};
 
-    nvim-overlay = final: prev: {
+    nvim-overlay = _: _: {
       neovim = neovimExtended;
     };
 

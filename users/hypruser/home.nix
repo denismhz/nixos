@@ -1,26 +1,38 @@
-{ config, pkgs, lib, inputs, ... }:
-let
+{
+  config,
+  pkgs,
+  lib,
+  inputs,
+  ...
+}: let
   waybarConfig = import ./waybar.nix;
   hyprlandConfig = import ./hyprland.nix;
-  my_packages = import ../denis/packages.nix { inherit pkgs config; };
-in
-{
-  home.username = "hypruser";
-  home.homeDirectory = "/home/hypruser";
+  my_packages = import ../denis/packages.nix {inherit pkgs config;};
+in {
+  home = {
+    username = "hypruser";
+    homeDirectory = "/home/hypruser";
+    packages = lib.mkMerge [
+      my_packages.user_packages
+      my_packages.commandline_tools
+    ];
+
+    stateVersion = "23.05";
+  };
 
   wayland.windowManager.hyprland = hyprlandConfig pkgs;
   programs = lib.mkMerge [
-    (import ../../modules/home-manager/alacritty.nix { inherit config pkgs; })
-    (import ../../modules/home-manager/bash.nix { inherit config pkgs; })
-    (import ../../modules/home-manager/eza.nix { inherit config pkgs; })
-    (import ../../modules/home-manager/git.nix { inherit config pkgs; })
-    (import ../../modules/home-manager/firefox.nix { inherit config inputs pkgs; })
-    (import ../../modules/home-manager/man.nix { inherit config pkgs; })
-    (import ../../modules/home-manager/nix-index.nix { inherit config pkgs; })
-    (import ../../modules/home-manager/oh-my-posh.nix { inherit config pkgs; })
-    (import ../../modules/home-manager/tealdeer.nix { inherit config pkgs; })
-    (import ../../modules/home-manager/wofi.nix { inherit config pkgs lib; })
-    (import ../../modules/home-manager/bash.nix { inherit config pkgs; })
+    (import ../../modules/home-manager/alacritty.nix {inherit config pkgs;})
+    (import ../../modules/home-manager/bash.nix {inherit config pkgs;})
+    (import ../../modules/home-manager/eza.nix {inherit config pkgs;})
+    (import ../../modules/home-manager/git.nix {inherit config pkgs;})
+    (import ../../modules/home-manager/firefox.nix {inherit config inputs pkgs;})
+    (import ../../modules/home-manager/man.nix {inherit config pkgs;})
+    (import ../../modules/home-manager/nix-index.nix {inherit config pkgs;})
+    (import ../../modules/home-manager/oh-my-posh.nix {inherit config pkgs;})
+    (import ../../modules/home-manager/tealdeer.nix {inherit config pkgs;})
+    (import ../../modules/home-manager/wofi.nix {inherit config pkgs lib;})
+    (import ../../modules/home-manager/bash.nix {inherit config pkgs;})
     # (import ../../modules/home-manager/neovim { inherit config pkgs lib; })
     {
       rofi.enable = true;
@@ -63,26 +75,24 @@ in
 
   xdg.enable = true;
 
-  qt.enable = true;
-  qt.platformTheme = "gtk";
-  qt.style.name = "Dracula";
-  #qt.style.package = pkgs.dracula-theme;
+  gtk = {
+    enable = true;
+    cursorTheme.package = pkgs.bibata-cursors;
+    cursorTheme.name = "Dracula-cursors";
+    theme.package = pkgs.dracula-theme;
+    theme.name = "Dracula";
+    iconTheme.package = pkgs.dracula-icon-theme;
+    iconTheme.name = "Dracula";
+  };
 
-  gtk.enable = true;
-  gtk.cursorTheme.package = pkgs.bibata-cursors;
-  gtk.cursorTheme.name = "Dracula-cursors";
-  gtk.theme.package = pkgs.dracula-theme;
-  gtk.theme.name = "Dracula";
-  gtk.iconTheme.package = pkgs.dracula-icon-theme;
-  gtk.iconTheme.name = "Dracula";
+  qt = {
+    enable = true;
+    platformTheme = "gtk";
+    style.name = "Dracula";
+    #qt.style.package = pkgs.dracula-theme;
+  };
+
   #why is home.sessionVariables not working????
   ## ==> sessionvariables set in hyprland config
   fonts.fontconfig.enable = true;
-
-  home.packages = lib.mkMerge [
-    my_packages.user_packages
-    my_packages.commandline_tools
-  ];
-
-  home.stateVersion = "23.05";
 }

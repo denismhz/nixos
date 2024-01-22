@@ -1,24 +1,25 @@
-{ lib, config, pkgs, ... }:
-
 {
+  lib,
+  config,
+  pkgs,
+  ...
+}: {
   # Define a user account. Don't forget to set a password with  ^`^xpasswd ^`^y.
   users.users.hypruser = {
     isNormalUser = true;
     description = "Hyprland-User";
-    extraGroups = [ "networkmanager" "wheel" "video" "render" "libvirtd" ];
+    extraGroups = ["networkmanager" "wheel" "video" "render" "libvirtd"];
     packages = with pkgs; [
       brightnessctl
       dracula-theme
       libsForQt5.polkit-kde-agent
       dunst
       pamixer
-      rnix-lsp
       wlr-randr
       dolphin
       hyprpaper
       networkmanagerapplet
       pavucontrol
-      wl-clipboard
     ];
     hashedPassword = "$y$j9T$0opCRT4e3X3P.tqGvEGd91$9cW/JMGTCfcEzkw9m6cemqSoNBrd5O6A3JCO3eitdO9";
   };
@@ -27,10 +28,12 @@
   ];
   # Enable automatic login for the user.
 
-  programs.hyprland.enable = true;
-  programs.hyprland.xwayland.enable = true;
+  programs = {
+    hyprland.enable = true;
+    hyprland.xwayland.enable = true;
 
-  programs.dconf.enable = true;
+    dconf.enable = true;
+  };
 
   environment.sessionVariables = {
     NIXOS_OZONE_WL = "1";
@@ -54,6 +57,6 @@
   services.samba-wsdd.enable = true;
 
   fonts.packages = with pkgs; [
-    (nerdfonts.override { fonts = [ "DejaVuSansMono" ]; })
+    (nerdfonts.override {fonts = ["DejaVuSansMono"];})
   ];
 }
