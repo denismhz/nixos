@@ -32,6 +32,7 @@
           theme.name = "dracula-nvim";
           useSystemClipboard = false;
           languages.sql.lsp.enable = false;
+          tabline.nvimBufferline.enable = false;
         };
       };
     };

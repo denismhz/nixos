@@ -108,6 +108,7 @@
   environment = {
     #ENV vars
     sessionVariables.NIXOS_OZONE_WL = "1";
+    sessionVariables.MOZ_ENABLE_WAYLAND = "1";
 
     pathsToLink = ["/share/bash-completion"];
 

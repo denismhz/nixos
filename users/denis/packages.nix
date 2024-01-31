@@ -38,84 +38,75 @@
   ];
 
   user_packages = with pkgs; [
-    mongodb-compass
-
-    neovim
-
+    discord
+    foliate
+    jellyfin-media-player
     #language server
+    libreoffice-qt
+    libva-utils
+    libvdpau-va-gl
+    lutris
+    mongodb-compass
+    neovim
+    nextcloud-client
     nil
     nixd
-    rnix-lsp
-
-    wl-clipboard
-
-    jellyfin-media-player
-    nextcloud-client
-    telegram-desktop
-    discord
-    libreoffice-qt
-    foliate
-    r2modman
-
-    #Wine
-    lutris
-    wineWowPackages.staging
-
-    # Other things
     nvidia-vaapi-driver
+    # Other things
+    pciutils
+    r2modman
+    rnix-lsp
+    smartmontools
+    telegram-desktop
     vaapiVdpau
     vdpauinfo
-    vulkan-validation-layers
     vulkan-tools
-    libvdpau-va-gl
-    pciutils
-    smartmontools
+    vulkan-validation-layers
+    #Wine
+    wineWowPackages.staging
+    wl-clipboard
     xdg-utils
-    libva-utils
   ];
 
   kde_packages = with pkgs; [
-    # KDE Things
     ark # Archive creation/extraction software
-
-    #what the fuck is this???
+    bluedevil # Bluetooth Manager
     colord-kde # https://git.manherz.de/denismhz/nixos.gitColor daemon
     dolphin # File manager
-    #no need for video thumbs -- ffmpegthumbs -- # Dolphin video thumbnails
     gwenview # Image viewer
-    kalendar # Calendar
     kaddressbook # Address Book
+    kalendar # Calendar
     kate # Text editor
     kcalc # Calculator
+    kde-cli-tools
+    kdeplasma-addons
+    # KDE Things
     kdialog # Dialogs from bash
+    kgamma5
+    kmenuedit
     kolourpaint # Paint
     kompare # File diffs
     korganizer # Organizer
-    skanlite # Scanning
-    skanpage # Multi-Page Scanning
-    spectacle # Screenshots
-    bluedevil # Bluetooth Manager
-    libsForQt5.bluez-qt # Bluetooth libs
-
-    libsForQt5.flatpak-kcm # kde flatpak module
-    kde-cli-tools
-    libsForQt5.kdecoration
-    kdeplasma-addons
-    kgamma5
-    kmenuedit
-    libsForQt5.kpipewire
     kscreenlocker
-    libsForQt5.ksystemstats
     kwayland-integration
     kwrited
+    libsForQt5.accounts-qt
+    libsForQt5.bluez-qt # Bluetooth libs
+    libsForQt5.flatpak-kcm # kde flatpak module
+    libsForQt5.kaccounts-integration
+    libsForQt5.kaccounts-providers
+    libsForQt5.kdeconnect-kde
+    libsForQt5.kdecoration
+    libsForQt5.kde-gtk-config
     libsForQt5.kdenlive
-    libsForQt5.layer-shell-qt
+    libsForQt5.kirigami-addons
     libsForQt5.kmail-account-wizard
     libsForQt5.kmailtransport
     libsForQt5.kontactinterface
-    libsForQt5.accounts-qt
-    libsForQt5.kaccounts-providers
-    libsForQt5.kaccounts-integration
+    libsForQt5.kpipewire
+    libsForQt5.ksystemstats
+    libsForQt5.layer-shell-qt
+    libsForQt5.packagekit-qt
     libsForQt5.plasma-browser-integration
     libsForQt5.plasma-disks
     libsForQt5.plasma-pa
@@ -123,12 +114,12 @@
     libsForQt5.plasma-systemmonitor
     libsForQt5.polkit-kde-agent
     libsForQt5.powerdevil
+    libsForQt5.syntax-highlighting
     libsForQt5.systemsettings
     libsForQt5.xdg-desktop-portal-kde
-    libsForQt5.packagekit-qt
-    libsForQt5.kdeconnect-kde
-    libsForQt5.kirigami-addons
-    libsForQt5.syntax-highlighting
-    libsForQt5.kde-gtk-config
+    #no need for video thumbs -- ffmpegthumbs -- # Dolphin video thumbnails
+    skanlite # Scanning
+    skanpage # Multi-Page Scanning
+    spectacle # Screenshots
   ];
 }
