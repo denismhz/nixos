@@ -20,12 +20,14 @@ in {
 
     stateVersion = "23.05";
   };
+  wayland.windowManager.hyprland = import ../../modules/home-manager/hyprland {};
 
   programs = let
-    asd = ["kitty" "alacritty" "bash" "eza" "firefox" "fzf" "git" "man" "nix-index" "oh-my-posh" "tealdeer" "vscode"];
+    # todo: only import vscode if hostname is epimetheus or try vscode on asus first
+    mods = ["kitty" "alacritty" "bash" "eza" "firefox" "fzf" "git" "man" "nix-index" "oh-my-posh" "tealdeer" "vscode"];
   in
     lib.mkMerge
-    ((lib.forEach asd (x: (import ../../modules/home-manager/${x}.nix {inherit config pkgs inputs lib;})))
+    ((lib.forEach mods (x: (import ../../modules/home-manager/${x}.nix {inherit config pkgs inputs lib;})))
       ++ [
         {
           bat.enable = true;
@@ -39,6 +41,10 @@ in {
           ripgrep.enable = true;
           tmux.enable = true;
           yt-dlp.enable = true; #to play some music with mpv
+          yazi = {
+            enable = true;
+            enableBashIntegration = true;
+          };
         }
       ]);
 }

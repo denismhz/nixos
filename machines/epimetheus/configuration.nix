@@ -1,13 +1,29 @@
 {
   config,
   pkgs,
+  inputs,
+  _users,
   ...
-}: {
-  imports = [
-    ./hardware-configuration.nix
-    ../../users/denis/user.nix
-    ../../users/hypruser/user.nix
-  ];
+}: let
+  importUsers = userList: file:
+    builtins.listToAttrs (builtins.map (u: {
+        name = u;
+        value = {imports = [../../users/${u}/${file}.nix];};
+      })
+      userList);
+
+  createUsers = userList:
+    builtins.listToAttrs (builtins.map (u: {
+        name = u;
+        value = {isNormalUser = true;};
+      })
+      userList);
+in {
+  imports =
+    [
+      ./hardware-configuration.nix
+    ]
+    ++ (builtins.map (u: ../../users/${u}/user.nix) _users);
 
   nixpkgs.config.allowUnfree = true;
 
@@ -19,8 +35,22 @@
     };
   };
 
+  # Create all users using this machine
+  users.users = createUsers _users;
+
   # Auto system update
   system.autoUpgrade.flake = ./../flake.nix;
+
+  #Home-Manager config
+  home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    users = importUsers _users "home";
+    extraSpecialArgs = {
+      inherit inputs;
+      inherit (config.networking) hostName;
+    };
+  };
 
   boot = {
     # Kernel
@@ -125,7 +155,7 @@
       dracula-theme
       (pkgs.callPackage ../../modules/themes/sddm-chilli.nix {})
       wget
-      vim
+      neovim
       git
     ];
   };

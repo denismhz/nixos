@@ -1,13 +1,30 @@
 {
   config,
   pkgs,
+  inputs,
+  _users,
   ...
-}: {
-  imports = [
-    # Include the results of the hardware scan.
-    ./hardware-configuration.nix
-    ../../users/hypruser/user.nix
-  ];
+}: let
+  importUsers = userList: file:
+    builtins.listToAttrs (builtins.map (u: {
+        name = u;
+        value = {imports = [../../users/${u}/${file}.nix];};
+      })
+      userList);
+
+  createUsers = userList:
+    builtins.listToAttrs (builtins.map (u: {
+        name = u;
+        value = {isNormalUser = true;};
+      })
+      userList);
+in {
+  imports =
+    [
+      # Include the results of the hardware scan.
+      ./hardware-configuration.nix
+    ]
+    ++ (builtins.map (u: ../../users/${u}/user.nix) _users);
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -22,6 +39,20 @@
     # Enable networking
     networkmanager.enable = true;
     networkmanager.dns = "systemd-resolved";
+  };
+
+  # Create all users using this machine
+  users.users = createUsers _users;
+
+  #Home-Manager config
+  home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    users = importUsers _users "home";
+    extraSpecialArgs = {
+      inherit inputs;
+      inherit (config.networking) hostName;
+    };
   };
 
   services = {

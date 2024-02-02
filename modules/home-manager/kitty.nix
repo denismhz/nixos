@@ -2,6 +2,7 @@ _: {
   kitty = {
     enable = true;
     theme = "Dracula";
-    shellIntegration.bashIntegration = true;
+    font.name = "DeJaVuSansM Nerd Font Mono";
+    shellIntegration.enableBashIntegration = true;
   };
 }

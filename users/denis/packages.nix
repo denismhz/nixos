@@ -1,7 +1,5 @@
 {pkgs, ...}: {
   commandline_tools = with pkgs; [
-    kitty
-    yazi
     #Command line tools
     dig
     /*
@@ -43,7 +41,6 @@
     discord
     foliate
     jellyfin-media-player
-    #language server
     libreoffice-qt
     libva-utils
     libvdpau-va-gl
@@ -54,7 +51,6 @@
     nil
     nixd
     nvidia-vaapi-driver
-    # Other things
     pciutils
     r2modman
     rnix-lsp
@@ -64,7 +60,6 @@
     vdpauinfo
     vulkan-tools
     vulkan-validation-layers
-    #Wine
     wineWowPackages.staging
     wl-clipboard
     xdg-utils
@@ -76,7 +71,7 @@
     colord-kde # https://git.manherz.de/denismhz/nixos.gitColor daemon
     dolphin # File manager
     gwenview # Image viewer
-    kaddressbook # Address Book
+    #kaddressbook # Address Book
     kalendar # Calendar
     kate # Text editor
     kcalc # Calculator
@@ -95,16 +90,16 @@
     libsForQt5.accounts-qt
     libsForQt5.bluez-qt # Bluetooth libs
     libsForQt5.flatpak-kcm # kde flatpak module
-    libsForQt5.kaccounts-integration
-    libsForQt5.kaccounts-providers
+    #libsForQt5.kaccounts-integration
+    #libsForQt5.kaccounts-providers
     libsForQt5.kdeconnect-kde
     libsForQt5.kdecoration
     libsForQt5.kde-gtk-config
     libsForQt5.kdenlive
-    libsForQt5.kirigami-addons
-    libsForQt5.kmail-account-wizard
-    libsForQt5.kmailtransport
-    libsForQt5.kontactinterface
+    #libsForQt5.kirigami-addons
+    #libsForQt5.kmail-account-wizard
+    #libsForQt5.kmailtransport
+    #libsForQt5.kontactinterface
     libsForQt5.kpipewire
     libsForQt5.ksystemstats
     libsForQt5.layer-shell-qt

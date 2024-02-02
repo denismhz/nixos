@@ -1,5 +1,5 @@
 {
-  description = "KDE Default Configuration";
+  description = "My machines";
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-23.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
@@ -48,13 +48,6 @@
     unstable-overlay = _: _: {
       unstable = inputs.nixpkgs-unstable.legacyPackages.${system};
     };
-
-    setUsers = userList:
-      builtins.listToAttrs (builtins.map (u: {
-          name = u;
-          value = {imports = [./users/${u}/home.nix];};
-        })
-        userList);
   in {
     nixosConfigurations = {
       # Lenovo Legion
@@ -63,23 +56,13 @@
       in
         nixpkgs.lib.nixosSystem {
           inherit system;
+          specialArgs = {inherit inputs _users;};
           modules = [
             ./machines/epimetheus/configuration.nix
             inputs.nixos-hardware.nixosModules.lenovo-legion-16ach6h-hybrid
             inputs.aithings.nixosModules.invokeai-nvidia
             inputs.aithings.nixosModules.a1111-nvidia
             home-manager.nixosModules.home-manager
-            ({config, ...}: {
-              home-manager = {
-                useGlobalPkgs = true;
-                useUserPackages = true;
-                users = setUsers _users;
-                extraSpecialArgs = {
-                  inherit inputs;
-                  inherit (config.networking) hostName;
-                };
-              };
-            })
             {nixpkgs.overlays = [nvim-overlay unstable-overlay];}
           ];
         };
@@ -90,20 +73,11 @@
       in
         nixpkgs.lib.nixosSystem {
           inherit system;
+          specialArgs = {inherit inputs _users;};
           modules = [
             ./machines/iapetus/configuration.nix
             home-manager.nixosModules.home-manager
-            ({config, ...}: {
-              home-manager = {
-                useGlobalPkgs = true;
-                useUserPackages = true;
-                users = setUsers _users;
-                extraSpecialArgs = {
-                  inherit inputs;
-                  inherit (config.networking) hostName;
-                };
-              };
-            })
+            {nixpkgs.overlays = [nvim-overlay unstable-overlay];}
           ];
         };
 
