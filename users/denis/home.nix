@@ -21,32 +21,24 @@ in {
     stateVersion = "23.05";
   };
 
-  programs = lib.mkMerge [
-    (import ../../modules/home-manager/alacritty.nix {inherit config pkgs;})
-    (import ../../modules/home-manager/bash.nix {inherit config pkgs;})
-    (import ../../modules/home-manager/bash.nix {inherit config pkgs;})
-    (import ../../modules/home-manager/eza.nix {inherit config pkgs;})
-    (import ../../modules/home-manager/firefox.nix {inherit config inputs pkgs lib;})
-    (import ../../modules/home-manager/fzf.nix {inherit config pkgs;})
-    (import ../../modules/home-manager/git.nix {inherit config pkgs;})
-    (import ../../modules/home-manager/man.nix {inherit config pkgs;})
-    # (import ../../modules/home-manager/neovim { inherit config pkgs lib; })
-    (import ../../modules/home-manager/nix-index.nix {inherit config pkgs;})
-    (import ../../modules/home-manager/oh-my-posh.nix {inherit config pkgs;})
-    (import ../../modules/home-manager/tealdeer.nix {inherit config pkgs;})
-    (import ../../modules/home-manager/vscode.nix {inherit config pkgs;})
-    {
-      bat.enable = true;
-      direnv = {
-        enable = true;
-        enableBashIntegration = true; # see note on other shells below
-        nix-direnv.enable = true;
-      };
-      htop.enable = true;
-      mpv.enable = true;
-      ripgrep.enable = true;
-      tmux.enable = true;
-      yt-dlp.enable = true; #to play some music with mpv
-    }
-  ];
+  programs = let
+    asd = ["kitty" "alacritty" "bash" "eza" "firefox" "fzf" "git" "man" "nix-index" "oh-my-posh" "tealdeer" "vscode"];
+  in
+    lib.mkMerge
+    ((lib.forEach asd (x: (import ../../modules/home-manager/${x}.nix {inherit config pkgs inputs lib;})))
+      ++ [
+        {
+          bat.enable = true;
+          direnv = {
+            enable = true;
+            enableBashIntegration = true;
+            nix-direnv.enable = true;
+          };
+          htop.enable = true;
+          mpv.enable = true;
+          ripgrep.enable = true;
+          tmux.enable = true;
+          yt-dlp.enable = true; #to play some music with mpv
+        }
+      ]);
 }

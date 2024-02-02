@@ -2,7 +2,7 @@
   description = "KDE Default Configuration";
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-23.11";
-    unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     hyprland.url = "github:hyprwm/Hyprland";
     aithings.url = "github:denismhz/flake/sd_webui";
     nix-gaming.url = "github:fufexan/nix-gaming";
@@ -33,6 +33,7 @@
           useSystemClipboard = false;
           languages.sql.lsp.enable = false;
           tabline.nvimBufferline.enable = false;
+          filetree.nvimTreeLua.enable = false;
         };
       };
     };
@@ -44,59 +45,67 @@
       neovim = neovimExtended;
     };
 
-    _users = {
-      _denis = {
-        denis.imports = [./users/denis/home.nix];
-      };
-      _hypruser = {
-        hypruser.imports = [
-          ./users/hypruser/home.nix
-          inputs.hyprland.homeManagerModules.default
-        ];
-      };
+    unstable-overlay = _: _: {
+      unstable = inputs.nixpkgs-unstable.legacyPackages.${system};
     };
+
+    setUsers = userList:
+      builtins.listToAttrs (builtins.map (u: {
+          name = u;
+          value = {imports = [./users/${u}/home.nix];};
+        })
+        userList);
   in {
     nixosConfigurations = {
       # Lenovo Legion
-      epimetheus = nixpkgs.lib.nixosSystem {
-        inherit system;
-        modules = [
-          ./machines/epimetheus/configuration.nix
-          inputs.nixos-hardware.nixosModules.lenovo-legion-16ach6h-hybrid
-          inputs.aithings.nixosModules.invokeai-nvidia
-          inputs.aithings.nixosModules.a1111-nvidia
-          home-manager.nixosModules.home-manager
-          ({config, ...}: {
-            home-manager = {
-              useGlobalPkgs = true;
-              useUserPackages = true;
-              users = nixpkgs.lib.mkMerge [_users._denis _users._hypruser];
-              extraSpecialArgs = {
-                inherit inputs;
-                inherit (config.networking) hostName;
+      epimetheus = let
+        _users = ["denis" "hypruser"];
+      in
+        nixpkgs.lib.nixosSystem {
+          inherit system;
+          modules = [
+            ./machines/epimetheus/configuration.nix
+            inputs.nixos-hardware.nixosModules.lenovo-legion-16ach6h-hybrid
+            inputs.aithings.nixosModules.invokeai-nvidia
+            inputs.aithings.nixosModules.a1111-nvidia
+            home-manager.nixosModules.home-manager
+            ({config, ...}: {
+              home-manager = {
+                useGlobalPkgs = true;
+                useUserPackages = true;
+                users = setUsers _users;
+                extraSpecialArgs = {
+                  inherit inputs;
+                  inherit (config.networking) hostName;
+                };
               };
-            };
-          })
-          {nixpkgs.overlays = [nvim-overlay];}
-        ];
-      };
+            })
+            {nixpkgs.overlays = [nvim-overlay unstable-overlay];}
+          ];
+        };
 
       # ASUS Zenbook
-      nixos-mini-denis = nixpkgs.lib.nixosSystem {
-        inherit system;
-        modules = [
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.denis.imports = [
-              inputs.hyprland.homeManagerModules.default
-              ./users/denis/home.nix
-            ];
-          }
-          ./machines/iapetus/configuration.nix
-        ];
-      };
+      nixos-mini-denis = let
+        _users = ["denis" "hypruser"];
+      in
+        nixpkgs.lib.nixosSystem {
+          inherit system;
+          modules = [
+            ./machines/iapetus/configuration.nix
+            home-manager.nixosModules.home-manager
+            ({config, ...}: {
+              home-manager = {
+                useGlobalPkgs = true;
+                useUserPackages = true;
+                users = setUsers _users;
+                extraSpecialArgs = {
+                  inherit inputs;
+                  inherit (config.networking) hostName;
+                };
+              };
+            })
+          ];
+        };
 
       # Rpi 3B+
       nixos-rpi-denis = nixpkgs.lib.nixosSystem {

@@ -1,5 +1,7 @@
 {pkgs, ...}: {
   commandline_tools = with pkgs; [
+    kitty
+    yazi
     #Command line tools
     dig
     /*

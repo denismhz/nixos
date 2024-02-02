@@ -1,14 +1,13 @@
 {
   config,
-  pkgs,
-  lib,
   inputs,
+  lib,
+  pkgs,
   ...
 }: let
-  waybarConfig = import ./waybar.nix;
-  hyprlandConfig = import ./hyprland.nix;
   my_packages = import ../denis/packages.nix {inherit pkgs config;};
 in {
+  imports = [inputs.hyprland.homeManagerModules.default];
   home = {
     username = "hypruser";
     homeDirectory = "/home/hypruser";
@@ -20,30 +19,23 @@ in {
     stateVersion = "23.05";
   };
 
-  wayland.windowManager.hyprland = hyprlandConfig pkgs;
-  programs = lib.mkMerge [
-    (import ../../modules/home-manager/alacritty.nix {inherit config pkgs;})
-    (import ../../modules/home-manager/bash.nix {inherit config pkgs;})
-    (import ../../modules/home-manager/eza.nix {inherit config pkgs;})
-    (import ../../modules/home-manager/git.nix {inherit config pkgs;})
-    (import ../../modules/home-manager/firefox.nix {inherit config inputs pkgs;})
-    (import ../../modules/home-manager/man.nix {inherit config pkgs;})
-    (import ../../modules/home-manager/nix-index.nix {inherit config pkgs;})
-    (import ../../modules/home-manager/oh-my-posh.nix {inherit config pkgs;})
-    (import ../../modules/home-manager/tealdeer.nix {inherit config pkgs;})
-    (import ../../modules/home-manager/wofi.nix {inherit config pkgs lib;})
-    (import ../../modules/home-manager/bash.nix {inherit config pkgs;})
-    # (import ../../modules/home-manager/neovim { inherit config pkgs lib; })
-    {
-      rofi.enable = true;
-      rofi.theme = "rofi-dracula";
-      ripgrep.enable = true;
-      htop.enable = true;
-      waybar = waybarConfig pkgs;
-      mpv.enable = true;
-    }
-  ];
+  wayland.windowManager.hyprland = import ../../modules/home-manager/hyprland {};
+  programs = let
+    mods = ["waybar" "kitty" "alacritty" "bash" "eza" "firefox" "fzf" "git" "man" "nix-index" "oh-my-posh" "tealdeer"];
+  in
+    lib.mkMerge
+    ((lib.forEach mods (x: (import ../../modules/home-manager/${x}.nix {inherit config pkgs inputs lib;})))
+      ++ [
+        {
+          rofi.enable = true;
+          rofi.theme = "rofi-dracula";
+          ripgrep.enable = true;
+          htop.enable = true;
+          mpv.enable = true;
+        }
+      ]);
 
+  # use some other notification thingy for wayland
   services.dunst = {
     enable = true;
     settings = {

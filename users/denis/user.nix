@@ -1,6 +1,5 @@
 {
   lib,
-  config,
   pkgs,
   ...
 }: {
@@ -15,7 +14,7 @@
 
   services = {
     a1111 = {
-      enable = true;
+      enable = false;
       user = "denis";
       group = "users";
       extraArgs = ["--no-download-sd-model" "--medvram" "--no-half-vae"];
@@ -29,7 +28,7 @@
     samba-wsdd.enable = true;
   };
 
-  systemd.services.a1111.serviceConfig.Restart = lib.mkForce "always";
+  #systemd.services.a1111.serviceConfig.Restart = lib.mkForce "always";
 
   networking.firewall = {
     allowedTCPPortRanges = [

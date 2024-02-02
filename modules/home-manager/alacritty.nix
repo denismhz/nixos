@@ -1,15 +1,19 @@
-{ config, pkgs, ... }:
-{
+_: {
   alacritty = {
     enable = true;
     settings = {
       window = {
-        opacity = 0.95;
         dynamic_title = true;
         dynamic_padding = true;
         decorations = "full";
-        dimensions = { lines = 0; columns = 0; };
-        padding = { x = 5; y = 5; };
+        dimensions = {
+          lines = 0;
+          columns = 0;
+        };
+        padding = {
+          x = 0;
+          y = 0;
+        };
         blur = true;
       };
 
@@ -18,7 +22,7 @@
         multiplier = 3;
       };
 
-      mouse = { hide_when_typing = true; };
+      mouse = {hide_when_typing = true;};
 
       key_bindings = [
         {
@@ -29,13 +33,23 @@
         }
       ];
 
-      font = let fontname = "DeJaVuSansM Nerd Font Mono"; in
-        {
-          normal = { family = fontname; style = "Bold"; };
-          bold = { family = fontname; style = "Bold"; };
-          italic = { family = fontname; style = "Light"; };
-          size = 14;
+      font = let
+        fontname = "DeJaVuSansM Nerd Font Mono";
+      in {
+        normal = {
+          family = fontname;
+          style = "Bold";
         };
+        bold = {
+          family = fontname;
+          style = "Bold";
+        };
+        italic = {
+          family = fontname;
+          style = "Light";
+        };
+        size = 14;
+      };
       cursor.style = "Beam";
 
       colors = {

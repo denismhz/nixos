@@ -126,6 +126,7 @@
       (pkgs.callPackage ../../modules/themes/sddm-chilli.nix {})
       wget
       vim
+      git
     ];
   };
 
