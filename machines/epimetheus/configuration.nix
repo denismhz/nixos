@@ -38,6 +38,11 @@ in {
   # Create all users using this machine
   users.users = createUsers _users;
 
+  programs = {
+    hyprland.enable = true;
+    hyprland.xwayland.enable = true;
+  };
+
   # Auto system update
   system.autoUpgrade.flake = ./../flake.nix;
 
@@ -58,7 +63,7 @@ in {
     kernel.sysctl = {"vm.swappiness" = 5;};
 
     # Fix black screen on a system with an integrated GPU
-    kernelParams = ["pcie_aspm=off"];
+    kernelParams = ["pcie_aspm=off" "nvidia.NVreg_PreserveVideoMemoryAllocations=1"];
     extraModulePackages = with config.boot.kernelPackages; [
       lenovo-legion-module
     ];
@@ -119,6 +124,7 @@ in {
 
       layout = "de";
       xkbVariant = "nodeadkeys";
+      xkbOptions = "caps:swapescape";
 
       # Enable automatic login for the user.
       displayManager = {
@@ -139,6 +145,7 @@ in {
     #ENV vars
     sessionVariables.NIXOS_OZONE_WL = "1";
     sessionVariables.MOZ_ENABLE_WAYLAND = "1";
+    sessionVariables.WLR_NO_HARDWARE_CURSORS = "1";
 
     pathsToLink = ["/share/bash-completion"];
 
@@ -149,6 +156,12 @@ in {
     ];
 
     systemPackages = with pkgs; [
+      #need the qt5 thingys for sddm to work
+      libsForQt5.qt5.qtquickcontrols2
+      libsForQt5.qt5.qtgraphicaleffects
+      libsForQt5.qt5ct
+      libsForQt5.qtstyleplugin-kvantum
+
       lenovo-legion
       virt-manager
       nixpkgs-fmt
@@ -197,7 +210,8 @@ in {
   programs.noisetorch.enable = true;
 
   # Configure console keymap
-  console.keyMap = "de-latin1-nodeadkeys";
+  #console.keyMap = "de-latin1-nodeadkeys";
+  console.useXkbConfig = true;
 
   # Enable sound with pipewire.
   sound.enable = true;
@@ -216,7 +230,8 @@ in {
       enable = true;
       extraPortals = with pkgs; [
         xdg-desktop-portal-gtk
-        xdg-desktop-portal-kde
+        #xdg-desktop-portal-kde
+        xdg-desktop-portal-hyprland
       ];
     };
   };
@@ -237,8 +252,9 @@ in {
 
     nvidia = {
       modesetting.enable = true;
-      powerManagement.enable = false;
+      powerManagement.enable = true;
       prime.offload.enable = false;
+      open = false;
     };
 
     opengl = {

@@ -1,41 +1,46 @@
-{ config, pkgs, ... }:
 {
-  wofi.enable = true;
-  wofi.style = ''
-    * {
-        all: unset;
-        font-family: "JetBrainsMono";
-        font-size: 16px;
-    }
+  config,
+  pkgs,
+  ...
+}: {
+  wofi = {
+    enable = true;
+    settings = {
+      normal_window = true;
+      matching = "fuzzy";
+      insensitive = true;
+      sort_order = "alphabetical";
+      monitor = "HDMI-A-1";
+    };
+    style = ''
+      * {
+          all: unset;
+          font-family: "JetBrainsMono";
+          font-size: 16px;
+      }
 
-    #window {
-        background-color: #292a37;
-        border-radius: 12px;
-    }
+      #window {
+          background-color: #292a37;
+      }
 
-    #outer-box {
-        background-color: #292a37;
-        border: 4px solid #44465c;
-        border-radius: 12px;
-    }
+      #input{
+          margin: 1rem;
+          padding: 0.5rem;
+          border-radius: 10px;
+          background-color: #303241;
+      }
 
-    #input{
-        margin: 1rem;
-        padding: 0.5rem;
-        border-radius: 10px;
-        background-color: #303241;
-    }
+      #entry {
+          margin: 0.25rem 0.75rem 0.25rem 0.75rem;
+          padding: 0.25rem 0.75rem 0.25rem 0.75rem;
+          color: #9699b7;
+          border-radius: 3px;
+      }
 
-    #entry {
-        margin: 0.25rem 0.75rem 0.25rem 0.75rem;
-        padding: 0.25rem 0.75rem 0.25rem 0.75rem;
-        color: #9699b7;
-        border-radius: 3px;
-    }
-
-    #entry:selected {
-        background-color: #303241;
-        color: #d9e0ee;
-    }
-  '';
+      #entry:selected {
+          background-color: #303241;
+          color: #d9e0ee;
+      }
+    '';
+  };
 }

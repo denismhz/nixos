@@ -2,7 +2,9 @@ _: {
   kitty = {
     enable = true;
     theme = "Dracula";
-    font.name = "DeJaVuSansM Nerd Font Mono";
+    settings = {
+      font_family = "DeJaVuSansM Nerd Font Mono";
+    };
     shellIntegration.enableBashIntegration = true;
   };
 }

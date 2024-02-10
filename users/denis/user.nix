@@ -45,6 +45,7 @@
       4173 # vite preview
       7860 # a1111
       8088 # comfyui
+      3000 # leptos
     ];
     allowedUDPPorts = [
       3702 # samba

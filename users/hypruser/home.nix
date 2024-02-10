@@ -19,7 +19,8 @@ in {
     stateVersion = "23.05";
   };
 
-  wayland.windowManager.hyprland = import ../../modules/home-manager/hyprland {};
+  wayland.windowManager = import ../../modules/home-manager/hyprland/hyprland.nix {inherit pkgs;};
+
   programs = let
     mods = ["waybar" "kitty" "alacritty" "bash" "eza" "firefox" "fzf" "git" "man" "nix-index" "oh-my-posh" "tealdeer"];
   in

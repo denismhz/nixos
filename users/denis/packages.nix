@@ -1,5 +1,9 @@
 {pkgs, ...}: {
   commandline_tools = with pkgs; [
+    nwg-look
+    swaybg
+    wlr-randr
+    leptosfmt
     #Command line tools
     dig
     /*

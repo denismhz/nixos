@@ -28,13 +28,6 @@
   ];
   # Enable automatic login for the user.
 
-  programs = {
-    hyprland.enable = true;
-    hyprland.xwayland.enable = true;
-
-    dconf.enable = true;
-  };
-
   environment.sessionVariables = {
     NIXOS_OZONE_WL = "1";
   };

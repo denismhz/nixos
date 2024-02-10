@@ -14,6 +14,7 @@
         "general.useragent.locale" = "en-GB";
         "browser.bookmarks.showMobileBookmarks" = true;
         "browser.compactmode.show" = true;
+        "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
         "browser.newtabpage.pinned" = [
           {
             title = "NixOS";
@@ -49,61 +50,64 @@
           }
         ];
       };
-      search.engines = {
-        "Nix Packages" = {
-          urls = [
-            {
-              template = "https://search.nixos.org/packages";
-              params = [
-                {
-                  name = "type";
-                  value = "packages";
-                }
-                {
-                  name = "query";
-                  value = "{searchTerms}";
-                }
-              ];
-            }
-          ];
+      search = {
+        default = "DuckDuckGo";
+        force = true;
+        engines = {
+          "Nix Packages" = {
+            urls = [
+              {
+                template = "https://search.nixos.org/packages";
+                params = [
+                  {
+                    name = "type";
+                    value = "packages";
+                  }
+                  {
+                    name = "query";
+                    value = "{searchTerms}";
+                  }
+                ];
+              }
+            ];
 
-          icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
-          definedAliases = ["@np"];
-        };
-        "Noogle" = {
-          urls = [
-            {
-              template = "https://noogle.dev/q";
-              params = [
-                {
-                  name = "term";
-                  value = "{searchTerms}";
-                }
-              ];
-            }
-          ];
+            icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
+            definedAliases = ["@np"];
+          };
+          "Noogle" = {
+            urls = [
+              {
+                template = "https://noogle.dev/q";
+                params = [
+                  {
+                    name = "term";
+                    value = "{searchTerms}";
+                  }
+                ];
+              }
+            ];
 
-          icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
-          definedAliases = ["@no"];
-        };
-        "Home-Manager Options" = {
-          urls = [
-            {
-              template = "https://mipmip.github.io/home-manager-option-search";
-              params = [
-                {
-                  name = "query";
-                  value = "{searchTerms}";
-                }
-              ];
-            }
-          ];
+            icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
+            definedAliases = ["@no"];
+          };
+          "Home-Manager Options" = {
+            urls = [
+              {
+                template = "https://mipmip.github.io/home-manager-option-search";
+                params = [
+                  {
+                    name = "query";
+                    value = "{searchTerms}";
+                  }
+                ];
+              }
+            ];
 
-          icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
-          definedAliases = ["@hm"];
+            icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
+            definedAliases = ["@hm"];
+          };
         };
       };
-      search.force = true;
       extensions = with inputs.firefox-addons.packages."x86_64-linux"; [
         bitwarden
         ublock-origin

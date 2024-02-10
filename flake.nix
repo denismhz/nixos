@@ -15,7 +15,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixos-hardware.url = "https://git.manherz.de/tobias/nixos-hardware-fork/archive/master.tar.gz";
-    neovim-flake.url = "github:jordanisaacs/neovim-flake";
+    neovim-flake.url = "github:denismhz/neovim-flake/leptosfmt";
   };
 
   outputs = inputs @ {

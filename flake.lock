@@ -428,6 +428,7 @@
         "plugin-cmp-path": "plugin-cmp-path",
         "plugin-cmp-treesitter": "plugin-cmp-treesitter",
         "plugin-cmp-vsnip": "plugin-cmp-vsnip",
+        "plugin-conform": "plugin-conform",
         "plugin-crates-nvim": "plugin-crates-nvim",
         "plugin-dracula": "plugin-dracula",
         "plugin-dracula-nvim": "plugin-dracula-nvim",
@@ -435,6 +436,7 @@
         "plugin-gitsigns-nvim": "plugin-gitsigns-nvim",
         "plugin-glow-nvim": "plugin-glow-nvim",
         "plugin-gruvbox": "plugin-gruvbox",
+        "plugin-harpoon": "plugin-harpoon",
         "plugin-indent-blankline": "plugin-indent-blankline",
         "plugin-kommentary": "plugin-kommentary",
         "plugin-lsp-signature": "plugin-lsp-signature",
@@ -480,15 +482,16 @@
         "tidalcycles": "tidalcycles"
       },
       "locked": {
-        "lastModified": 1697922087,
-        "narHash": "sha256-b7zp7GxpXnCqnKkVv0cY16BETjhnCPA/uVvpLUsz7X8=",
-        "owner": "jordanisaacs",
+        "lastModified": 1707218002,
+        "narHash": "sha256-8nbCChi9lu3/LP/5kstR3RdZLf+4jNZZ6PbSBzT6jWw=",
+        "owner": "denismhz",
         "repo": "neovim-flake",
-        "rev": "7bcc215d38226892849411721cfbc096fd7e4d2d",
+        "rev": "f88976f3d00f1bf8e8c860bae2a32432a632964c",
         "type": "github"
       },
       "original": {
-        "owner": "jordanisaacs",
+        "owner": "denismhz",
+        "ref": "leptosfmt",
         "repo": "neovim-flake",
         "type": "github"
       }
@@ -922,6 +925,22 @@
         "type": "github"
       }
     },
+    "plugin-conform": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1706919170,
+        "narHash": "sha256-XKFz5XghAK4pHsJ2RszhZFYTrqoN4PTpj+XZyGgHJyE=",
+        "owner": "stevearc",
+        "repo": "conform.nvim",
+        "rev": "c0e0e80f0c233cb3a249f719a44324c660163a3f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "stevearc",
+        "repo": "conform.nvim",
+        "type": "github"
+      }
+    },
     "plugin-crates-nvim": {
       "flake": false,
       "locked": {
@@ -1031,6 +1050,22 @@
       "original": {
         "owner": "ellisonleao",
         "repo": "gruvbox.nvim",
+        "type": "github"
+      }
+    },
+    "plugin-harpoon": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1703631439,
+        "narHash": "sha256-SIqssvuNnkw1YbEEElLYCHmh9OLnoHzggXNIZMb3jYI=",
+        "owner": "ThePrimeagen",
+        "repo": "harpoon",
+        "rev": "ccae1b9bec717ae284906b0bf83d720e59d12b91",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ThePrimeagen",
+        "repo": "harpoon",
         "type": "github"
       }
     },
