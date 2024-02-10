@@ -1,9 +1,14 @@
 {pkgs, ...}: {
   commandline_tools = with pkgs; [
+    # Hyprland
+    lxqt.lxqt-policykit
+    polkit
+    playerctl
+    pamixer
     nwg-look
     swaybg
     wlr-randr
-    leptosfmt
+
     #Command line tools
     dig
     /*

@@ -13,6 +13,10 @@
   };
 
   services = {
+    surrealdb = {
+      enable = true;
+      package = pkgs.unstable.surrealdb;
+    };
     a1111 = {
       enable = false;
       user = "denis";
@@ -58,7 +62,7 @@
   hardware.steam-hardware.enable = true;
 
   fonts.packages = with pkgs; [
-    (nerdfonts.override {fonts = ["DejaVuSansMono" "JetBrainsMono"];})
+    (nerdfonts.override {fonts = ["DejaVuSansMono" "JetBrainsMono" "Iosevka"];})
     font-awesome
     comic-mono
   ];

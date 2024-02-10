@@ -2,6 +2,7 @@
   description = "My machines";
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-23.11";
+    nixpkgs-23-05.url = "github:nixos/nixpkgs/nixos-23.05";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     hyprland.url = "github:hyprwm/Hyprland";
     aithings.url = "github:denismhz/flake/sd_webui";
@@ -46,7 +47,14 @@
     };
 
     unstable-overlay = _: _: {
-      unstable = inputs.nixpkgs-unstable.legacyPackages.${system};
+      unstable = import inputs.nixpkgs-unstable {
+        config.allowUnfree = true;
+        inherit system;
+      };
+      old = import inputs.nixpkgs-23-05 {
+        config.allowUnfree = true;
+        inherit system;
+      };
     };
   in {
     nixosConfigurations = {

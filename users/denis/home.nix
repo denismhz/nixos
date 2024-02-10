@@ -126,6 +126,7 @@ in {
             enableBashIntegration = true;
           };
           eww = {
+            package = pkgs.eww-wayland;
             enable = true;
             configDir = ./eww;
           };
