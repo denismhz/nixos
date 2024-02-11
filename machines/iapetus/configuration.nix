@@ -56,6 +56,13 @@ in {
   };
 
   services = {
+    printing.enable = true;
+    avahi = {
+      enable = true;
+      nssmdns = true;
+      # for a WiFi printer
+      openFirewall = true;
+    };
     resolved.enable = true;
     blueman.enable = true;
     pipewire = {
@@ -66,14 +73,21 @@ in {
     };
 
     xserver = {
+      # Enable the X11 windowing system.
       enable = true;
-      # Configure keymap in X11
 
+      # Configure keymap in X11
       layout = "de";
       xkbVariant = "nodeadkeys";
+      xkbOptions = "caps:swapescape";
+
+      # Enable automatic login for the user.
       displayManager = {
         sddm.enable = true;
-        sddm.theme = "sddm-sugar-dracula";
+        autoLogin.enable = false;
+        autoLogin.user = "denis";
+        sddm.theme = "sddm-sugar-dark";
+        # Launch KDE in Wayland session
       };
     };
   };
@@ -82,41 +96,67 @@ in {
   time.timeZone = "Europe/Berlin";
 
   # Select internationalisation properties.
-  i18n.defaultLocale = "en_US.UTF-8";
+  i18n = {
+    defaultLocale = "en_US.UTF-8";
+    extraLocaleSettings = {
+      LC_ADDRESS = "de_DE.UTF-8";
+      LC_IDENTIFICATION = "de_DE.UTF-8";
+      LC_MEASUREMENT = "de_DE.UTF-8";
+      LC_MONETARY = "de_DE.UTF-8";
+      LC_NAME = "de_DE.UTF-8";
+      LC_NUMERIC = "de_DE.UTF-8";
+      LC_PAPER = "de_DE.UTF-8";
+      LC_TELEPHONE = "de_DE.UTF-8";
+      LC_TIME = "de_DE.UTF-8";
+    };
 
-  i18n.extraLocaleSettings = {
-    LC_ADDRESS = "de_DE.UTF-8";
-    LC_IDENTIFICATION = "de_DE.UTF-8";
-    LC_MEASUREMENT = "de_DE.UTF-8";
-    LC_MONETARY = "de_DE.UTF-8";
-    LC_NAME = "de_DE.UTF-8";
-    LC_NUMERIC = "de_DE.UTF-8";
-    LC_PAPER = "de_DE.UTF-8";
-    LC_TELEPHONE = "de_DE.UTF-8";
-    LC_TIME = "de_DE.UTF-8";
+    supportedLocales = [
+      "C.UTF-8/UTF-8"
+      "en_US.UTF-8/UTF-8"
+      "en_GB.UTF-8/UTF-8"
+      "de_DE.UTF-8/UTF-8"
+    ];
   };
 
   # Configure console keymap
   console.keyMap = "de-latin1-nodeadkeys";
 
-  environment.systemPackages = with pkgs; [
-    #need the qt5 thingys for sddm to work
-    libsForQt5.qt5.qtquickcontrols2
-    libsForQt5.qt5.qtgraphicaleffects
-    libsForQt5.qt5ct
-    libsForQt5.qtstyleplugin-kvantum
-    qt6.qtwayland
-    (pkgs.callPackage ../../modules/themes/sddm-theme.nix {})
-    (pkgs.callPackage ../../modules/themes/rofi-theme.nix {})
-    vim
-    wget
-  ];
+  environment = {
+    #ENV vars
+    sessionVariables.NIXOS_OZONE_WL = "1";
+    sessionVariables.MOZ_ENABLE_WAYLAND = "1";
+    sessionVariables.WLR_NO_HARDWARE_CURSORS = "1";
 
-  xdg.portal.enable = true;
-  xdg.portal.extraPortals = [
-    pkgs.xdg-desktop-portal-gtk
-    pkgs.xdg-desktop-portal-hyprland
-  ];
+    pathsToLink = ["/share/bash-completion"];
+
+    systemPackages = with pkgs; [
+      #need the qt5 thingys for sddm to work
+      libsForQt5.qt5.qtquickcontrols2
+      libsForQt5.qt5.qtgraphicaleffects
+      libsForQt5.qt5ct
+      libsForQt5.qtstyleplugin-kvantum
+
+      (pkgs.callPackage ../../modules/themes/sddm-theme.nix {})
+
+      lenovo-legion
+      virt-manager
+      nixpkgs-fmt
+      dracula-theme
+      wget
+      neovim
+      git
+    ];
+  };
+
+  xdg = {
+    portal = {
+      enable = true;
+      extraPortals = with pkgs; [
+        xdg-desktop-portal-gtk
+        xdg-desktop-portal-hyprland
+      ];
+    };
+  };
 
   fonts.packages = with pkgs; [
     (nerdfonts.override {fonts = ["DejaVuSansMono"];})
@@ -125,20 +165,19 @@ in {
 
   hardware = {
     bluetooth.enable = true;
-
     opengl.enable = true;
-
-    pulseaudio.enable = false;
   };
 
+  programs.dconf.enable = true;
+  programs.noisetorch.enable = true;
+
+  # Configure console keymap
+  #console.keyMap = "de-latin1-nodeadkeys";
+  console.useXkbConfig = true;
+
+  # Enable sound with pipewire.
   sound.enable = true;
   security.rtkit.enable = true;
 
-  # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken. It‘s perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
-  # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "23.05"; # Did you read the comment?
+  system.stateVersion = "23.05";
 }
