@@ -56,6 +56,7 @@ in {
           htop.enable = true;
           mpv.enable = true;
           ripgrep.enable = true;
+          bat.enable = true;
           foot = {
             enable = true;
             server.enable = true;

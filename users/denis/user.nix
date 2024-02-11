@@ -1,8 +1,11 @@
 {
   lib,
   pkgs,
+  config,
   ...
-}: {
+}: let
+  hostname = config.networking.hostName;
+in {
   # Define a user account. Don't forget to set a password with  ^`^xpasswd ^`^y.
   # Initial definition of user account in machine configuration
   # extra settings here
@@ -12,25 +15,27 @@
     hashedPassword = "$y$j9T$0opCRT4e3X3P.tqGvEGd91$9cW/JMGTCfcEzkw9m6cemqSoNBrd5O6A3JCO3eitdO9";
   };
 
-  services = {
-    surrealdb = {
-      enable = true;
-      package = pkgs.unstable.surrealdb;
+  services =
+    lib.mkIf (hostname == "epimetheus")
+    {
+      surrealdb = {
+        enable = true;
+        package = pkgs.unstable.surrealdb;
+      };
+      a1111 = {
+        enable = false;
+        user = "denis";
+        group = "users";
+        extraArgs = ["--no-download-sd-model" "--medvram" "--no-half-vae"];
+        settings.ckpt-dir = "/home/denis/.invokeai/autoimport/main";
+      };
+      mongodb = {
+        enable = true;
+        dbpath = "/var/lib/mongodb";
+      };
+      # Enable samba wsdd
+      samba-wsdd.enable = true;
     };
-    a1111 = {
-      enable = false;
-      user = "denis";
-      group = "users";
-      extraArgs = ["--no-download-sd-model" "--medvram" "--no-half-vae"];
-      settings.ckpt-dir = "/home/denis/.invokeai/autoimport/main";
-    };
-    mongodb = {
-      enable = true;
-      dbpath = "/var/lib/mongodb";
-    };
-    # Enable samba wsdd
-    samba-wsdd.enable = true;
-  };
 
   #systemd.services.a1111.serviceConfig.Restart = lib.mkForce "always";
 
@@ -57,9 +62,13 @@
   };
 
   # Steam
-  programs.steam.enable = true;
-  programs.gamemode.enable = true;
-  hardware.steam-hardware.enable = true;
+  programs = lib.mkIf (hostname == "epimetheus") {
+    steam.enable = true;
+    gamemode.enable = true;
+  };
+  hardware = lib.mkIf (hostname == "epimetheus") {
+    steam-hardware.enable = true;
+  };
 
   fonts.packages = with pkgs; [
     (nerdfonts.override {fonts = ["DejaVuSansMono" "JetBrainsMono" "Iosevka"];})

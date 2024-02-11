@@ -64,7 +64,9 @@
       in
         nixpkgs.lib.nixosSystem {
           inherit system;
-          specialArgs = {inherit inputs _users;};
+          specialArgs = {
+            inherit inputs _users;
+          };
           modules = [
             ./machines/epimetheus/configuration.nix
             inputs.nixos-hardware.nixosModules.lenovo-legion-16ach6h-hybrid
