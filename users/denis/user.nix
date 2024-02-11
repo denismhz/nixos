@@ -16,8 +16,8 @@ in {
   };
 
   services =
-    lib.mkIf (hostname == "epimetheus")
-    {
+    if (hostname == "epimetheus")
+    then {
       surrealdb = {
         enable = true;
         package = pkgs.unstable.surrealdb;
@@ -35,7 +35,8 @@ in {
       };
       # Enable samba wsdd
       samba-wsdd.enable = true;
-    };
+    }
+    else {};
 
   #systemd.services.a1111.serviceConfig.Restart = lib.mkForce "always";
 
