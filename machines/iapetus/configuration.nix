@@ -25,6 +25,8 @@ in {
       ./hardware-configuration.nix
     ]
     ++ (builtins.map (u: ../../users/${u}/user.nix) _users);
+  # Auto system update
+  system.autoUpgrade.flake = ./../flake.nix;
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -117,9 +119,6 @@ in {
       "de_DE.UTF-8/UTF-8"
     ];
   };
-
-  # Configure console keymap
-  console.keyMap = "de-latin1-nodeadkeys";
 
   environment = {
     #ENV vars

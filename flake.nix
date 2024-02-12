@@ -78,7 +78,7 @@
         };
 
       # ASUS Zenbook
-      nixos-mini-denis = let
+      iapetus = let
         _users = ["denis" "hypruser"];
       in
         nixpkgs.lib.nixosSystem {
