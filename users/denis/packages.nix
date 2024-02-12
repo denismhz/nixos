@@ -1,6 +1,7 @@
 {pkgs, ...}: {
   commandline_tools = with pkgs; [
     # Hyprland
+    bc
     lxqt.lxqt-policykit
     polkit
     playerctl
@@ -8,6 +9,7 @@
     nwg-look
     swaybg
     wlr-randr
+    unstable.hyprpaper
 
     #Command line tools
     dig

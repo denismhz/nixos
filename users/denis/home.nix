@@ -133,4 +133,10 @@ in {
           };
         }
       ]);
+  home.file.".config/hypr/hyprpaper.conf".text = ''
+      preload = ~/Pictures/wallpaper.jpg
+
+    # Set the default wallpaper seen on inital workspace(s)
+      wallpaper = ,~/Pictures/wallpaper.jpg
+  '';
 }

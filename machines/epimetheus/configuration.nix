@@ -161,6 +161,7 @@ in {
       libsForQt5.qt5.qtgraphicaleffects
       libsForQt5.qt5ct
       libsForQt5.qtstyleplugin-kvantum
+      libsForQt5.polkit-kde-agent
 
       lenovo-legion
       virt-manager
