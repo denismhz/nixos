@@ -22,8 +22,10 @@ in {
     stateVersion = "23.05";
   };
 
-  wayland.windowManager =
-    import ../../modules/home-manager/hyprland/hyprland.nix {inherit pkgs;};
+  services.playerctld.enable = true;
+  wayland.windowManager = import ../../modules/home-manager/hyprland/hyprland.nix {
+    inherit config pkgs;
+  };
 
   programs = let
     # todo: only import vscode if hostname is epimetheus or try vscode on asus first
@@ -55,6 +57,10 @@ in {
           };
           htop.enable = true;
           mpv.enable = true;
+          mpv.scripts = with pkgs; [
+            mpvScripts.mpris
+            mpvScripts.autoload
+          ];
           ripgrep.enable = true;
           bat.enable = true;
           foot = {
@@ -125,6 +131,14 @@ in {
           yazi = {
             enable = true;
             enableBashIntegration = true;
+            settings = {
+              manager = {
+                sort_by = "alphabetical";
+                sort_dir_first = true;
+                show_hidden = true;
+                sort_sensitive = false;
+              };
+            };
           };
           eww = {
             package = pkgs.eww-wayland;

@@ -7,7 +7,6 @@
     playerctl
     pamixer
     nwg-look
-    swaybg
     wlr-randr
     unstable.hyprpaper
 

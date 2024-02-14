@@ -18,7 +18,7 @@ fi
 ## Open widgets
 run_eww() {
 	${EWW} --config "$CFG" open-many \
-		background clock menu
+		background clock menu music
 }
 
 ## Launch or close widgets accordingly
@@ -27,6 +27,6 @@ if [[ ! -f "$FILE" ]]; then
 	run_eww
 else
 	${EWW} --config "$CFG" close \
-		background clock menu
+		background clock menu music
 	rm "$FILE"
 fi

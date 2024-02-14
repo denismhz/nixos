@@ -17,6 +17,7 @@
 (defpoll BLIGHT :interval "1s" `scripts/sys_info --blight`)
 (defpoll BATTERY :interval "5s" `scripts/sys_info --bat`)
 
+
 ;; Uptime vars
 (defpoll UPHOUR :interval "5s" `uptime -p | awk '{print $2 \" \" $3}' | sed 's/,//g'`)
 (defpoll UPMIN :interval "5s" `uptime -p | awk '{print $4 \" \" $5}'`)
@@ -59,6 +60,10 @@
 
 (defpoll HOST :interval "20s" `echo "$(whoami)@$(hostname)"`)
 
+(defpoll MUSIC :interval "2s" `playerctl  metadata --player=mpv --format "{{ artist }}-{{ title }}"`)
+
+(defpoll REM :interval "1s" `playerctl metadata --player=mpv --format "Time remaining: {{ duration(mpris:length - position) }}"`)
+
 ;; ** Widgets *************************************************************************
 
 ;; clock
@@ -83,6 +88,33 @@
     )
 )
 
+;; music
+(defwidget music [] 
+    (box :class "wrapper" :hexpand true :vexpand true
+        (box :orientation "v" :spacing 0 :space-evenly false
+            (button :onclick "playerctl next"
+                (label :text "NEXT")
+            )
+            (button :onclick "playerctl previous"
+                (label :text "PREV")
+            )
+            (button :onclick "playerctl play-pause"
+                (label :text "PLAY/PAUSE")
+            )
+            (button :onclick "~/_mpv"
+                (label :text "START")
+            )
+            (button :onclick "scripts/rm_song.sh"
+                (label :text "DEL")
+            )
+            (label :wrap true :text MUSIC)
+            (label :text REM)
+            (input :value "yt-url" :onchange "~/_mpv")
+        )
+    )
+)
+
+
 ;; clock
 (defwindow clock :stacking "fg" :focusable "false" :screen 1 :monitor 0
 	    :geometry (geometry :x 0 :y "3%" :width "300px" :height "10%" :anchor "top right")
@@ -91,3 +123,8 @@
 (defwindow menu :stacking "fg" :focusable "false" :screen 1 :monitor 0
 	    :geometry (geometry :x 0 :y 0 :width "300px" :height "3%" :anchor "top right")
 					(menu))
+
+;; music
+(defwindow music :stacking "fg" :focusable "true" :screen 1 :monitor 0
+	    :geometry (geometry :x 0 :y "10%" :width "300px" :height "10%" :anchor "top right")
+					(music))
