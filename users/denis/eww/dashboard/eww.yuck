@@ -1,68 +1,23 @@
-;; **
-;; ** Widgets config for EWW
-;; ** Created by : @adi1090x
-;; ** Converted by : @tripleo1
-;; **
-
-;; ** Variables ***********************************************************************
-
-;; Profile vars
-(defvar IMAGE "images/profile.jpg")
-(defvar NAME "YOUR NAME")
-(defpoll UNAME :interval "5m" `whoami`)
-
-;; System vars
-(defpoll CPU_USAGE :interval "1s" `scripts/sys_info --cpu`)
-(defpoll MEM_USAGE :interval "1s" `scripts/sys_info --mem`)
-(defpoll BLIGHT :interval "1s" `scripts/sys_info --blight`)
-(defpoll BATTERY :interval "5s" `scripts/sys_info --bat`)
-
-
-;; Uptime vars
-(defpoll UPHOUR :interval "5s" `uptime -p | awk '{print $2 \" \" $3}' | sed 's/,//g'`)
-(defpoll UPMIN :interval "5s" `uptime -p | awk '{print $4 \" \" $5}'`)
-
-;; Music vars
-(defpoll SONG :interval "1s" `scripts/music_info --song`)
-(defpoll ARTIST :interval "1s" `scripts/music_info --artist`)
-(defpoll STATUS :interval "1s" `scripts/music_info --status`)
-(defpoll CURRENT :interval "1s" `scripts/music_info --time`)
-(defpoll COVER :interval "1s" `scripts/music_info --cover`)
-(defpoll CTIME :interval "1s" `scripts/music_info --ctime`)
-(defpoll TTIME :interval "1s" `scripts/music_info --ttime`)
-
-;; Weather vars
-(defpoll ICON :interval "15m" `scripts/weather_info --icon`)
-(defpoll STAT :interval "15m" `scripts/weather_info --stat`)
-(defpoll TEMP :interval "15m" `scripts/weather_info --temp`)
-(defpoll HEX :interval "15m" `scripts/weather_info --hex`)
-(defpoll QUOTE :interval "15m" `scripts/weather_info --quote`)
-(defpoll QUOTE2 :interval "15m" `scripts/weather_info --quote2`)
-
-;; Apps vars
-(defpoll MAILS :interval "5m" `scripts/mails`)
-
-;; Files vars
-(defpoll FREE :interval "5s" `df -h / | awk '{print $4}' | tail -n 1 | sed 's/G/GB/'`)
-
 ;;Monitor 0 width
 (defpoll HEIGHT :interval "60s" `hyprctl monitors | grep "@"  | awk 'NR==1{print $1}' | sed 's/\([0-9]*\)x.*/\1/px'`)
 
 ;;Monitor 0 height
 (defpoll WIDTH :interval "60s" `hyprctl monitors | grep "@"  | awk 'NR==1{print $1}' | sed 's/.*x\([0-9]*\)@.*/\1\*0.2' | bc | awk -F. '{print $1px}'`)
 
-(defpoll TIME :interval "1s"
-  `date +%H:%M:%S`)
-
+(defpoll TIME :interval "1s" `date +%H:%M:%S`)
 (defpoll DATE :interval "60s" `date +"%a, %d.%m.%Y"`)
-
 (defpoll UPTIME :interval "60s" `uptime | awk '{print $3}' | sed 's/,//'`)
-
 (defpoll HOST :interval "20s" `echo "$(whoami)@$(hostname)"`)
-
 (defpoll MUSIC :interval "2s" `playerctl  metadata --player=mpv --format "{{ artist }}-{{ title }}"`)
-
 (defpoll REM :interval "1s" `playerctl metadata --player=mpv --format "Time remaining: {{ duration(mpris:length - position) }}"`)
+(defpoll CPU_TMP :interval "1s" `sensors | grep CPU | awk '{print $3}' | sed 's/+//; s/\°C//'`)
+(defpoll GPU_TMP :interval "1s" `sensors | grep GPU | awk '{print $3}' | sed 's/+//; s/\°C//'`)
+(defpoll GPU_USAGE :interval "1s" `nvidia-smi | grep % | awk '{print $13}' | sed 's/%//'`)
+(defpoll CPU_USAGE :interval "1s" `scripts/sys_info --cpu`)
+(defpoll MEM_USAGE :interval "1s" `LC_NUMERIC="en_US.UTF-8" printf "%.0f" "$(free -m | grep Mem | awk '{print ($3/$2)*100}')"`)
+(defpoll DISK_USAGE :interval "5s" `df -h / | awk '{print $5}' | tail -n1 | sed 's/%//g'`)
+(defpoll get_sinks :interval "1s" `bash ~/test.sh` )
+(defvar show_sinks true)
 
 ;; ** Widgets *************************************************************************
 
@@ -88,10 +43,23 @@
     )
 )
 
+;; audio_sinks
+(defwidget audio_sinks []
+    (box :class "wrapper" :orientation "v"
+        (button :onclick "${EWW_CMD} update show_sinks=${show_sinks?false:true}" (label :text "show sinks"))
+        (revealer :transition "slidedown" :reveal show_sinks :visible show_sinks
+            (box
+                (literal :content get_sinks)
+            )
+        )
+    )
+)
+
 ;; music
 (defwidget music [] 
     (box :class "wrapper" :hexpand true :vexpand true
         (box :orientation "v" :spacing 0 :space-evenly false
+            (audio_sinks)
             (button :onclick "playerctl next"
                 (label :text "NEXT")
             )
@@ -114,6 +82,34 @@
     )
 )
 
+;;temps
+(defwidget temps []
+    (box :class "wrapper" :hexpand true :vexpand true
+        (centerbox :orientation: "h"
+            (box :class "res_usage" :orientation "v" :valign "center" :halign "center" :spacing 15 :space-evenly "false"
+                (box :class "res_circle" :valign "center" :halign "center" :orientation "v" :hexpand true :vexpand true
+                    (circular-progress :class "p_cpu_temp" :start-at 0.0 :value CPU_USAGE :thickness 3.0
+                        (label :class "l_res_title" :text "CPU")
+                    ))
+                (label :class "l_res_usage" :valign "end" :halign "center" :text "${CPU_USAGE}%")
+            )
+            (box :class "res_usage" :orientation "v" :valign "center" :halign "center" :spacing 15 :space-evenly "false"
+                (box :class "res_circle" :halign "center" :valign "center" :orientation "v" :hexpand true :vexpand true
+                    (circular-progress :class "p_mem_usage" :start-at 0.0 :value MEM_USAGE :thickness 3.0
+                        (label :class "l_res_title" :text "MEM")
+                    ))
+                (label :class "l_res_usage" :valign "end" :halign "center" :text "${MEM_USAGE}%")
+            )
+            (box :class "res_usage" :orientation "v" :valign "center" :halign "center" :spacing 15 :space-evenly "false" :tooltip "${DISK_USAGE}%"
+                (box :class "res_circle" :halign "center" :valign "center" :orientation "v" :hexpand true :vexpand true
+                    (circular-progress :class "p_disk_usage" :start-at 0.0 :value DISK_USAGE :thickness 3.0 
+                        (label :class "l_res_title" :text "DISK")
+                    ))
+                (label :class "l_res_usage" :valign "end" :halign "center" :text "${DISK_USAGE}%")
+            )
+        )
+    )
+)
 
 ;; clock
 (defwindow clock :stacking "fg" :focusable "false" :screen 1 :monitor 0
@@ -125,6 +121,11 @@
 					(menu))
 
 ;; music
-(defwindow music :stacking "fg" :focusable "true" :screen 1 :monitor 0
-	    :geometry (geometry :x 0 :y "10%" :width "300px" :height "10%" :anchor "top right")
+(defwindow music :stacking "fg" :focusable "false" :screen 1 :monitor 0
+	    :geometry (geometry :x 0 :y "10%" :width "300px" :height "30%" :anchor "top right")
 					(music))
+
+;; temps
+(defwindow temps :stacking "fg" :focusable "false" :screen 1 :monitor 0
+	    :geometry (geometry :x 0 :y "40%" :width "300px" :height "10%" :anchor "top right")
+					(temps))

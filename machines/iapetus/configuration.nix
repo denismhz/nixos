@@ -1,5 +1,6 @@
 {
   config,
+  lib,
   pkgs,
   inputs,
   _users,
@@ -30,16 +31,9 @@ in {
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   nix.settings.experimental-features = ["nix-command" "flakes"];
+  nix.settings.trusted-users = ["denis"];
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
-
-  networking = {
-    hostName = "iapetus"; # Define your hostname.
-
-    # Enable networking
-    networkmanager.enable = true;
-    networkmanager.dns = "systemd-resolved";
-  };
 
   # Create all users using this machine
   users.users = createUsers _users;
@@ -56,6 +50,10 @@ in {
   };
 
   services = {
+    openssh = {
+      enable = true;
+      settings.PermitRootLogin = "yes";
+    };
     printing.enable = true;
     avahi = {
       enable = true;
@@ -118,8 +116,32 @@ in {
     ];
   };
 
+  nixpkgs.config.permittedInsecurePackages = [
+    "electron-25.9.0"
+  ];
+
+  sops.defaultSopsFile = ../../secrets/example.yaml;
+  sops.age.keyFile = "/home/denis/.config/sops/age/keys.txt";
+  sops.secrets.wifi-home = {};
+
+  # Enable networking
+  networking = {
+    hostName = "iapetus";
+    interfaces."wlan0".useDHCP = true;
+    wireless = {
+      enable = true;
+      interfaces = ["wlan0"];
+      environmentFile = config.sops.secrets.wifi-home.path;
+      networks = {
+        "Wi-Fi" = {
+          psk = "@PASS_WIFI_HOME@";
+        };
+      };
+    };
+  };
+
   # Configure console keymap
-  console.keyMap = "de-latin1-nodeadkeys";
+  console.keyMap = lib.mkForce "de-latin1-nodeadkeys";
 
   environment = {
     #ENV vars
@@ -150,6 +172,7 @@ in {
 
   xdg = {
     portal = {
+      config.common.default = "*";
       enable = true;
       extraPortals = with pkgs; [
         xdg-desktop-portal-gtk
@@ -172,7 +195,6 @@ in {
   programs.noisetorch.enable = true;
 
   # Configure console keymap
-  #console.keyMap = "de-latin1-nodeadkeys";
   console.useXkbConfig = true;
 
   # Enable sound with pipewire.

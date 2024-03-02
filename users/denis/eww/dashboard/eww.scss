@@ -1,6 +1,6 @@
 /** Global *******************************************/
 * {
-  all: unset;
+  //all: unset;
   font-family: feather;
   font-family: Iosevka;
 }
@@ -20,12 +20,40 @@
 .wrapper {
   border: 2px solid white;
   background-color: black;
+  margin: 0;
+  padding: 0;
+}
+
+.l_res_usage {
+  padding: 0px 8px 0px 8px;
+  margin: 0px 0px 0px 0px;
+  font-weight: bold;
+}
+
+.res_usage {
+  border-radius: 12px;
+  padding: 14px 18px 14px 18px;
+}
+
+.l_res_title {
+  border-radius: 100%;
+  padding: 20px;
+}
+
+.ex {
+  border: 1px solid blue;
+}
+
+.res_circle {
+  border-radius: 100%;
+  padding: 0px;
 }
 
 .time {
   margin: 0;
   font-size: 2rem;
 }
+
 .date {
   margin: 0;
   font-size: 1.5rem;

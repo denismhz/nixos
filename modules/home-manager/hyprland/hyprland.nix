@@ -20,9 +20,10 @@ in {
       monitor=HDMI-A-1,1920x1080,1600x0,1
 
       # Execute your favorite apps at launch
-      exec-once = eww daemon
+      # exec-once = eww daemon
       exec-once = hyprpaper
       exec-once = ${test}
+      exec-once = mako
 
       windowrule=noborder,^(wofi)$
       windowrule=noanim,^(wofi)$
@@ -37,11 +38,13 @@ in {
       env = GTK_THEME,Dracula
       env = XDG_SESSION_DESKTOP,Hyprland
       env = GDK_BACKEND,wayland,x11
+
       env = QT_AUTO_SCREEN_SCALE_FACTOR,1
-      env = QT_QPA_PLATFORM,wayland;xcb
+      env = QT_QPA_PLATFORM,wayland
       env = QT_WAYLAND_DISABLE_WINDOWDECORATION,1
       env = QT_QPA_PLATFORMTHEME,qt5ct
       env = QT_STYLE_OVERRIDE,kvantum
+
       env = LIBVA_DRIVER_NAME,nvidia
       env = XDG_SESSION_TYPE,wayland
       env = GBM_BACKEND,nvidia-drm
@@ -63,7 +66,7 @@ in {
       bindl=,XF86AudioPrev, exec, playerctl previous
       #
       bind=$mainMod SHIFT, E, exec, ${test}
-      bind=$mainMod SHIFT, I, exec, ${config.programs.eww.configDir}/dashboard/launch_dashboard
+      bind=$mainMod SHIFT, I, exec, ~/.config/eww/dashboard/launch_dashboard
       bind = $mainMod SHIFT, T, exec, telegram-desktop
       bind = $mainMod, RETURN, exec, foot
       bind = $mainMod, O, exec, alacritty

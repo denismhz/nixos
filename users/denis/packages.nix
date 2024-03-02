@@ -1,7 +1,15 @@
 {pkgs, ...}: {
   commandline_tools = with pkgs; [
+    deploy-rs
+    age
+    libnotify
+    lm_sensors
+    skanpage
     # Hyprland
+    pulseaudio
+    jq
     bc
+    socat
     lxqt.lxqt-policykit
     polkit
     playerctl

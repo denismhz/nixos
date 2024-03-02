@@ -1,5 +1,4 @@
-{ config, pkgs, ... }:
-{
+_: {
   eza = {
     enable = true;
     enableAliases = true;

@@ -25,6 +25,10 @@ in {
     ]
     ++ (builtins.map (u: ../../users/${u}/user.nix) _users);
 
+  sops.defaultSopsFile = ../../secrets/example.yaml;
+  sops.age.keyFile = "/home/denis/.config/sops/age/keys.txt";
+  sops.secrets.wifi-home = {};
+
   nixpkgs.config.allowUnfree = true;
 
   nix = {
@@ -156,12 +160,17 @@ in {
     ];
 
     systemPackages = with pkgs; [
-      #need the qt5 thingys for sddm to work
+      #need the qt5 thingys for sddm to work+
+      qt6Packages.qt6ct
+      qt6.qtwayland
+      libsForQt5.breeze-icons
+      libsForQt5.qt5.qtwayland
       libsForQt5.qt5.qtquickcontrols2
       libsForQt5.qt5.qtgraphicaleffects
       libsForQt5.qt5ct
       libsForQt5.qtstyleplugin-kvantum
       libsForQt5.polkit-kde-agent
+      libsForQt5.polkit-qt
 
       lenovo-legion
       virt-manager

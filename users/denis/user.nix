@@ -11,16 +11,28 @@ in {
   # extra settings here
   users.users.denis = {
     description = "Denis Manherz";
-    extraGroups = ["networkmanager" "wheel" "video" "render" "libvirtd"];
+    extraGroups = ["docker" "networkmanager" "wheel" "video" "render" "libvirtd" "scanner"];
     hashedPassword = "$y$j9T$0opCRT4e3X3P.tqGvEGd91$9cW/JMGTCfcEzkw9m6cemqSoNBrd5O6A3JCO3eitdO9";
+    openssh.authorizedKeys.keys = ["ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOyS5fFOZbcZYMMYJdVSG7YTYhx+ulFmjzdXGq3xgqtr denis@manherz.de"];
   };
+
+  virtualisation.docker.enable = true;
 
   services =
     if (hostname == "epimetheus")
     then {
+      logind.lidSwitch = "ignore";
       surrealdb = {
         enable = true;
         package = pkgs.unstable.surrealdb;
+      };
+      invokeai = {
+        enable = false;
+        user = "denis";
+        group = "users";
+        settings = {
+          root = "/home/denis/.invokeai";
+        };
       };
       a1111 = {
         enable = false;
@@ -30,15 +42,14 @@ in {
         settings.ckpt-dir = "/home/denis/.invokeai/autoimport/main";
       };
       mongodb = {
-        enable = true;
+        enable = false;
         dbpath = "/var/lib/mongodb";
       };
       # Enable samba wsdd
       samba-wsdd.enable = true;
     }
-    else {};
-
-  #systemd.services.a1111.serviceConfig.Restart = lib.mkForce "always";
+    else {
+    };
 
   networking.firewall = {
     allowedTCPPortRanges = [
@@ -69,6 +80,7 @@ in {
   };
   hardware = lib.mkIf (hostname == "epimetheus") {
     steam-hardware.enable = true;
+    sane.enable = true;
   };
 
   fonts.packages = with pkgs; [

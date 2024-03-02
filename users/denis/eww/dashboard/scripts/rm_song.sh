@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
 
-playerctl metadata --format '{{ xesam:url }}' | sed -e 's/%20/ /g' -e 's/file\:\/\///g'
-
-rm -f "$(playerctl metadata --format '{{ xesam:url }}' | sed -e 's/%20/ /g' -e 's/file\:\/\///g')"
+echo '{ "command": ["get_property", "path"] }' | socat - /tmp/mpvsocket | jq -r '.data'
+echo '{ "command": ["get_property", "path"] }' | socat - /tmp/mpvsocket | jq -r '.data' | xargs -I{} rm -f "{}"

@@ -12,5 +12,6 @@ pkgs.writeShellScript "randomWallpaperScript" ''
   	hyprctl hyprpaper unload all
   	hyprctl hyprpaper preload "$directory/$random_background"
   	hyprctl hyprpaper wallpaper "$monitor, $directory/$random_background"
+  	hyprctl hyprpaper wallpaper "eDP-1, $directory/$random_background"
   fi
 ''

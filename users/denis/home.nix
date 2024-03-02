@@ -13,14 +13,15 @@ in {
     username = "denis";
     homeDirectory = "/home/denis";
     packages = lib.mkMerge [
-      (lib.mkIf (hostName == "epimetheus") my_packages.kde_packages)
-      (lib.mkIf (hostName == "epimetheus") [inputs.nix-gaming.packages.x86_64-linux.star-citizen])
+      (lib.mkIf (hostName == "epimetheus") ([inputs.nix-gaming.packages.x86_64-linux.star-citizen] ++ my_packages.kde_packages))
       my_packages.user_packages
       my_packages.commandline_tools
     ];
 
     stateVersion = "23.05";
   };
+
+  services.mako.enable = true;
 
   services.playerctld.enable = true;
   wayland.windowManager = import ../../modules/home-manager/hyprland/hyprland.nix {
@@ -30,13 +31,11 @@ in {
   programs = let
     # todo: only import vscode if hostname is epimetheus or try vscode on asus first
     mods = [
-      "alacritty"
       "bash"
       "eza"
       "firefox"
       "fzf"
       "git"
-      "kitty"
       "man"
       "nix-index"
       "oh-my-posh"
@@ -71,6 +70,7 @@ in {
                 font = "DeJaVuSansM Nerd Font Mono:size=14";
               };
               colors = {
+                alpha = "0.9";
                 foreground = "f8f8f2";
                 background = "282a36";
                 regular0 = "000000";
@@ -95,17 +95,12 @@ in {
           tmux = {
             enable = true;
             mouse = true;
-            newSession = true;
+            # newSession = true;
             plugins = with pkgs.tmuxPlugins; [
               {
-                plugin = dracula;
+                plugin = power-theme;
                 extraConfig = ''
-                  set -g @dracula-powerline true
-                  set -g @dracula-showflags true
-                  set -g @dracula-military-time true
-                  set -g @dracula-time-format "%R"
-                  set -g @dracula-show-fahrenheit false
-                  set -g @dracula-plugins "time battery weather"
+                  set -g @tmux_power_theme 'gold'
                 '';
               }
               yank
@@ -143,7 +138,7 @@ in {
           eww = {
             package = pkgs.eww-wayland;
             enable = true;
-            configDir = ./eww;
+            configDir = config.lib.file.mkOutOfStoreSymlink ./eww;
           };
         }
       ]);
