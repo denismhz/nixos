@@ -24,6 +24,7 @@ in {
       exec-once = hyprpaper
       exec-once = ${test}
       exec-once = mako
+      exec-once = ${pkgs.libsForQt5.polkit-kde-agent}/libexec/polkit-kde-authentication-agent-1
 
       windowrule=noborder,^(wofi)$
       windowrule=noanim,^(wofi)$

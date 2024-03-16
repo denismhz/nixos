@@ -10,6 +10,7 @@
   imports = [./sd-image.nix];
   boot = {
     loader.grub.enable = false;
+    binfmt.emulatedSystems = ["x86_64-linux"];
     loader.generic-extlinux-compatible.enable = true;
     swraid.enable = lib.mkForce false;
   };
@@ -26,12 +27,15 @@
     wheelNeedsPassword = false;
   };
 
-  sops.defaultSopsFile = ../../secrets/example.yaml;
-  sops.age.keyFile = "/home/denis/.config/sops/age/keys.txt";
-  sops.secrets.wifi-home = {};
+  sops = {
+    defaultSopsFile = ../../secrets/example.yaml;
+    age.keyFile = "/home/denis/.config/sops/age/keys.txt";
+    secrets.wifi-home = {};
+  };
 
   # Enable networking
   networking = {
+    hostName = "rpi3b";
     interfaces."wlan0".useDHCP = true;
     wireless = {
       enable = true;
@@ -76,6 +80,7 @@
 
   environment.systemPackages = with pkgs; [
     vim
+    fzf
   ];
 
   zramSwap = {
@@ -84,21 +89,15 @@
   };
 
   hardware = {
-    enableRedistributableFirmware = lib.mkForce false;
+    enableRedistributableFirmware = lib.mkForce true;
     firmware = [pkgs.raspberrypiWirelessFirmware];
   };
 
-  # hardware = {
-  #   opengl.enable = true;
-  # };
+  hardware = {
+    opengl.enable = true;
+  };
 
   programs.git.enable = true;
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

@@ -1,5 +1,7 @@
 {pkgs, ...}: {
   commandline_tools = with pkgs; [
+    libgnome-keyring
+    lshw
     deploy-rs
     age
     libnotify
@@ -7,6 +9,7 @@
     skanpage
     # Hyprland
     pulseaudio
+    #esphome
     jq
     bc
     socat
@@ -56,6 +59,8 @@
   ];
 
   user_packages = with pkgs; [
+    dolphin
+    obsidian
     discord
     foliate
     jellyfin-media-player
@@ -87,7 +92,6 @@
     ark # Archive creation/extraction software
     bluedevil # Bluetooth Manager
     colord-kde # https://git.manherz.de/denismhz/nixos.gitColor daemon
-    dolphin # File manager
     gwenview # Image viewer
     #kaddressbook # Address Book
     kalendar # Calendar

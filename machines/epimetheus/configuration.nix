@@ -25,9 +25,11 @@ in {
     ]
     ++ (builtins.map (u: ../../users/${u}/user.nix) _users);
 
-  sops.defaultSopsFile = ../../secrets/example.yaml;
-  sops.age.keyFile = "/home/denis/.config/sops/age/keys.txt";
-  sops.secrets.wifi-home = {};
+  sops = {
+    defaultSopsFile = ../../secrets/example.yaml;
+    age.keyFile = "/home/denis/.config/sops/age/keys.txt";
+    secrets.wifi-home = {};
+  };
 
   nixpkgs.config.allowUnfree = true;
 
@@ -147,9 +149,11 @@ in {
 
   environment = {
     #ENV vars
-    sessionVariables.NIXOS_OZONE_WL = "1";
-    sessionVariables.MOZ_ENABLE_WAYLAND = "1";
-    sessionVariables.WLR_NO_HARDWARE_CURSORS = "1";
+    sessionVariables = {
+      NIXOS_OZONE_WL = "1";
+      MOZ_ENABLE_WAYLAND = "1";
+      WLR_NO_HARDWARE_CURSORS = "1";
+    };
 
     pathsToLink = ["/share/bash-completion"];
 
@@ -174,6 +178,7 @@ in {
 
       lenovo-legion
       virt-manager
+      virtiofsd
       nixpkgs-fmt
       dracula-theme
       (pkgs.callPackage ../../modules/themes/sddm-chilli.nix {})
@@ -234,12 +239,15 @@ in {
   };
 
   virtualisation.libvirtd.enable = true;
+  virtualisation.spiceUSBRedirection.enable = true;
 
   xdg = {
     portal = {
       enable = true;
       extraPortals = with pkgs; [
         xdg-desktop-portal-gtk
+        xdg-desktop-portal
+        xdg-desktop-portal-wlr
         xdg-desktop-portal-kde
         xdg-desktop-portal-hyprland
       ];
@@ -262,9 +270,18 @@ in {
 
     nvidia = {
       modesetting.enable = true;
+      prime = {
+        offload = {
+          enable = true;
+          enableOffloadCmd = true;
+        };
+        amdgpuBusId = "PCI:6:0:0";
+        nvidiaBusId = "PCI:1:0:0";
+      };
       powerManagement.enable = true;
-      prime.offload.enable = false;
+      powerManagement.finegrained = false;
       open = false;
+      nvidiaSettings = false;
     };
 
     opengl = {

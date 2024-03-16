@@ -11,7 +11,7 @@ in {
   # extra settings here
   users.users.denis = {
     description = "Denis Manherz";
-    extraGroups = ["docker" "networkmanager" "wheel" "video" "render" "libvirtd" "scanner"];
+    extraGroups = ["docker" "networkmanager" "wheel" "video" "render" "libvirtd" "scanner" "dialout" "adbusers"];
     hashedPassword = "$y$j9T$0opCRT4e3X3P.tqGvEGd91$9cW/JMGTCfcEzkw9m6cemqSoNBrd5O6A3JCO3eitdO9";
     openssh.authorizedKeys.keys = ["ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOyS5fFOZbcZYMMYJdVSG7YTYhx+ulFmjzdXGq3xgqtr denis@manherz.de"];
   };
@@ -77,6 +77,7 @@ in {
   programs = lib.mkIf (hostname == "epimetheus") {
     steam.enable = true;
     gamemode.enable = true;
+    adb.enable = true;
   };
   hardware = lib.mkIf (hostname == "epimetheus") {
     steam-hardware.enable = true;

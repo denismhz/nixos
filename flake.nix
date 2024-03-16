@@ -97,9 +97,10 @@
         };
 
       # Rpi 3B+
-      nixos-rpi-denis = nixpkgs.lib.nixosSystem {
-        #system = "aarch64-linux";
+      rpi3b = nixpkgs.lib.nixosSystem {
+        system = "aarch64-linux";
         modules = [
+          {nixpkgs.overlays = [nvim-overlay];}
           "${nixpkgs}/nixos/modules/installer/sd-card/sd-image-aarch64.nix"
           inputs.sops-nix.nixosModules.sops
           (_: {
@@ -117,11 +118,24 @@
         ];
       };
     };
-    deploy.nodes.iapetus.hostname = "192.168.1.187";
-    deploy.nodes.iapetus.profiles.system = {
-      sshUser = "root";
-      user = "root";
-      path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.iapetus;
+    deploy.nodes = {
+      iapetus = {
+        hostname = "192.168.1.120";
+        profiles.system = {
+          sshUser = "denis";
+          user = "root";
+          path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.iapetus;
+        };
+      };
+      rpi3b = {
+        hostname = "192.168.1.140";
+        profiles.system = {
+          sshOpts = ["-t"];
+          sshUser = "denis";
+          user = "root";
+          path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.rpi3b;
+        };
+      };
     };
     checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) inputs.deploy-rs.lib;
   };
