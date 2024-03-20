@@ -1,5 +1,6 @@
 {pkgs, ...}: {
   commandline_tools = with pkgs; [
+    hledger
     libgnome-keyring
     lshw
     deploy-rs

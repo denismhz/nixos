@@ -25,7 +25,7 @@ in {
 
   services.playerctld.enable = true;
   wayland.windowManager = import ../../modules/home-manager/hyprland/hyprland.nix {
-    inherit config pkgs;
+    inherit config pkgs inputs;
   };
 
   programs = let

@@ -72,12 +72,20 @@
           };
           modules = [
             ./machines/epimetheus/configuration.nix
-            inputs.nixos-hardware.nixosModules.lenovo-legion-16ach6h-hybrid
+            inputs.nixos-hardware.nixosModules.lenovo-legion-16ach6h-hybrid #with nvidia prime
+            #inputs.nixos-hardware.nixosModules.lenovo-legion-16ach6h-nvidia #without nvidia prime
             inputs.aithings.nixosModules.invokeai-nvidia
             inputs.aithings.nixosModules.a1111-nvidia
             inputs.sops-nix.nixosModules.sops
             home-manager.nixosModules.home-manager
             {nixpkgs.overlays = [nvim-overlay unstable-overlay];}
+            (_: {
+              nixpkgs.config.permittedInsecurePackages = [
+                "nix-2.16.2"
+                "electron-25.9.0"
+                "nix-2.15.3"
+              ];
+            })
           ];
         };
 
@@ -93,6 +101,13 @@
             home-manager.nixosModules.home-manager
             inputs.sops-nix.nixosModules.sops
             {nixpkgs.overlays = [nvim-overlay unstable-overlay];}
+            (_: {
+              nixpkgs.config.permittedInsecurePackages = [
+                "nix-2.16.2"
+                "electron-25.9.0"
+                "nix-2.15.3"
+              ];
+            })
           ];
         };
 

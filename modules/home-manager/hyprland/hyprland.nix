@@ -1,6 +1,6 @@
 {
   pkgs,
-  config,
+  inputs,
   ...
 }: let
   test = import ../../my-modules {inherit pkgs;};
@@ -9,15 +9,17 @@ in {
   # all program configs should be per user
   hyprland = {
     enable = true;
+    package = inputs.hyprland.packages.${pkgs.system}.hyprland;
     xwayland.enable = true;
-    package = pkgs.unstable.hyprland;
     #enableNvidiaPatches = true;
     extraConfig = ''
       $mainMod = ALT
 
       # See https://wiki.hyprland.org/Configuring/Monitors/
-      monitor=eDP-1,2560x1600@165,0x0,1.6
-      monitor=HDMI-A-1,1920x1080,1600x0,1
+      monitor=eDP-1,2560x1600@165,1920x0,1.6
+      monitor=HDMI-A-1,1920x1080,0x0,1
+
+      # env = WLR_DRM_DEVICES,/dev/dri/card0:/dev/dri/card1
 
       # Execute your favorite apps at launch
       # exec-once = eww daemon
@@ -45,11 +47,8 @@ in {
       env = QT_WAYLAND_DISABLE_WINDOWDECORATION,1
       env = QT_QPA_PLATFORMTHEME,qt5ct
       env = QT_STYLE_OVERRIDE,kvantum
-
-      env = LIBVA_DRIVER_NAME,nvidia
       env = XDG_SESSION_TYPE,wayland
-      env = GBM_BACKEND,nvidia-drm
-      env = __GLX_VENDOR_LIBRARY_NAME,nvidia
+      env = WLR_NO_HARDWARE_CURSORS,1
 
       # Example binds, see https://wiki.hyprland.org/Configuring/Binds/ for more
       # Application bindings

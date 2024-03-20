@@ -45,8 +45,11 @@ in {
   users.users = createUsers _users;
 
   programs = {
-    hyprland.enable = true;
-    hyprland.xwayland.enable = true;
+    hyprland = {
+      enable = true;
+      xwayland.enable = true;
+      package = inputs.hyprland.packages.${pkgs.system}.hyprland;
+    };
   };
 
   # Auto system update
@@ -69,7 +72,7 @@ in {
     kernel.sysctl = {"vm.swappiness" = 5;};
 
     # Fix black screen on a system with an integrated GPU
-    kernelParams = ["pcie_aspm=off" "nvidia.NVreg_PreserveVideoMemoryAllocations=1"];
+    # kernelParams = ["pcie_aspm=off" "nvidia.NVreg_PreserveVideoMemoryAllocations=1"];
     extraModulePackages = with config.boot.kernelPackages; [
       lenovo-legion-module
     ];
@@ -115,7 +118,7 @@ in {
 
     xserver = {
       # NVIDIA drivers are unfree.
-      videoDrivers = ["nvidia"];
+      videoDrivers = ["amdgpu" "nvidia"];
 
       # Enable the X11 windowing system.
       enable = true;
@@ -137,7 +140,8 @@ in {
         sddm.enable = true;
         autoLogin.enable = false;
         autoLogin.user = "denis";
-        sddm.theme = "sddm-chili";
+        #sddm.theme = "sddm-chili";
+        sddm.wayland.enable = true;
         # Launch KDE in Wayland session
         defaultSession = "plasmawayland";
       };
@@ -164,6 +168,9 @@ in {
     ];
 
     systemPackages = with pkgs; [
+      glxinfo
+      libva
+      libva-utils
       #need the qt5 thingys for sddm to work+
       qt6Packages.qt6ct
       qt6.qtwayland
@@ -181,7 +188,7 @@ in {
       virtiofsd
       nixpkgs-fmt
       dracula-theme
-      (pkgs.callPackage ../../modules/themes/sddm-chilli.nix {})
+      #(pkgs.callPackage ../../modules/themes/sddm-chilli.nix {})
       wget
       neovim
       git
@@ -249,7 +256,7 @@ in {
         xdg-desktop-portal
         xdg-desktop-portal-wlr
         xdg-desktop-portal-kde
-        xdg-desktop-portal-hyprland
+        #xdg-desktop-portal-hyprland
       ];
     };
   };
@@ -263,12 +270,14 @@ in {
       powerOnBoot = true;
       settings = {
         General = {
+          Enable = "Source,Sink,Media,Socket";
           Experimental = true;
         };
       };
     };
 
     nvidia = {
+      package = config.boot.kernelPackages.nvidiaPackages.production; # (installs 550)
       modesetting.enable = true;
       prime = {
         offload = {
@@ -279,7 +288,7 @@ in {
         nvidiaBusId = "PCI:1:0:0";
       };
       powerManagement.enable = true;
-      powerManagement.finegrained = false;
+      powerManagement.finegrained = true;
       open = false;
       nvidiaSettings = false;
     };
@@ -295,9 +304,17 @@ in {
         vdpauinfo
         vulkan-validation-layers
         vulkan-tools
+        amdvlk
       ];
     };
   };
+
+  programs.gamescope = {
+    enable = true;
+    capSysNice = true;
+  };
+
+  programs.gamemode.enable = true;
 
   system.stateVersion = "23.05";
 }

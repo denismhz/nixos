@@ -81,6 +81,7 @@
   environment.systemPackages = with pkgs; [
     vim
     fzf
+    dig
   ];
 
   zramSwap = {
