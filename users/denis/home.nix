@@ -13,7 +13,8 @@ in {
     username = "denis";
     homeDirectory = "/home/denis";
     packages = lib.mkMerge [
-      (lib.mkIf (hostName == "epimetheus") ([inputs.nix-gaming.packages.x86_64-linux.star-citizen] ++ my_packages.kde_packages))
+      (lib.mkIf (hostName == "epimetheus") [inputs.nix-gaming.packages.x86_64-linux.star-citizen])
+      my_packages.kde_packages
       my_packages.user_packages
       my_packages.commandline_tools
     ];
