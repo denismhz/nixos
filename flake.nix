@@ -78,11 +78,20 @@
             inputs.aithings.nixosModules.a1111-nvidia
             inputs.sops-nix.nixosModules.sops
             home-manager.nixosModules.home-manager
-            {nixpkgs.overlays = [nvim-overlay unstable-overlay];}
+            {
+              nixpkgs.overlays = [
+                nvim-overlay
+                unstable-overlay
+                (final: prev: {
+                  obsidian-wayland = prev.obsidian.override {electron = final.electron_24;};
+                })
+              ];
+            }
             (_: {
               nixpkgs.config.permittedInsecurePackages = [
                 "nix-2.16.2"
                 "electron-25.9.0"
+                "electron-24.8.6"
                 "nix-2.15.3"
               ];
             })
@@ -100,11 +109,20 @@
             ./machines/iapetus/configuration.nix
             home-manager.nixosModules.home-manager
             inputs.sops-nix.nixosModules.sops
-            {nixpkgs.overlays = [nvim-overlay unstable-overlay];}
+            {
+              nixpkgs.overlays = [
+                nvim-overlay
+                unstable-overlay
+                (final: prev: {
+                  obsidian-wayland = prev.obsidian.override {electron = final.electron_24;};
+                })
+              ];
+            }
             (_: {
               nixpkgs.config.permittedInsecurePackages = [
                 "nix-2.16.2"
                 "electron-25.9.0"
+                "electron-24.8.6"
                 "nix-2.15.3"
               ];
             })

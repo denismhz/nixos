@@ -1,6 +1,7 @@
 {
   pkgs,
   inputs,
+  hostName,
   ...
 }: let
   test = import ../../my-modules {inherit pkgs;};
@@ -16,8 +17,16 @@ in {
       $mainMod = ALT
 
       # See https://wiki.hyprland.org/Configuring/Monitors/
-      monitor=eDP-1,2560x1600@165,1920x0,1.6
-      monitor=HDMI-A-1,1920x1080,0x0,1
+      ${
+        if hostName == "epimetheus"
+        then ''
+          monitor=eDP-1,2560x1600@165,1920x0,1.6
+          monitor=HDMI-A-1,1920x1080,0x0,1
+        ''
+        else ''
+          monitor=eDP-1,1920x1080@60,0x0,1
+        ''
+      }
 
       # env = WLR_DRM_DEVICES,/dev/dri/card0:/dev/dri/card1
 

@@ -1,5 +1,6 @@
 {pkgs, ...}: {
   commandline_tools = with pkgs; [
+    grimblast #Screenshot utility
     hledger
     libgnome-keyring
     lshw
@@ -61,7 +62,8 @@
 
   user_packages = with pkgs; [
     dolphin
-    obsidian
+    #obsidian
+    obsidian-wayland
     discord
     foliate
     jellyfin-media-player
@@ -73,11 +75,11 @@
     neovim
     nextcloud-client
     nil
-    nixd
+    #nixd
     nvidia-vaapi-driver
     pciutils
     r2modman
-    rnix-lsp
+    #rnix-lsp
     smartmontools
     telegram-desktop
     vaapiVdpau

@@ -20,6 +20,7 @@
         sumneko.lua
         vscodevim.vim
         ms-vscode.cpptools
+        ms-toolsai.jupyter
       ]
       ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
         {

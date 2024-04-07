@@ -65,6 +65,7 @@ in {
     openssh = {
       enable = true;
       settings.PermitRootLogin = "yes";
+      settings.PasswordAuthentication = false;
     };
     printing.enable = true;
     avahi = {
@@ -85,6 +86,12 @@ in {
     xserver = {
       # Enable the X11 windowing system.
       enable = true;
+
+      # Enable the KDE Plasma Desktop Environment.
+      desktopManager.plasma5 = {
+        enable = true;
+        notoPackage = pkgs.noto-fonts-cjk-sans;
+      };
 
       # Configure keymap in X11
       layout = "de";
@@ -130,6 +137,7 @@ in {
 
   nixpkgs.config.permittedInsecurePackages = [
     "electron-25.9.0"
+    "electron-24.8.6"
   ];
 
   sops = {
@@ -141,6 +149,8 @@ in {
   # Enable networking
   networking = {
     hostName = "iapetus";
+    #networkmanager.enable = true;
+    firewall.logReversePathDrops = true;
     interfaces."wlan0".useDHCP = true;
     wireless = {
       enable = true;
@@ -196,6 +206,7 @@ in {
       extraPortals = with pkgs; [
         xdg-desktop-portal-gtk
         xdg-desktop-portal-hyprland
+        xdg-desktop-portal-kde
       ];
     };
   };
