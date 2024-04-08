@@ -143,7 +143,7 @@ in {
   sops = {
     defaultSopsFile = ../../secrets/example.yaml;
     age.keyFile = "/home/denis/.config/sops/age/keys.txt";
-    secrets.wifi-home = {};
+    secrets.wireless = {};
   };
 
   # Enable networking
@@ -155,10 +155,13 @@ in {
     wireless = {
       enable = true;
       interfaces = ["wlan0"];
-      environmentFile = config.sops.secrets.wifi-home.path;
+      environmentFile = config.sops.secrets.wireless.path;
       networks = {
         "Wi-Fi" = {
           psk = "@PASS_WIFI_HOME@";
+        };
+        "@RGB_UUID@" = {
+          psk = "@PASS_WIFI_RGB@";
         };
       };
     };
