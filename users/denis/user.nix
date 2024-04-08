@@ -77,6 +77,7 @@ in {
   programs = lib.mkIf (hostname == "epimetheus") {
     steam.enable = true;
     steam.gamescopeSession.enable = true;
+    ssh.enableAskPassword = true;
     gamemode.enable = true;
     adb.enable = true;
   };

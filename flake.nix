@@ -156,6 +156,7 @@
         hostname = "192.168.1.120";
         profiles.system = {
           sshUser = "denis";
+          sshOpts = ["-A"];
           user = "root";
           path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.iapetus;
         };

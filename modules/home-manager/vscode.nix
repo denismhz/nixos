@@ -14,12 +14,14 @@
         ms-vscode-remote.remote-ssh
         yzhang.markdown-all-in-one
         pkief.material-icon-theme
+        ms-python.python
         dracula-theme.theme-dracula
         tomoki1207.pdf
         ms-azuretools.vscode-docker
         sumneko.lua
         vscodevim.vim
         ms-vscode.cpptools
+        vadimcn.vscode-lldb
         ms-toolsai.jupyter
       ]
       ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
