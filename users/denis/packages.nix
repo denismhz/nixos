@@ -1,5 +1,7 @@
 {pkgs, ...}: {
   commandline_tools = with pkgs; [
+    logseq
+    zoom-us
     grimblast #Screenshot utility
     hledger
     libgnome-keyring
@@ -61,9 +63,8 @@
   ];
 
   user_packages = with pkgs; [
-    dolphin
-    #obsidian
-    obsidian-wayland
+    kdePackages.dolphin
+    obsidian
     discord
     foliate
     jellyfin-media-player
@@ -79,7 +80,7 @@
     nvidia-vaapi-driver
     pciutils
     r2modman
-    #rnix-lsp
+    # rnix-lsp unmaintained
     smartmontools
     telegram-desktop
     vaapiVdpau
@@ -93,7 +94,6 @@
 
   kde_packages = with pkgs; [
     ark # Archive creation/extraction software
-    bluedevil # Bluetooth Manager
     colord-kde # https://git.manherz.de/denismhz/nixos.gitColor daemon
     gwenview # Image viewer
     #kaddressbook # Address Book
@@ -112,33 +112,36 @@
     kscreenlocker
     kwayland-integration
     kwrited
-    libsForQt5.accounts-qt
-    libsForQt5.bluez-qt # Bluetooth libs
-    libsForQt5.flatpak-kcm # kde flatpak module
-    #libsForQt5.kaccounts-integration
-    #libsForQt5.kaccounts-providers
-    libsForQt5.kdeconnect-kde
-    libsForQt5.kdecoration
-    libsForQt5.kde-gtk-config
-    libsForQt5.kdenlive
-    #libsForQt5.kirigami-addons
-    #libsForQt5.kmail-account-wizard
-    #libsForQt5.kmailtransport
-    #libsForQt5.kontactinterface
-    libsForQt5.kpipewire
-    libsForQt5.ksystemstats
-    libsForQt5.layer-shell-qt
-    libsForQt5.packagekit-qt
-    libsForQt5.plasma-browser-integration
-    libsForQt5.plasma-disks
-    libsForQt5.plasma-pa
-    libsForQt5.plasma-remotecontrollers
-    libsForQt5.plasma-systemmonitor
-    libsForQt5.polkit-kde-agent
-    libsForQt5.powerdevil
-    libsForQt5.syntax-highlighting
-    libsForQt5.systemsettings
-    libsForQt5.xdg-desktop-portal-kde
+    kdePackages.bluedevil # Bluetooth Manager
+    kdePackages.accounts-qt
+    kdePackages.bluez-qt # Bluetooth libs
+    kdePackages.flatpak-kcm # kde flatpak module
+    #kdePackages.kaccounts-integration
+    #kdePackages.kaccounts-providers
+    kdePackages.kdeconnect-kde
+    kdePackages.kdecoration
+    kdePackages.kde-gtk-config
+    kdePackages.kdenlive
+    kdePackages.kio
+    kdePackages.kio-extras
+    #kdePackages.kirigami-addons
+    #kdePackages.kmail-account-wizard
+    #kdePackages.kmailtransport
+    #kdePackages.kontactinterface
+    kdePackages.kpipewire
+    kdePackages.ksystemstats
+    kdePackages.layer-shell-qt
+    kdePackages.packagekit-qt
+    kdePackages.plasma-browser-integration
+    kdePackages.plasma-disks
+    kdePackages.plasma-pa
+    #libsForQt5.plasma-remotecontrollers
+    kdePackages.plasma-systemmonitor
+    kdePackages.polkit-kde-agent-1
+    kdePackages.powerdevil
+    kdePackages.syntax-highlighting
+    kdePackages.systemsettings
+    kdePackages.xdg-desktop-portal-kde
     #no need for video thumbs -- ffmpegthumbs -- # Dolphin video thumbnails
     skanlite # Scanning
     skanpage # Multi-Page Scanning

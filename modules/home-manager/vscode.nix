@@ -53,6 +53,7 @@
       "explorer.confirmDelete" = "false";
       "terminal.integrated.scrollback" = 10000;
       "nix.enableLanguageServer" = "true";
+      "window.titleBarStyle" = "custom";
     };
   };
 }

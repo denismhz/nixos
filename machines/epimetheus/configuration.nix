@@ -28,7 +28,7 @@ in {
   sops = {
     defaultSopsFile = ../../secrets/example.yaml;
     age.keyFile = "/home/denis/.config/sops/age/keys.txt";
-    secrets.wifi-home = {};
+    #secrets.wifi-home = {};
   };
 
   nixpkgs.config.allowUnfree = true;
@@ -64,6 +64,7 @@ in {
       inherit inputs;
       inherit (config.networking) hostName;
     };
+    backupFileExtension = "backup";
   };
 
   boot = {
@@ -106,7 +107,7 @@ in {
     printing.enable = true;
     avahi = {
       enable = true;
-      nssmdns = true;
+      nssmdns4 = true;
       # for a WiFi printer
       openFirewall = true;
     };
@@ -123,28 +124,30 @@ in {
       # Enable the X11 windowing system.
       enable = true;
 
-      # Enable the KDE Plasma Desktop Environment.
-      desktopManager.plasma5 = {
-        enable = true;
-        notoPackage = pkgs.noto-fonts-cjk-sans;
-      };
-
       # Configure keymap in X11
-
-      layout = "de";
-      xkbVariant = "nodeadkeys";
-      xkbOptions = "caps:swapescape";
-
-      # Enable automatic login for the user.
-      displayManager = {
-        sddm.enable = true;
-        autoLogin.enable = false;
-        autoLogin.user = "denis";
-        #sddm.theme = "sddm-chili";
-        sddm.wayland.enable = true;
-        # Launch KDE in Wayland session
-        defaultSession = "plasmawayland";
+      xkb = {
+        layout = "de";
+        variant = "nodeadkeys";
+        options = "caps:swapescape";
       };
+    };
+
+    # Enable the KDE Plasma Desktop Environment.
+    desktopManager.plasma6 = {
+      enable = true;
+      enableQt5Integration = true;
+      notoPackage = pkgs.noto-fonts-cjk-sans;
+    };
+
+    # Enable automatic login for the user.
+    displayManager = {
+      sddm.enable = true;
+      autoLogin.enable = false;
+      autoLogin.user = "denis";
+      #sddm.theme = "sddm-chili";
+      sddm.wayland.enable = true;
+      # Launch KDE in Wayland session
+      defaultSession = "plasma";
     };
 
     # Enable flatpak
@@ -154,17 +157,17 @@ in {
   environment = {
     #ENV vars
     sessionVariables = {
-      NIXOS_OZONE_WL = "1";
+      #NIXOS_OZONE_WL = "1";
       MOZ_ENABLE_WAYLAND = "1";
       WLR_NO_HARDWARE_CURSORS = "1";
     };
 
     pathsToLink = ["/share/bash-completion"];
 
-    plasma5.excludePackages = [
-      pkgs.libsForQt5.oxygen
-      pkgs.libsForQt5.elisa
-      pkgs.libsForQt5.plasma-sdk
+    plasma6.excludePackages = [
+      pkgs.kdePackages.oxygen
+      pkgs.kdePackages.elisa
+      pkgs.kdePackages.plasma-sdk
     ];
 
     systemPackages = with pkgs; [
@@ -174,14 +177,14 @@ in {
       #need the qt5 thingys for sddm to work+
       qt6Packages.qt6ct
       qt6.qtwayland
-      libsForQt5.breeze-icons
-      libsForQt5.qt5.qtwayland
-      libsForQt5.qt5.qtquickcontrols2
-      libsForQt5.qt5.qtgraphicaleffects
-      libsForQt5.qt5ct
-      libsForQt5.qtstyleplugin-kvantum
-      libsForQt5.polkit-kde-agent
-      libsForQt5.polkit-qt
+      kdePackages.breeze-icons
+      kdePackages.qtwayland
+      #libsForQt5.qtquickcontrols2
+      #libsForQt5.qtgraphicaleffects
+      #libsForQt5.qt5ct
+      #libsForQt5.qtstyleplugin-kvantum
+      kdePackages.polkit-kde-agent-1
+      kdePackages.polkit-qt-1
 
       lenovo-legion
       virt-manager

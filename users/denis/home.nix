@@ -22,7 +22,7 @@ in {
     stateVersion = "23.05";
   };
 
-  services.mako.enable = true;
+  # services.mako.enable = true;
 
   services.playerctld.enable = true;
   wayland.windowManager = import ../../modules/home-manager/hyprland/hyprland.nix {
@@ -137,7 +137,6 @@ in {
             };
           };
           eww = {
-            package = pkgs.eww-wayland;
             enable = true;
             configDir = config.lib.file.mkOutOfStoreSymlink ./eww;
           };

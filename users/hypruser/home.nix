@@ -80,7 +80,7 @@ in {
 
   qt = {
     enable = true;
-    platformTheme = "gtk";
+    platformTheme.name = "gtk";
     style.name = "Dracula";
     #qt.style.package = pkgs.dracula-theme;
   };
