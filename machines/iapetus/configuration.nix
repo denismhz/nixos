@@ -70,7 +70,7 @@ in {
     printing.enable = true;
     avahi = {
       enable = true;
-      nssmdns = true;
+      nssmdns4 = true;
       # for a WiFi printer
       openFirewall = true;
     };
@@ -87,25 +87,32 @@ in {
       # Enable the X11 windowing system.
       enable = true;
 
-      # Enable the KDE Plasma Desktop Environment.
-      desktopManager.plasma5 = {
-        enable = true;
-        notoPackage = pkgs.noto-fonts-cjk-sans;
-      };
-
       # Configure keymap in X11
-      layout = "de";
-      xkbVariant = "nodeadkeys";
-      xkbOptions = "caps:swapescape";
-
-      # Enable automatic login for the user.
-      displayManager = {
-        sddm.enable = true;
-        autoLogin.enable = false;
-        autoLogin.user = "denis";
-        sddm.theme = "sddm-sugar-dracula";
-        # Launch KDE in Wayland session
+      xkb = {
+        layout = "de";
+        variant = "nodeadkeys";
+        options = "caps:swapescape";
       };
+    };
+
+    # Enable the KDE Plasma Desktop Environment.
+    desktopManager.plasma6 = {
+      enable = true;
+      enableQt5Integration = true;
+      notoPackage = pkgs.noto-fonts-cjk-sans;
+    };
+
+    # Enable automatic login for the user.
+    displayManager = {
+      sddm = {
+        enable = true;
+        theme = "sddm-sugar-dracula";
+        wayland.enable = true;
+      };
+      autoLogin.enable = false;
+      autoLogin.user = "denis";
+      # Launch KDE in Wayland session
+      defaultSession = "plasma";
     };
   };
 
@@ -149,22 +156,22 @@ in {
   # Enable networking
   networking = {
     hostName = "iapetus";
-    #networkmanager.enable = true;
+    networkmanager.enable = true;
     firewall.logReversePathDrops = true;
-    interfaces."wlan0".useDHCP = true;
-    wireless = {
-      enable = true;
-      interfaces = ["wlan0"];
-      environmentFile = config.sops.secrets.wireless.path;
-      networks = {
-        "Wi-Fi" = {
-          psk = "@PASS_WIFI_HOME@";
-        };
-        "@RGB_UUID@" = {
-          psk = "@PASS_WIFI_RGB@";
-        };
-      };
-    };
+    #interfaces."wlan0".useDHCP = true;
+    #wireless = {
+    #  enable = true;
+    #  interfaces = ["wlan0"];
+    #  environmentFile = config.sops.secrets.wireless.path;
+    #  networks = {
+    #    "Wi-Fi" = {
+    #      psk = "@PASS_WIFI_HOME@";
+    #    };
+    #    "@RGB_UUID@" = {
+    #      psk = "@PASS_WIFI_RGB@";
+    #    };
+    #  };
+    #};
   };
 
   environment = {
