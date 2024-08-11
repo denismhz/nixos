@@ -7,7 +7,7 @@
 }: let
   my_packages = import ../denis/packages.nix {inherit pkgs config;};
 in {
-  imports = [inputs.hyprland.homeManagerModules.default];
+  #imports = [inputs.hyprland.homeManagerModules.default];
   home = {
     username = "hypruser";
     homeDirectory = "/home/hypruser";

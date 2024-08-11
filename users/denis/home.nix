@@ -8,7 +8,7 @@
 }: let
   my_packages = import ./packages.nix {inherit pkgs config;};
 in {
-  imports = [inputs.hyprland.homeManagerModules.default];
+  #imports = [inputs.hyprland.homeManagerModules.default];
   home = {
     username = "denis";
     homeDirectory = "/home/denis";

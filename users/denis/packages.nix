@@ -1,8 +1,8 @@
 {pkgs, ...}: {
   commandline_tools = with pkgs; [
-    logseq
-    zoom-us
-    grimblast #Screenshot utility
+    zip
+    unrar
+    # grimblast #Screenshot utility
     hledger
     libgnome-keyring
     lshw
@@ -10,7 +10,6 @@
     age
     libnotify
     lm_sensors
-    skanpage
     # Hyprland
     pulseaudio
     #esphome
@@ -55,14 +54,16 @@
     duf
     hyperfine #Command-line benchmarking tool
     procs #A modern replacement for ps written in Rust
-    thefuck #Magnificent app which corrects your previous console command
+    # thefuck #Magnificent app which corrects your previous console command
     up #Ultimate Plumber is a tool for writing Linux pipes with instant live preview
     bottom #A cross-platform graphical process/system monitor with a customizable interface
-    #bat #in home.nix
     nitch
   ];
 
   user_packages = with pkgs; [
+    skanpage
+    godot_4
+    logseq
     kdePackages.dolphin
     obsidian
     discord
@@ -112,6 +113,7 @@
     kscreenlocker
     kwayland-integration
     kwrited
+    kdePackages.plasma-browser-integration
     kdePackages.bluedevil # Bluetooth Manager
     kdePackages.accounts-qt
     kdePackages.bluez-qt # Bluetooth libs

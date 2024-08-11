@@ -2,6 +2,7 @@
   config,
   pkgs,
   inputs,
+  lib,
   _users,
   ...
 }: let
@@ -48,7 +49,7 @@ in {
     hyprland = {
       enable = true;
       xwayland.enable = true;
-      package = inputs.hyprland.packages.${pkgs.system}.hyprland;
+      #package = inputs.hyprland.packages.${pkgs.system}.hyprland;
     };
   };
 
@@ -171,6 +172,13 @@ in {
     ];
 
     systemPackages = with pkgs; [
+      (pkgs.wrapOBS {
+        plugins = with pkgs.obs-studio-plugins; [
+          wlrobs
+          obs-backgroundremoval
+          obs-pipewire-audio-capture
+        ];
+      })
       glxinfo
       libva
       libva-utils
@@ -254,6 +262,7 @@ in {
   xdg = {
     portal = {
       enable = true;
+      #gtkUsePortal = true;
       extraPortals = with pkgs; [
         xdg-desktop-portal-gtk
         xdg-desktop-portal
