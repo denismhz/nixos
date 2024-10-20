@@ -100,7 +100,7 @@
 
       # ASUS Zenbook
       iapetus = let
-        _users = ["denis"];
+        _users = ["denis" "rita"];
       in
         nixpkgs.lib.nixosSystem {
           inherit system;
