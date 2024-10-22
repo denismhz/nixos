@@ -3,16 +3,12 @@
     zip
     appimage-run
     unrar
-    # grimblast #Screenshot utility
     libgnome-keyring
     lshw
-    deploy-rs
     age
     libnotify
     lm_sensors
-    # Hyprland
     pulseaudio
-    #esphome
     jq
     bc
     socat
@@ -61,23 +57,18 @@
   ];
 
   user_packages = with pkgs; [
-    skanpage
     kdePackages.dolphin
-    discord
-    foliate
     libreoffice-qt
     libva-utils
     libvdpau-va-gl
     neovim
     nextcloud-client
-    nvidia-vaapi-driver
     pciutils
     r2modman
     vaapiVdpau
     vdpauinfo
     vulkan-tools
     vulkan-validation-layers
-    wineWowPackages.staging
     wl-clipboard
     xdg-utils
   ];
@@ -107,18 +98,11 @@
     kdePackages.accounts-qt
     kdePackages.bluez-qt # Bluetooth libs
     kdePackages.flatpak-kcm # kde flatpak module
-    #kdePackages.kaccounts-integration
-    #kdePackages.kaccounts-providers
     kdePackages.kdeconnect-kde
     kdePackages.kdecoration
     kdePackages.kde-gtk-config
-    kdePackages.kdenlive
     kdePackages.kio
     kdePackages.kio-extras
-    #kdePackages.kirigami-addons
-    #kdePackages.kmail-account-wizard
-    #kdePackages.kmailtransport
-    #kdePackages.kontactinterface
     kdePackages.kpipewire
     kdePackages.ksystemstats
     kdePackages.layer-shell-qt
@@ -126,14 +110,12 @@
     kdePackages.plasma-browser-integration
     kdePackages.plasma-disks
     kdePackages.plasma-pa
-    #libsForQt5.plasma-remotecontrollers
     kdePackages.plasma-systemmonitor
     kdePackages.polkit-kde-agent-1
     kdePackages.powerdevil
     kdePackages.syntax-highlighting
     kdePackages.systemsettings
     kdePackages.xdg-desktop-portal-kde
-    #no need for video thumbs -- ffmpegthumbs -- # Dolphin video thumbnails
     skanlite # Scanning
     skanpage # Multi-Page Scanning
     spectacle # Screenshots

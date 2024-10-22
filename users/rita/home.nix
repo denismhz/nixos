@@ -33,8 +33,6 @@ in {
       "nix-index"
       "oh-my-posh"
       "tealdeer"
-      "vscode"
-      "wofi"
     ];
   in
     lib.mkMerge
@@ -115,25 +113,6 @@ in {
               bind-key -T copy-mode-vi y send-keys -X copy-selection-and-cancel
             '';
           };
-          yt-dlp.enable = true; #to play some music with mpv
-          yazi = {
-            enable = true;
-            enableBashIntegration = true;
-            settings = {
-              manager = {
-                sort_by = "alphabetical";
-                sort_dir_first = true;
-                show_hidden = true;
-                sort_sensitive = false;
-              };
-            };
-          };
-          eww = {
-            enable = true;
-            configDir = config.lib.file.mkOutOfStoreSymlink ./eww;
-          };
         }
       ]);
-  home.file.".config/hypr/hyprpaper.conf".text = ''
-  '';
 }
