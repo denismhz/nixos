@@ -1,5 +1,6 @@
 {pkgs, ...}: {
   commandline_tools = with pkgs; [
+    davinci-resolve
     zip
     unrar
     # grimblast #Screenshot utility
