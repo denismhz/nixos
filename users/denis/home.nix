@@ -61,6 +61,13 @@ in {
             mpvScripts.mpris
             mpvScripts.autoload
           ];
+          ranger = {
+            enable = true;
+            extraConfig = ''
+              set preview_images true
+              set preview_images_method sixel
+            '';
+          };
           ripgrep.enable = true;
           bat.enable = true;
           foot = {

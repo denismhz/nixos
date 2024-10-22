@@ -1,5 +1,9 @@
 {pkgs, ...}: {
   commandline_tools = with pkgs; [
+    wireshark
+    sshfs
+    usbutils
+    haskellPackages.sixel
     davinci-resolve
     zip
     unrar
@@ -32,7 +36,6 @@
     */
     q #like dig but more
     mtr
-    ranger
     icdiff
     /*
     or

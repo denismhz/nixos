@@ -5,7 +5,7 @@
     nixpkgs-23-05.url = "github:nixos/nixpkgs/nixos-23.05";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     #hyprland.url = "github:hyprwm/Hyprland";
-    aithings.url = "git+file:///home/denis/repos/flake";
+    #aithings.url = "git+file:///home/denis/repos/flake";
     nix-gaming.url = "github:fufexan/nix-gaming";
     firefox-addons = {
       url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
@@ -74,8 +74,8 @@
             ./machines/epimetheus/configuration.nix
             inputs.nixos-hardware.nixosModules.lenovo-legion-16ach6h-hybrid #with nvidia prime
             #inputs.nixos-hardware.nixosModules.lenovo-legion-16ach6h-nvidia #without nvidia prime
-            inputs.aithings.nixosModules.invokeai-nvidia
-            inputs.aithings.nixosModules.a1111-nvidia
+            #inputs.aithings.nixosModules.invokeai-nvidia
+            #inputs.aithings.nixosModules.a1111-nvidia
             inputs.sops-nix.nixosModules.sops
             home-manager.nixosModules.home-manager
             {
