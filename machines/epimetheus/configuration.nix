@@ -247,7 +247,6 @@ in {
   console.useXkbConfig = true;
 
   # Enable sound with pipewire.
-  sound.enable = true;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -305,10 +304,9 @@ in {
       nvidiaSettings = false;
     };
 
-    opengl = {
+    graphics = {
       enable = true;
-      driSupport32Bit = true;
-      driSupport = true;
+      enable32Bit = true;
       extraPackages = with pkgs; [
         libvdpau-va-gl
         nvidia-vaapi-driver

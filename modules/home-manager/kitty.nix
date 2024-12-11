@@ -1,7 +1,7 @@
 _: {
   kitty = {
     enable = true;
-    theme = "Dracula";
+    themeFile = "Dracula";
     settings = {
       font_family = "DeJaVuSansM Nerd Font Mono";
     };

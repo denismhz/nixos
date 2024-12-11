@@ -1,7 +1,8 @@
 {
   description = "My machines";
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
+    nixpkgs-24-05.url = "github:nixos/nixpkgs/nixos-24.05";
     nixpkgs-23-05.url = "github:nixos/nixpkgs/nixos-23.05";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     #hyprland.url = "github:hyprwm/Hyprland";
@@ -12,7 +13,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     home-manager = {
-      url = "github:nix-community/home-manager/release-24.05";
+      url = "github:nix-community/home-manager/release-24.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixos-hardware.url = "github:NixOS/nixos-hardware";
@@ -90,6 +91,7 @@
             (_: {
               nixpkgs.config.permittedInsecurePackages = [
                 "nix-2.16.2"
+                "electron-27.3.11"
                 "electron-25.9.0"
                 "electron-24.8.6"
                 "nix-2.15.3"
@@ -100,7 +102,7 @@
 
       # ASUS Zenbook
       iapetus = let
-        _users = ["denis" "rita"];
+        _users = ["rita"];
       in
         nixpkgs.lib.nixosSystem {
           inherit system;
@@ -121,6 +123,7 @@
             (_: {
               nixpkgs.config.permittedInsecurePackages = [
                 "nix-2.16.2"
+                "electron-27.3.11"
                 "electron-25.9.0"
                 "electron-24.8.6"
                 "nix-2.15.3"

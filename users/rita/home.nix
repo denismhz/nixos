@@ -8,7 +8,6 @@
 }: let
   my_packages = import ./packages.nix {inherit pkgs config;};
 in {
-  #imports = [inputs.hyprland.homeManagerModules.default];
   home = {
     username = "rita";
     homeDirectory = "/home/rita";
@@ -61,7 +60,7 @@ in {
                 font = "DeJaVuSansM Nerd Font Mono:size=14";
               };
               colors = {
-                alpha = "0.9";
+                alpha = "1.0";
                 foreground = "f8f8f2";
                 background = "282a36";
                 regular0 = "000000";

@@ -1,5 +1,6 @@
 {pkgs, ...}: {
   commandline_tools = with pkgs; [
+    android-udev-rules
     wireshark
     sshfs
     usbutils

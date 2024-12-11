@@ -1,14 +1,4 @@
-{
-  lib,
-  pkgs,
-  config,
-  ...
-}: let
-  hostname = config.networking.hostName;
-in {
-  # Define a user account. Don't forget to set a password with  ^`^xpasswd ^`^y.
-  # Initial definition of user account in machine configuration
-  # extra settings here
+{pkgs, ...}: {
   users.users.rita = {
     description = "Rita Manherz";
     extraGroups = ["wheel"];
