@@ -11,24 +11,42 @@ in {
   # extra settings here
   users.users.denis = {
     description = "Denis Manherz";
-    extraGroups = ["networkmanager" "wheel" "video" "render" "libvirtd"];
+    extraGroups = ["docker" "networkmanager" "wheel" "video" "render" "libvirtd" "scanner" "dialout" "adbusers" "wireshark" "plugdev"];
     hashedPassword = "$y$j9T$0opCRT4e3X3P.tqGvEGd91$9cW/JMGTCfcEzkw9m6cemqSoNBrd5O6A3JCO3eitdO9";
+    openssh.authorizedKeys.keys = ["ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOyS5fFOZbcZYMMYJdVSG7YTYhx+ulFmjzdXGq3xgqtr denis@manherz.de"];
   };
+
+  virtualisation.docker.enable = true;
 
   services =
     if (hostname == "epimetheus")
     then {
+      logind.lidSwitch = "ignore";
       surrealdb = {
         enable = true;
         package = pkgs.unstable.surrealdb;
       };
-      a1111 = {
-        enable = false;
-        user = "denis";
-        group = "users";
-        extraArgs = ["--no-download-sd-model" "--medvram" "--no-half-vae"];
-        settings.ckpt-dir = "/home/denis/.invokeai/autoimport/main";
+      udev = {
+        extraRules = ''
+          SUBSYSTEM=="usbmon", GROUP="wireshark", MODE="0640"
+          SUBSYSTEM=="usb", ATTR{idVendor}=="258a", ATTR{idProduct}=="002e|002f", MODE="0666"
+        '';
       };
+      #invokeai = {
+      #  enable = false;
+      #  user = "denis";
+      #  group = "users";
+      #  settings = {
+      #    root = "/home/denis/.invokeai";
+      #  };
+      #};
+      #a1111 = {
+      #  enable = false;
+      #  user = "denis";
+      #  group = "users";
+      #  extraArgs = ["--no-download-sd-model" "--medvram" "--no-half-vae"];
+      #  settings.ckpt-dir = "/home/denis/.invokeai/autoimport/main";
+      #};
       mongodb = {
         enable = true;
         dbpath = "/var/lib/mongodb";
@@ -36,11 +54,11 @@ in {
       # Enable samba wsdd
       samba-wsdd.enable = true;
     }
-    else {};
-
-  #systemd.services.a1111.serviceConfig.Restart = lib.mkForce "always";
+    else {
+    };
 
   networking.firewall = {
+    enable = false;
     allowedTCPPortRanges = [
       {
         #KDE Connect
@@ -50,6 +68,7 @@ in {
     ];
     # Firewall Ports for samba
     allowedTCPPorts = [
+      22 # ssh
       5357 # samba
       5173 # vite dev
       4173 # vite preview
@@ -65,10 +84,15 @@ in {
   # Steam
   programs = lib.mkIf (hostname == "epimetheus") {
     steam.enable = true;
+    steam.gamescopeSession.enable = true;
+    ssh.enableAskPassword = true;
     gamemode.enable = true;
+    adb.enable = true;
+    wireshark.enable = true;
   };
   hardware = lib.mkIf (hostname == "epimetheus") {
     steam-hardware.enable = true;
+    sane.enable = true;
   };
 
   fonts.packages = with pkgs; [

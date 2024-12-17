@@ -2,6 +2,7 @@
   config,
   pkgs,
   inputs,
+  lib,
   _users,
   ...
 }: let
@@ -25,6 +26,12 @@ in {
     ]
     ++ (builtins.map (u: ../../users/${u}/user.nix) _users);
 
+  sops = {
+    defaultSopsFile = ../../secrets/example.yaml;
+    age.keyFile = "/home/denis/.config/sops/age/keys.txt";
+    #secrets.wifi-home = {};
+  };
+
   nixpkgs.config.allowUnfree = true;
 
   nix = {
@@ -39,8 +46,11 @@ in {
   users.users = createUsers _users;
 
   programs = {
-    hyprland.enable = true;
-    hyprland.xwayland.enable = true;
+    hyprland = {
+      enable = true;
+      xwayland.enable = true;
+      #package = inputs.hyprland.packages.${pkgs.system}.hyprland;
+    };
   };
 
   # Auto system update
@@ -55,6 +65,7 @@ in {
       inherit inputs;
       inherit (config.networking) hostName;
     };
+    backupFileExtension = "backup";
   };
 
   boot = {
@@ -63,7 +74,7 @@ in {
     kernel.sysctl = {"vm.swappiness" = 5;};
 
     # Fix black screen on a system with an integrated GPU
-    kernelParams = ["pcie_aspm=off" "nvidia.NVreg_PreserveVideoMemoryAllocations=1"];
+    # kernelParams = ["pcie_aspm=off" "nvidia.NVreg_PreserveVideoMemoryAllocations=1"];
     extraModulePackages = with config.boot.kernelPackages; [
       lenovo-legion-module
     ];
@@ -97,7 +108,7 @@ in {
     printing.enable = true;
     avahi = {
       enable = true;
-      nssmdns = true;
+      nssmdns4 = true;
       # for a WiFi printer
       openFirewall = true;
     };
@@ -109,32 +120,35 @@ in {
 
     xserver = {
       # NVIDIA drivers are unfree.
-      videoDrivers = ["nvidia"];
+      videoDrivers = ["amdgpu" "nvidia"];
 
       # Enable the X11 windowing system.
       enable = true;
 
-      # Enable the KDE Plasma Desktop Environment.
-      desktopManager.plasma5 = {
-        enable = true;
-        notoPackage = pkgs.noto-fonts-cjk-sans;
-      };
-
       # Configure keymap in X11
-
-      layout = "de";
-      xkbVariant = "nodeadkeys";
-      xkbOptions = "caps:swapescape";
-
-      # Enable automatic login for the user.
-      displayManager = {
-        sddm.enable = true;
-        autoLogin.enable = false;
-        autoLogin.user = "denis";
-        sddm.theme = "sddm-chili";
-        # Launch KDE in Wayland session
-        defaultSession = "plasmawayland";
+      xkb = {
+        layout = "de";
+        variant = "nodeadkeys";
+        options = "caps:swapescape";
       };
+    };
+
+    # Enable the KDE Plasma Desktop Environment.
+    desktopManager.plasma6 = {
+      enable = true;
+      enableQt5Integration = true;
+      notoPackage = pkgs.noto-fonts-cjk-sans;
+    };
+
+    # Enable automatic login for the user.
+    displayManager = {
+      sddm.enable = true;
+      autoLogin.enable = false;
+      autoLogin.user = "denis";
+      #sddm.theme = "sddm-chili";
+      sddm.wayland.enable = true;
+      # Launch KDE in Wayland session
+      defaultSession = "plasma";
     };
 
     # Enable flatpak
@@ -143,30 +157,49 @@ in {
 
   environment = {
     #ENV vars
-    sessionVariables.NIXOS_OZONE_WL = "1";
-    sessionVariables.MOZ_ENABLE_WAYLAND = "1";
-    sessionVariables.WLR_NO_HARDWARE_CURSORS = "1";
+    sessionVariables = {
+      #NIXOS_OZONE_WL = "1";
+      MOZ_ENABLE_WAYLAND = "1";
+      WLR_NO_HARDWARE_CURSORS = "1";
+    };
 
     pathsToLink = ["/share/bash-completion"];
 
-    plasma5.excludePackages = [
-      pkgs.libsForQt5.oxygen
-      pkgs.libsForQt5.elisa
-      pkgs.libsForQt5.plasma-sdk
+    plasma6.excludePackages = [
+      pkgs.kdePackages.oxygen
+      pkgs.kdePackages.elisa
+      pkgs.kdePackages.plasma-sdk
     ];
 
     systemPackages = with pkgs; [
-      #need the qt5 thingys for sddm to work
-      libsForQt5.qt5.qtquickcontrols2
-      libsForQt5.qt5.qtgraphicaleffects
-      libsForQt5.qt5ct
-      libsForQt5.qtstyleplugin-kvantum
+      (pkgs.wrapOBS {
+        plugins = with pkgs.obs-studio-plugins; [
+          wlrobs
+          obs-backgroundremoval
+          obs-pipewire-audio-capture
+        ];
+      })
+      glxinfo
+      libva
+      libva-utils
+      #need the qt5 thingys for sddm to work+
+      qt6Packages.qt6ct
+      qt6.qtwayland
+      kdePackages.breeze-icons
+      kdePackages.qtwayland
+      #libsForQt5.qtquickcontrols2
+      #libsForQt5.qtgraphicaleffects
+      #libsForQt5.qt5ct
+      #libsForQt5.qtstyleplugin-kvantum
+      kdePackages.polkit-kde-agent-1
+      kdePackages.polkit-qt-1
 
       lenovo-legion
       virt-manager
+      virtiofsd
       nixpkgs-fmt
       dracula-theme
-      (pkgs.callPackage ../../modules/themes/sddm-chilli.nix {})
+      #(pkgs.callPackage ../../modules/themes/sddm-chilli.nix {})
       wget
       neovim
       git
@@ -214,7 +247,6 @@ in {
   console.useXkbConfig = true;
 
   # Enable sound with pipewire.
-  sound.enable = true;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -224,14 +256,18 @@ in {
   };
 
   virtualisation.libvirtd.enable = true;
+  virtualisation.spiceUSBRedirection.enable = true;
 
   xdg = {
     portal = {
       enable = true;
+      #gtkUsePortal = true;
       extraPortals = with pkgs; [
         xdg-desktop-portal-gtk
+        xdg-desktop-portal
+        xdg-desktop-portal-wlr
         xdg-desktop-portal-kde
-        xdg-desktop-portal-hyprland
+        #xdg-desktop-portal-hyprland
       ];
     };
   };
@@ -245,22 +281,32 @@ in {
       powerOnBoot = true;
       settings = {
         General = {
+          Enable = "Source,Sink,Media,Socket";
           Experimental = true;
         };
       };
     };
 
     nvidia = {
+      package = config.boot.kernelPackages.nvidiaPackages.production; # (installs 550)
       modesetting.enable = true;
+      prime = {
+        offload = {
+          enable = true;
+          enableOffloadCmd = true;
+        };
+        amdgpuBusId = "PCI:6:0:0";
+        nvidiaBusId = "PCI:1:0:0";
+      };
       powerManagement.enable = true;
-      prime.offload.enable = false;
+      powerManagement.finegrained = true;
       open = false;
+      nvidiaSettings = false;
     };
 
-    opengl = {
+    graphics = {
       enable = true;
-      driSupport32Bit = true;
-      driSupport = true;
+      enable32Bit = true;
       extraPackages = with pkgs; [
         libvdpau-va-gl
         nvidia-vaapi-driver
@@ -268,9 +314,17 @@ in {
         vdpauinfo
         vulkan-validation-layers
         vulkan-tools
+        amdvlk
       ];
     };
   };
+
+  programs.gamescope = {
+    enable = true;
+    capSysNice = true;
+  };
+
+  programs.gamemode.enable = true;
 
   system.stateVersion = "23.05";
 }

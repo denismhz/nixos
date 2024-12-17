@@ -7,7 +7,7 @@
 }: let
   my_packages = import ../denis/packages.nix {inherit pkgs config;};
 in {
-  imports = [inputs.hyprland.homeManagerModules.default];
+  #imports = [inputs.hyprland.homeManagerModules.default];
   home = {
     username = "hypruser";
     homeDirectory = "/home/hypruser";
@@ -19,7 +19,7 @@ in {
     stateVersion = "23.05";
   };
 
-  wayland.windowManager = import ../../modules/home-manager/hyprland/hyprland.nix {inherit pkgs;};
+  #wayland.windowManager = import ../../modules/home-manager/hyprland/hyprland.nix {inherit config pkgs;};
 
   programs = let
     mods = ["waybar" "kitty" "alacritty" "bash" "eza" "firefox" "fzf" "git" "man" "nix-index" "oh-my-posh" "tealdeer"];
@@ -80,7 +80,7 @@ in {
 
   qt = {
     enable = true;
-    platformTheme = "gtk";
+    platformTheme.name = "gtk";
     style.name = "Dracula";
     #qt.style.package = pkgs.dracula-theme;
   };

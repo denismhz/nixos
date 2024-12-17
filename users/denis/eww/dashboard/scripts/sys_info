@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 ## Files and Data
 PREV_TOTAL=0
@@ -13,9 +13,9 @@ get_cpu() {
 		PREV_IDLE=$(echo "${fileCont}" | tail -n 1)
 	fi
 
-	CPU=(`cat /proc/stat | grep '^cpu '`) # Get the total CPU statistics.
-	unset CPU[0]                          # Discard the "cpu" prefix.
-	IDLE=${CPU[4]}                        # Get the idle CPU time.
+	CPU=($(cat /proc/stat | grep '^cpu ')) # Get the total CPU statistics.
+	unset CPU[0]                           # Discard the "cpu" prefix.
+	IDLE=${CPU[4]}                         # Get the idle CPU time.
 
 	# Calculate the total CPU time.
 	TOTAL=0
@@ -35,35 +35,40 @@ get_cpu() {
 	fi
 
 	# Remember the total and idle CPU times for the next check.
-	echo "${TOTAL}" > "${cpuFile}"
-	echo "${IDLE}" >> "${cpuFile}"
+	echo "${TOTAL}" >"${cpuFile}"
+	echo "${IDLE}" >>"${cpuFile}"
 }
 
 ## Get Used memory
 get_mem() {
-	printf "%.0f\n" $(free -m | grep Mem | awk '{print ($3/$2)*100}')
+	free -m | grep Mem | awk '{print ($3/$2)*100}' | sed 's/\.[0-9]*//'
 }
 
 ## Get Brightness
 get_blight() {
-	CARD=`ls /sys/class/backlight | head -n 1`
+	CARD=$(ls /sys/class/backlight | head -n 1)
 
 	if [[ "$CARD" == *"intel_"* ]]; then
-		BNESS=`xbacklight -get`
+		BNESS=$(xbacklight -get)
 		LIGHT=${BNESS%.*}
 	else
-		BNESS=`blight -d $CARD get brightness`
-		PERC="$(($BNESS*100/255))"
+		BNESS=$(blight -d $CARD get brightness)
+		PERC="$(($BNESS * 100 / 255))"
 		LIGHT=${PERC%.*}
 	fi
 
 	echo "$LIGHT"
 }
 
-## Get Battery 
+## Get Battery
 get_battery() {
-	BAT=`ls /sys/class/power_supply | grep BAT | head -n 1`
+	BAT=$(ls /sys/class/power_supply | grep BAT | head -n 1)
 	cat /sys/class/power_supply/${BAT}/capacity
+}
+
+## Get Disk Usage
+get_disk() {
+	df -h / | awk '{print $5}' | tail -n1 | sed 's/%//g'
 }
 
 ## Execute accordingly
@@ -75,4 +80,6 @@ elif [[ "$1" == "--blight" ]]; then
 	get_blight
 elif [[ "$1" == "--bat" ]]; then
 	get_battery
+elif [[ "$1" == "--disk" ]]; then
+	get_disk
 fi

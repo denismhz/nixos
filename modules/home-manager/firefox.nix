@@ -109,9 +109,9 @@
         };
       };
       extensions = with inputs.firefox-addons.packages."x86_64-linux"; [
+        plasma-integration
         bitwarden
         ublock-origin
-        simple-tab-groups
       ];
     };
   };

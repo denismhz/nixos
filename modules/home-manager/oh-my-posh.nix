@@ -1,72 +1,65 @@
-{ config, pkgs, ... }:
-{
+_: {
   oh-my-posh = {
     enable = true;
     enableBashIntegration = true;
     settings = builtins.fromJSON ''
-      {
+          {
         "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
-        "console_title_template": "{{.UserName}}@{{.HostName}} {{.Shell}} in {{.PWD}}", 
         "blocks": [
           {
             "alignment": "left",
             "segments": [
               {
-                "background": "#6272a4",
-                "foreground": "#ffffff",
-                "leading_diamond": "\ue0b6",
-                "properties": {
-                  "template": "\uF313 {{ .UserName }} "
-                },
-                "style": "diamond",
+                "foreground": "#45F1C2",
+                "style": "plain",
+                "template": "\ueb99 {{ .UserName }} on",
                 "type": "session"
               },
               {
-                "background": "#bd93f9",
-                "foreground": "#000000",
-                "powerline_symbol": "\ue0b0",
+                "foreground": "#0CA0D8",
                 "properties": {
-                  "style": "folder",
-                  "template": " {{ .Path }} "
+                  "folder_separator_icon": "/",
+                  "style": "full"
                 },
-                "style": "powerline",
+                "style": "plain",
+                "template": " \uf07b {{ .Path }} ",
                 "type": "path"
               },
               {
-                "background": "#ffb86c",
-                "background_templates": [
-                  "{{ if or (.Working.Changed) (.Staging.Changed) }} {{ end }}",
-                  "{{ if and (gt .Ahead 0) (gt .Behind 0) }} {{ end }}",
-                  "{{ if gt .Ahead 0 }} {{ end }}",
-                  "{{ if gt .Behind 0 }} {{ end }}"
-                ],
-                "foreground": "#000000",
+                "foreground": "#14A5AE",
                 "powerline_symbol": "\ue0b0",
                 "properties": {
-                  "branch_icon": "\ue725 ",
-                  "fetch_status": true,
+                  "fetch_stash_count": true,
                   "fetch_upstream_icon": true
                 },
-                "style": "powerline",
-                "template": " {{ .UpstreamIcon }}{{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }} \uf044 {{ .Working.String }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }}<#ef5350> \uf046 {{ .Staging.String }}</>{{ end }} ",
+                "style": "plain",
+                "template": "{{ .UpstreamIcon }}{{ .HEAD }}{{ if gt .StashCount 0 }} \ueb4b {{ .StashCount }}{{ end }} ",
                 "type": "git"
+              }
+            ],
+            "type": "prompt"
+          },
+          {
+            "alignment": "left",
+            "newline": true,
+            "segments": [
+              {
+                "foreground": "#cd5e42",
+                "style": "plain",
+                "template": "\ue3bf ",
+                "type": "root"
               },
               {
-                "background": "#8be9fd",
-                "foreground": "#000000",
-                "powerline_symbol": "\ue0b0",
-                "properties": {
-                  "template": " \ue718 {{ if .PackageManagerIcon }}{{ .PackageManagerIcon }} {{ end }}{{ .Full }} "
-                },
-                "style": "powerline",
-                "type": "node"
+                "foreground": "#CD4277",
+                "style": "plain",
+                "template": "# ",
+                "type": "text"
               }
             ],
             "type": "prompt"
           }
         ],
-        "final_space": true,
-        "version": 1
+        "version": 2
       }
     '';
   };

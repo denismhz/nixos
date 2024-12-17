@@ -1,5 +1,6 @@
 {
   config,
+  lib,
   pkgs,
   inputs,
   _users,
@@ -28,20 +29,25 @@ in {
   # Auto system update
   system.autoUpgrade.flake = ./../flake.nix;
 
+  security.sudo.extraRules = [
+    {
+      groups = ["wheel"];
+      commands = [
+        {
+          command = "ALL";
+          options = ["NOPASSWD"];
+        }
+      ];
+    }
+  ];
+
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   nix.settings.experimental-features = ["nix-command" "flakes"];
+  nix.settings.trusted-users = ["denis"];
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
-
-  networking = {
-    hostName = "iapetus"; # Define your hostname.
-
-    # Enable networking
-    networkmanager.enable = true;
-    networkmanager.dns = "systemd-resolved";
-  };
 
   # Create all users using this machine
   users.users = createUsers _users;
@@ -58,10 +64,15 @@ in {
   };
 
   services = {
+    openssh = {
+      enable = true;
+      settings.PermitRootLogin = "yes";
+      settings.PasswordAuthentication = false;
+    };
     printing.enable = true;
     avahi = {
       enable = true;
-      nssmdns = true;
+      nssmdns4 = true;
       # for a WiFi printer
       openFirewall = true;
     };
@@ -79,18 +90,31 @@ in {
       enable = true;
 
       # Configure keymap in X11
-      layout = "de";
-      xkbVariant = "nodeadkeys";
-      xkbOptions = "caps:swapescape";
-
-      # Enable automatic login for the user.
-      displayManager = {
-        sddm.enable = true;
-        autoLogin.enable = false;
-        autoLogin.user = "denis";
-        sddm.theme = "sddm-sugar-dark";
-        # Launch KDE in Wayland session
+      xkb = {
+        layout = "de";
+        variant = "nodeadkeys";
+        options = "caps:swapescape";
       };
+    };
+
+    # Enable the KDE Plasma Desktop Environment.
+    desktopManager.plasma6 = {
+      enable = true;
+      enableQt5Integration = true;
+      notoPackage = pkgs.noto-fonts-cjk-sans;
+    };
+
+    # Enable automatic login for the user.
+    displayManager = {
+      sddm = {
+        enable = true;
+        #theme = "sddm-sugar-dracula";
+        wayland.enable = true;
+      };
+      autoLogin.enable = false;
+      autoLogin.user = "denis";
+      # Launch KDE in Wayland session
+      defaultSession = "plasma";
     };
   };
 
@@ -99,7 +123,7 @@ in {
 
   # Select internationalisation properties.
   i18n = {
-    defaultLocale = "en_US.UTF-8";
+    defaultLocale = "de_DE.UTF-8";
     extraLocaleSettings = {
       LC_ADDRESS = "de_DE.UTF-8";
       LC_IDENTIFICATION = "de_DE.UTF-8";
@@ -122,18 +146,26 @@ in {
 
   environment = {
     #ENV vars
-    sessionVariables.NIXOS_OZONE_WL = "1";
-    sessionVariables.MOZ_ENABLE_WAYLAND = "1";
-    sessionVariables.WLR_NO_HARDWARE_CURSORS = "1";
+    sessionVariables = {
+      NIXOS_OZONE_WL = "1";
+      MOZ_ENABLE_WAYLAND = "1";
+      WLR_NO_HARDWARE_CURSORS = "1";
+    };
 
     pathsToLink = ["/share/bash-completion"];
 
     systemPackages = with pkgs; [
-      #need the qt5 thingys for sddm to work
+      #need the qt5 thingys for sddm to work+
+      qt6Packages.qt6ct
+      qt6.qtwayland
+      libsForQt5.breeze-icons
+      libsForQt5.qt5.qtwayland
       libsForQt5.qt5.qtquickcontrols2
       libsForQt5.qt5.qtgraphicaleffects
       libsForQt5.qt5ct
       libsForQt5.qtstyleplugin-kvantum
+      libsForQt5.polkit-kde-agent
+      libsForQt5.polkit-qt
 
       (pkgs.callPackage ../../modules/themes/sddm-theme.nix {})
 
@@ -149,10 +181,12 @@ in {
 
   xdg = {
     portal = {
+      config.common.default = "*";
       enable = true;
       extraPortals = with pkgs; [
         xdg-desktop-portal-gtk
         xdg-desktop-portal-hyprland
+        xdg-desktop-portal-kde
       ];
     };
   };
@@ -167,12 +201,17 @@ in {
     opengl.enable = true;
   };
 
-  programs.dconf.enable = true;
-  programs.noisetorch.enable = true;
+  programs = {
+    hyprland.enable = true;
+    hyprland.xwayland.enable = true;
+    dconf.enable = true;
+    noisetorch.enable = true;
+  };
 
   # Configure console keymap
-  #console.keyMap = "de-latin1-nodeadkeys";
   console.useXkbConfig = true;
+  # Configure console keymap
+  console.keyMap = lib.mkForce "de-latin1-nodeadkeys";
 
   # Enable sound with pipewire.
   sound.enable = true;

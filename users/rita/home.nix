@@ -8,25 +8,16 @@
 }: let
   my_packages = import ./packages.nix {inherit pkgs config;};
 in {
-  #imports = [inputs.hyprland.homeManagerModules.default];
   home = {
-    username = "denis";
-    homeDirectory = "/home/denis";
+    username = "rita";
+    homeDirectory = "/home/rita";
     packages = lib.mkMerge [
-      (lib.mkIf (hostName == "epimetheus") [inputs.nix-gaming.packages.x86_64-linux.star-citizen])
       my_packages.kde_packages
       my_packages.user_packages
       my_packages.commandline_tools
     ];
 
     stateVersion = "23.05";
-  };
-
-  # services.mako.enable = true;
-
-  services.playerctld.enable = true;
-  wayland.windowManager = import ../../modules/home-manager/hyprland/hyprland.nix {
-    inherit config pkgs inputs hostName;
   };
 
   programs = let
@@ -41,8 +32,6 @@ in {
       "nix-index"
       "oh-my-posh"
       "tealdeer"
-      "vscode"
-      "wofi"
     ];
   in
     lib.mkMerge
@@ -61,13 +50,6 @@ in {
             mpvScripts.mpris
             mpvScripts.autoload
           ];
-          ranger = {
-            enable = true;
-            extraConfig = ''
-              set preview_images true
-              set preview_images_method sixel
-            '';
-          };
           ripgrep.enable = true;
           bat.enable = true;
           foot = {
@@ -78,7 +60,7 @@ in {
                 font = "DeJaVuSansM Nerd Font Mono:size=14";
               };
               colors = {
-                alpha = "0.9";
+                alpha = "1.0";
                 foreground = "f8f8f2";
                 background = "282a36";
                 regular0 = "000000";
@@ -130,25 +112,6 @@ in {
               bind-key -T copy-mode-vi y send-keys -X copy-selection-and-cancel
             '';
           };
-          yt-dlp.enable = true; #to play some music with mpv
-          yazi = {
-            enable = true;
-            enableBashIntegration = true;
-            settings = {
-              manager = {
-                sort_by = "alphabetical";
-                sort_dir_first = true;
-                show_hidden = true;
-                sort_sensitive = false;
-              };
-            };
-          };
-          eww = {
-            enable = true;
-            configDir = config.lib.file.mkOutOfStoreSymlink ./eww;
-          };
         }
       ]);
-  home.file.".config/hypr/hyprpaper.conf".text = ''
-  '';
 }
