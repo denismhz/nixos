@@ -26,6 +26,8 @@ in {
       ./hardware-configuration.nix
     ]
     ++ (builtins.map (u: ../../users/${u}/user.nix) _users);
+  # Auto system update
+  system.autoUpgrade.flake = ./../flake.nix;
 
   security.sudo.extraRules = [
     {
@@ -140,38 +142,6 @@ in {
       "en_GB.UTF-8/UTF-8"
       "de_DE.UTF-8/UTF-8"
     ];
-  };
-
-  nixpkgs.config.permittedInsecurePackages = [
-    "electron-25.9.0"
-    "electron-24.8.6"
-  ];
-
-  sops = {
-    defaultSopsFile = ../../secrets/example.yaml;
-    age.keyFile = "/home/denis/.config/sops/age/keys.txt";
-    secrets.wireless = {};
-  };
-
-  # Enable networking
-  networking = {
-    hostName = "iapetus";
-    networkmanager.enable = true;
-    firewall.logReversePathDrops = true;
-    #interfaces."wlan0".useDHCP = true;
-    #wireless = {
-    #  enable = true;
-    #  interfaces = ["wlan0"];
-    #  environmentFile = config.sops.secrets.wireless.path;
-    #  networks = {
-    #    "Wi-Fi" = {
-    #      psk = "@PASS_WIFI_HOME@";
-    #    };
-    #    "@RGB_UUID@" = {
-    #      psk = "@PASS_WIFI_RGB@";
-    #    };
-    #  };
-    #};
   };
 
   environment = {
