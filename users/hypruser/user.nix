@@ -12,11 +12,11 @@
     packages = with pkgs; [
       brightnessctl
       dracula-theme
-      libsForQt5.polkit-kde-agent
+      kdePackages.polkit-kde-agent-1
       dunst
       pamixer
       wlr-randr
-      dolphin
+      #dolphin
       hyprpaper
       networkmanagerapplet
       pavucontrol
@@ -50,6 +50,6 @@
   services.samba-wsdd.enable = true;
 
   fonts.packages = with pkgs; [
-    (nerdfonts.override {fonts = ["DejaVuSansMono"];})
+    nerd-fonts.dejavu-sans-mono
   ];
 }

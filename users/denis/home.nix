@@ -22,7 +22,17 @@ in {
     stateVersion = "23.05";
   };
 
-  # services.mako.enable = true;
+  services = {
+    mako = {
+      enable = true;
+    };
+    polkit-gnome = {
+      enable = true;
+    };
+    swayidle = {
+      enable = true;
+    };
+  };
 
   services.playerctld.enable = true;
   wayland.windowManager = import ../../modules/home-manager/hyprland/hyprland.nix {
@@ -56,17 +66,29 @@ in {
             nix-direnv.enable = true;
           };
           htop.enable = true;
-          mpv.enable = true;
-          mpv.scripts = with pkgs; [
-            mpvScripts.mpris
-            mpvScripts.autoload
-          ];
+          mpv = {
+            enable = true;
+            extraInput = ''
+              Del run "rm" "''${path}"; playlist_next
+            '';
+
+            config = {
+              playlist = "no";
+              keep-open = "always";
+              reset-on-next-file = "pause";
+            };
+            scripts = with pkgs; [
+              mpvScripts.mpris
+              mpvScripts.autoload
+              mpvScripts.uosc
+            ];
+          };
           ranger = {
             enable = true;
-            extraConfig = ''
-              set preview_images true
-              set preview_images_method sixel
-            '';
+            #            extraConfig = ''
+            #              set preview_images true
+            #              set preview_images_method sixel
+            #            '';
           };
           ripgrep.enable = true;
           bat.enable = true;
@@ -147,8 +169,19 @@ in {
             enable = true;
             configDir = config.lib.file.mkOutOfStoreSymlink ./eww;
           };
+          alacritty = {
+            enable = true;
+          };
+          fuzzel = {
+            enable = true;
+          };
+          swaylock = {enable = true;};
+          waybar = {
+            enable = true;
+          };
         }
       ]);
   home.file.".config/hypr/hyprpaper.conf".text = ''
   '';
+  xdg.configFile."niri/config.kdl".source = ./config.kdl;
 }

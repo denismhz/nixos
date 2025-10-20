@@ -5,6 +5,7 @@
 }: {
   firefox = {
     enable = true;
+    package = pkgs.librewolf;
     profiles.denis = {
       settings = {
         "browser.search.region" = "DE";
@@ -51,7 +52,7 @@
         ];
       };
       search = {
-        default = "DuckDuckGo";
+        default = "ddg";
         force = true;
         engines = {
           "Nix Packages" = {
@@ -108,7 +109,7 @@
           };
         };
       };
-      extensions = with inputs.firefox-addons.packages."x86_64-linux"; [
+      extensions.packages = with inputs.firefox-addons.packages."x86_64-linux"; [
         plasma-integration
         bitwarden
         ublock-origin

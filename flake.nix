@@ -1,9 +1,7 @@
 {
   description = "My machines";
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
-    nixpkgs-24-05.url = "github:nixos/nixpkgs/nixos-24.05";
-    nixpkgs-23-05.url = "github:nixos/nixpkgs/nixos-23.05";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     #hyprland.url = "github:hyprwm/Hyprland";
     #aithings.url = "git+file:///home/denis/repos/flake";
@@ -13,7 +11,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     home-manager = {
-      url = "github:nix-community/home-manager/release-24.11";
+      url = "github:nix-community/home-manager/release-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixos-hardware.url = "github:NixOS/nixos-hardware";
@@ -55,10 +53,6 @@
         config.allowUnfree = true;
         inherit system;
       };
-      old = import inputs.nixpkgs-23-05 {
-        config.allowUnfree = true;
-        inherit system;
-      };
     };
   in {
     nixosConfigurations = {
@@ -75,8 +69,6 @@
             ./machines/epimetheus/configuration.nix
             inputs.nixos-hardware.nixosModules.lenovo-legion-16ach6h-hybrid #with nvidia prime
             #inputs.nixos-hardware.nixosModules.lenovo-legion-16ach6h-nvidia #without nvidia prime
-            #inputs.aithings.nixosModules.invokeai-nvidia
-            #inputs.aithings.nixosModules.a1111-nvidia
             inputs.sops-nix.nixosModules.sops
             home-manager.nixosModules.home-manager
             {
@@ -88,15 +80,6 @@
                 })
               ];
             }
-            (_: {
-              nixpkgs.config.permittedInsecurePackages = [
-                "nix-2.16.2"
-                "electron-27.3.11"
-                "electron-25.9.0"
-                "electron-24.8.6"
-                "nix-2.15.3"
-              ];
-            })
           ];
         };
 
@@ -120,15 +103,6 @@
                 })
               ];
             }
-            (_: {
-              nixpkgs.config.permittedInsecurePackages = [
-                "nix-2.16.2"
-                "electron-27.3.11"
-                "electron-25.9.0"
-                "electron-24.8.6"
-                "nix-2.15.3"
-              ];
-            })
           ];
         };
 

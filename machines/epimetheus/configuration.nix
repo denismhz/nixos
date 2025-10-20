@@ -46,10 +46,17 @@ in {
   users.users = createUsers _users;
 
   programs = {
+    nix-ld = {
+      enable = true;
+      libraries = [];
+    };
     hyprland = {
       enable = true;
       xwayland.enable = true;
       #package = inputs.hyprland.packages.${pkgs.system}.hyprland;
+    };
+    niri = {
+      enable = true;
     };
   };
 
@@ -266,7 +273,7 @@ in {
         xdg-desktop-portal-gtk
         xdg-desktop-portal
         xdg-desktop-portal-wlr
-        xdg-desktop-portal-kde
+        kdePackages.xdg-desktop-portal-kde
         #xdg-desktop-portal-hyprland
       ];
     };

@@ -158,14 +158,14 @@ in {
       #need the qt5 thingys for sddm to work+
       qt6Packages.qt6ct
       qt6.qtwayland
-      libsForQt5.breeze-icons
-      libsForQt5.qt5.qtwayland
-      libsForQt5.qt5.qtquickcontrols2
-      libsForQt5.qt5.qtgraphicaleffects
-      libsForQt5.qt5ct
-      libsForQt5.qtstyleplugin-kvantum
-      libsForQt5.polkit-kde-agent
-      libsForQt5.polkit-qt
+      kdePackages.breeze-icons
+      kdePackages.qt5.qtwayland
+      kdePackages.qt5.qtquickcontrols2
+      kdePackages.qt5.qtgraphicaleffects
+      kdePackages.qt5ct
+      kdePackages.qtstyleplugin-kvantum
+      kdePackages.polkit-kde-agent-1
+      kdePackages.polkit-qt
 
       (pkgs.callPackage ../../modules/themes/sddm-theme.nix {})
 
@@ -192,7 +192,7 @@ in {
   };
 
   fonts.packages = with pkgs; [
-    (nerdfonts.override {fonts = ["DejaVuSansMono"];})
+    nerd-fonts.dejavusans-mono
     font-awesome
   ];
 

@@ -23,7 +23,7 @@
   };
 
   fonts.packages = with pkgs; [
-    (nerdfonts.override {fonts = ["DejaVuSansMono" "JetBrainsMono" "Iosevka"];})
+    nerd-fonts.dejavu-sans-mono
     font-awesome
     comic-mono
   ];

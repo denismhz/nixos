@@ -9,7 +9,7 @@
 
     #package = pkgs.vscode.fhsWithPackages (ps: with ps; [ rustup zlib openssl.dev pkg-config ]);
 
-    extensions = with pkgs.vscode-extensions;
+    profiles.default.extensions = with pkgs.vscode-extensions;
       [
         arrterian.nix-env-selector
         dracula-theme.theme-dracula
@@ -52,7 +52,7 @@
         }
       ];
 
-    userSettings = {
+    profiles.default.userSettings = {
       "terminal.integrated.fontFamily" = "DeJaVuSansM Nerd Font Mono";
       #"window.zoomLevel" = "0.0"; -> this is causing the trouble ?!
       "window.menuBarVisibility" = "toggle";

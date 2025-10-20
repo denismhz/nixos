@@ -1,5 +1,14 @@
 {pkgs, ...}: {
   commandline_tools = with pkgs; [
+    swaybg
+    unixtools.quota
+    povray
+    zoom-us
+    cups-kyodialog
+    mono
+    unstable.platformio
+    orca-slicer
+    freecad-wayland
     android-udev-rules
     wireshark
     sshfs
@@ -66,15 +75,13 @@
   ];
 
   user_packages = with pkgs; [
-    skanpage
     godot_4
     logseq
-    kdePackages.dolphin
     obsidian
     discord
     foliate
     jellyfin-media-player
-    libreoffice-qt
+    libreoffice-qt6-fresh
     libva-utils
     libvdpau-va-gl
     lutris
@@ -99,25 +106,26 @@
   ];
 
   kde_packages = with pkgs; [
-    ark # Archive creation/extraction software
-    colord-kde # https://git.manherz.de/denismhz/nixos.gitColor daemon
-    gwenview # Image viewer
+    kdePackages.dolphin
+    kdePackages.ark # Archive creation/extraction software
+    kdePackages.colord-kde # https://git.manherz.de/denismhz/nixos.gitColor daemon
+    kdePackages.gwenview # Image viewer
     #kaddressbook # Address Book
-    kalendar # Calendar
-    kate # Text editor
-    kcalc # Calculator
-    kde-cli-tools
-    kdeplasma-addons
+    kdePackages.merkuro # Calendar
+    kdePackages.kate # Text editor
+    kdePackages.kcalc # Calculator
+    kdePackages.kde-cli-tools
+    kdePackages.kdeplasma-addons
     # KDE Things
-    kdialog # Dialogs from bash
-    kgamma5
-    kmenuedit
-    kolourpaint # Paint
-    kompare # File diffs
-    korganizer # Organizer
-    kscreenlocker
-    kwayland-integration
-    kwrited
+    kdePackages.kdialog # Dialogs from bash
+    kdePackages.kgamma
+    kdePackages.kmenuedit
+    kdePackages.kolourpaint # Paint
+    kdePackages.kompare # File diffs
+    kdePackages.korganizer # Organizer
+    kdePackages.kscreenlocker
+    #kdePackages.kwayland-integration
+    kdePackages.kwrited
     kdePackages.plasma-browser-integration
     kdePackages.bluedevil # Bluetooth Manager
     kdePackages.accounts-qt
@@ -150,8 +158,8 @@
     kdePackages.systemsettings
     kdePackages.xdg-desktop-portal-kde
     #no need for video thumbs -- ffmpegthumbs -- # Dolphin video thumbnails
-    skanlite # Scanning
-    skanpage # Multi-Page Scanning
-    spectacle # Screenshots
+    kdePackages.skanlite # Scanning
+    kdePackages.skanpage # Multi-Page Scanning
+    kdePackages.spectacle # Screenshots
   ];
 }

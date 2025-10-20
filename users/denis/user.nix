@@ -23,7 +23,7 @@ in {
     then {
       logind.lidSwitch = "ignore";
       surrealdb = {
-        enable = true;
+        enable = false;
         package = pkgs.unstable.surrealdb;
       };
       udev = {
@@ -96,7 +96,9 @@ in {
   };
 
   fonts.packages = with pkgs; [
-    (nerdfonts.override {fonts = ["DejaVuSansMono" "JetBrainsMono" "Iosevka"];})
+    nerd-fonts.dejavu-sans-mono
+    nerd-fonts.jetbrains-mono
+    nerd-fonts.iosevka
     font-awesome
     comic-mono
   ];
