@@ -21,7 +21,7 @@ in {
   services =
     if (hostname == "epimetheus")
     then {
-      logind.lidSwitch = "ignore";
+      logind.settings.Login.HandleLidSwitch = "ignore";
       surrealdb = {
         enable = false;
         package = pkgs.unstable.surrealdb;
@@ -32,23 +32,9 @@ in {
           SUBSYSTEM=="usb", ATTR{idVendor}=="258a", ATTR{idProduct}=="002e|002f", MODE="0666"
         '';
       };
-      #invokeai = {
-      #  enable = false;
-      #  user = "denis";
-      #  group = "users";
-      #  settings = {
-      #    root = "/home/denis/.invokeai";
-      #  };
-      #};
-      #a1111 = {
-      #  enable = false;
-      #  user = "denis";
-      #  group = "users";
-      #  extraArgs = ["--no-download-sd-model" "--medvram" "--no-half-vae"];
-      #  settings.ckpt-dir = "/home/denis/.invokeai/autoimport/main";
-      #};
+      gnome.gnome-keyring.enable = true;
       mongodb = {
-        enable = true;
+        enable = false;
         dbpath = "/var/lib/mongodb";
       };
       # Enable samba wsdd
@@ -75,9 +61,11 @@ in {
       7860 # a1111
       8088 # comfyui
       3000 # leptos
+      6567 # mindustry
     ];
     allowedUDPPorts = [
       3702 # samba
+      6567 # mindustry
     ];
   };
 

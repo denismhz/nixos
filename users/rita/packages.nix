@@ -19,7 +19,7 @@
     nextcloud-client
     pciutils
     r2modman
-    vaapiVdpau
+    libva-vdpau-driver
     vdpauinfo
     vulkan-tools
     vulkan-validation-layers

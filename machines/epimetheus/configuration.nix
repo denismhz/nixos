@@ -51,12 +51,12 @@ in {
       libraries = [];
     };
     hyprland = {
-      enable = true;
+      enable = false;
       xwayland.enable = true;
       #package = inputs.hyprland.packages.${pkgs.system}.hyprland;
     };
     niri = {
-      enable = true;
+      enable = false;
     };
   };
 
@@ -79,6 +79,8 @@ in {
     # Kernel
     kernelPackages = pkgs.linuxPackages_zen;
     kernel.sysctl = {"vm.swappiness" = 5;};
+
+    supportedFilesystems = ["cifs" "ntfs"];
 
     # Fix black screen on a system with an integrated GPU
     # kernelParams = ["pcie_aspm=off" "nvidia.NVreg_PreserveVideoMemoryAllocations=1"];
@@ -110,6 +112,7 @@ in {
     #arbtt does not work with wayland
     #arbtt.enable = true;
     #arbtt.logFile = "/home/denis/.arbtt/capture.log";
+    udisks2.enable = true;
 
     # Printing
     printing.enable = true;
@@ -127,7 +130,7 @@ in {
 
     xserver = {
       # NVIDIA drivers are unfree.
-      videoDrivers = ["amdgpu" "nvidia"];
+      videoDrivers = ["nvidia"];
 
       # Enable the X11 windowing system.
       enable = true;
@@ -136,7 +139,7 @@ in {
       xkb = {
         layout = "de";
         variant = "nodeadkeys";
-        options = "caps:swapescape";
+        #options = "caps:swapescape";
       };
     };
 
@@ -186,27 +189,23 @@ in {
           obs-pipewire-audio-capture
         ];
       })
-      glxinfo
+      mesa-demos
       libva
       libva-utils
-      #need the qt5 thingys for sddm to work+
       qt6Packages.qt6ct
       qt6.qtwayland
       kdePackages.breeze-icons
       kdePackages.qtwayland
-      #libsForQt5.qtquickcontrols2
-      #libsForQt5.qtgraphicaleffects
-      #libsForQt5.qt5ct
-      #libsForQt5.qtstyleplugin-kvantum
       kdePackages.polkit-kde-agent-1
       kdePackages.polkit-qt-1
+
+      #gnome
 
       lenovo-legion
       virt-manager
       virtiofsd
       nixpkgs-fmt
       dracula-theme
-      #(pkgs.callPackage ../../modules/themes/sddm-chilli.nix {})
       wget
       neovim
       git
@@ -259,7 +258,21 @@ in {
     enable = true;
     alsa.enable = true;
     alsa.support32Bit = true;
+    jack.enable = true;
     pulse.enable = true;
+    wireplumber.extraConfig."10-bluez" = {
+      "monitor.bluez.properties" = {
+        "bluez5.enable-sbc-xq" = true;
+        "bluez5.enable-msbc" = true;
+        "bluez5.enable-hw-volume" = true;
+        "bluez5.roles" = [
+          "hsp_hs"
+          "hsp_ag"
+          "hfp_hf"
+          "hfp_ag"
+        ];
+      };
+    };
   };
 
   virtualisation.libvirtd.enable = true;
@@ -268,13 +281,12 @@ in {
   xdg = {
     portal = {
       enable = true;
-      #gtkUsePortal = true;
       extraPortals = with pkgs; [
         xdg-desktop-portal-gtk
         xdg-desktop-portal
         xdg-desktop-portal-wlr
+        xdg-desktop-portal-gnome
         kdePackages.xdg-desktop-portal-kde
-        #xdg-desktop-portal-hyprland
       ];
     };
   };
@@ -295,9 +307,10 @@ in {
     };
 
     nvidia = {
-      package = config.boot.kernelPackages.nvidiaPackages.production; # (installs 550)
+      package = config.boot.kernelPackages.nvidiaPackages.production;
       modesetting.enable = true;
-      prime = {
+      /*
+        prime = {
         offload = {
           enable = true;
           enableOffloadCmd = true;
@@ -305,8 +318,9 @@ in {
         amdgpuBusId = "PCI:6:0:0";
         nvidiaBusId = "PCI:1:0:0";
       };
-      powerManagement.enable = true;
-      powerManagement.finegrained = true;
+      */
+      powerManagement.enable = false;
+      powerManagement.finegrained = false;
       open = false;
       nvidiaSettings = false;
     };
@@ -316,12 +330,12 @@ in {
       enable32Bit = true;
       extraPackages = with pkgs; [
         libvdpau-va-gl
+        libva-utils
         nvidia-vaapi-driver
-        vaapiVdpau
+        libva-vdpau-driver
         vdpauinfo
         vulkan-validation-layers
         vulkan-tools
-        amdvlk
       ];
     };
   };

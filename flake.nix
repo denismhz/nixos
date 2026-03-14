@@ -1,52 +1,35 @@
 {
   description = "My machines";
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
-    #hyprland.url = "github:hyprwm/Hyprland";
-    #aithings.url = "git+file:///home/denis/repos/flake";
-    nix-gaming.url = "github:fufexan/nix-gaming";
+
+    nixos-hardware.url = "github:NixOS/nixos-hardware";
+
+    home-manager = {
+      url = "github:nix-community/home-manager/release-25.11";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     firefox-addons = {
       url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    home-manager = {
-      url = "github:nix-community/home-manager/release-25.05";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    nixos-hardware.url = "github:NixOS/nixos-hardware";
-    neovim-flake.url = "github:denismhz/neovim-flake/leptosfmt";
     sops-nix.url = "github:Mic92/sops-nix";
     deploy-rs.url = "github:serokell/deploy-rs";
+    nvf = {
+      url = "github:NotAShelf/nvf/v0.8";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs @ {
     self,
     nixpkgs,
     home-manager,
-    neovim-flake,
     ...
   }: let
     system = "x86_64-linux";
-
-    configModule = {
-      config = {
-        vim = {
-          theme.name = "dracula-nvim";
-          useSystemClipboard = false;
-          languages.sql.lsp.enable = false;
-          tabline.nvimBufferline.enable = false;
-          filetree.nvimTreeLua.enable = false;
-        };
-      };
-    };
-
-    baseNeovim = neovim-flake.packages.${system}.maximal;
-    neovimExtended = baseNeovim.extendConfiguration {modules = [configModule];};
-
-    nvim-overlay = _: _: {
-      neovim = neovimExtended;
-    };
 
     unstable-overlay = _: _: {
       unstable = import inputs.nixpkgs-unstable {
@@ -66,20 +49,17 @@
             inherit inputs _users;
           };
           modules = [
-            ./machines/epimetheus/configuration.nix
-            inputs.nixos-hardware.nixosModules.lenovo-legion-16ach6h-hybrid #with nvidia prime
-            #inputs.nixos-hardware.nixosModules.lenovo-legion-16ach6h-nvidia #without nvidia prime
-            inputs.sops-nix.nixosModules.sops
+            inputs.nixos-hardware.nixosModules.lenovo-legion-16ach6h-hybrid
             home-manager.nixosModules.home-manager
+            inputs.sops-nix.nixosModules.sops
+
             {
               nixpkgs.overlays = [
-                nvim-overlay
                 unstable-overlay
-                (final: prev: {
-                  obsidian-wayland = prev.obsidian.override {electron = final.electron_24;};
-                })
               ];
             }
+
+            ./machines/epimetheus/configuration.nix
           ];
         };
 
@@ -96,11 +76,7 @@
             inputs.sops-nix.nixosModules.sops
             {
               nixpkgs.overlays = [
-                nvim-overlay
                 unstable-overlay
-                (final: prev: {
-                  obsidian-wayland = prev.obsidian.override {electron = final.electron_24;};
-                })
               ];
             }
           ];
@@ -110,7 +86,7 @@
       rpi3b = nixpkgs.lib.nixosSystem {
         system = "aarch64-linux";
         modules = [
-          {nixpkgs.overlays = [nvim-overlay];}
+          {nixpkgs.overlays = [];}
           "${nixpkgs}/nixos/modules/installer/sd-card/sd-image-aarch64.nix"
           inputs.sops-nix.nixosModules.sops
           (_: {

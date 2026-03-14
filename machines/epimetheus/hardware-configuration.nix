@@ -32,6 +32,17 @@
     device = "/dev/disk/by-uuid/A278-C29E";
     fsType = "vfat";
   };
+  fileSystems."/home/denis/calibre" = {
+    device = "//192.168.1.20/data/media/Books/calibre";
+    fsType = "cifs";
+    options = [
+      "username=user"
+      "password=asdasd"
+      "nobrl"
+      "x-systemd.automount"
+      "uid=1000"
+    ];
+  };
 
   swapDevices = [
     {device = "/dev/disk/by-uuid/6e29643e-5ea3-4c62-bf67-c5d1818f3ae3";}
